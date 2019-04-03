@@ -1,16 +1,17 @@
 package com.topdsr2.gotrip;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
@@ -45,29 +46,28 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.navigation_home:
-                selectedBottomNavigationViewItem(0);
-                break;
-            case R.id.navigation_trip:
-                selectedBottomNavigationViewItem(1);
-
-                break;
-            case R.id.navigation_profile:
-                selectedBottomNavigationViewItem(2);
-
-                break;
-            default:
-                break;
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_home:
+                    selectedBottomNavigationViewItem(0);
+                    break;
+                case R.id.navigation_trip:
+                    selectedBottomNavigationViewItem(1);
+                    break;
+                case R.id.navigation_profile:
+                    selectedBottomNavigationViewItem(2);
+                    break;
+                default:
+                    break;
+                }
+                return true;
             }
-            return true;
-        }
 
-    };
+        };
 
     private void selectedBottomNavigationViewItem(int itemNumber) {
         BottomNavigationMenuView menuView =
@@ -77,14 +77,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             if (i == itemNumber) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(itemNumber);
                 mBadge = LayoutInflater.from(this).inflate(R.layout.badge_main_bottom, itemView, true);
-            }else {
+            } else {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
                 mBadge = LayoutInflater.from(this).inflate(R.layout.badge_main_bottom_notselected, itemView, true);
             }
-
         }
-
     }
-
-
 }
