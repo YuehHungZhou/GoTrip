@@ -30,13 +30,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mMainMvpController = MainMvpController.create(this);
 
         setBottomNavigation();
+        selectedHomePage();
 
     }
 
-    @Override
-    public void setPresenter(MainContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
+
 
     private void setBottomNavigation() {
         mBottomNavigation = findViewById(R.id.bottom_navigation);
@@ -54,20 +52,25 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     selectedBottomNavigationViewItem(0);
-                    break;
+                    mPresenter.openHome();
+                    return true;
                 case R.id.navigation_trip:
                     selectedBottomNavigationViewItem(1);
-                    break;
+                    mPresenter.openTrip();
+                    return true;
                 case R.id.navigation_profile:
                     selectedBottomNavigationViewItem(2);
-                    break;
+                    mPresenter.openProfile();
+                    return true;
                 default:
-                    break;
+                    return false;
                 }
-                return true;
             }
-
         };
+
+    private void selectedHomePage() {
+        ((BottomNavigationView) findViewById(R.id.bottom_navigation)).setSelectedItemId(R.id.navigation_home);
+    }
 
     private void selectedBottomNavigationViewItem(int itemNumber) {
         BottomNavigationMenuView menuView =
@@ -82,5 +85,27 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 mBadge = LayoutInflater.from(this).inflate(R.layout.badge_main_bottom_notselected, itemView, true);
             }
         }
+    }
+
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void openHomeUi() {
+        mMainMvpController.findOrCreateHomeView();
+    }
+
+    @Override
+    public void openTripUi() {
+        mMainMvpController.findOrCreateTripView();
+
+    }
+
+    @Override
+    public void openProfileUi() {
+        mMainMvpController.findOrCreateProfileView();
+
     }
 }

@@ -1,12 +1,23 @@
 package com.topdsr2.gotrip;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.topdsr2.gotrip.data.GoTripLocalDataSource;
 import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
+import com.topdsr2.gotrip.home.HomeFragment;
+import com.topdsr2.gotrip.home.HomePresenter;
+import com.topdsr2.gotrip.profile.ProfileFragment;
+import com.topdsr2.gotrip.profile.ProfilePresenter;
+import com.topdsr2.gotrip.trip.TripFragment;
+import com.topdsr2.gotrip.trip.TripPresenter;
+import com.topdsr2.gotrip.util.ActivityUtils;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -15,6 +26,21 @@ public class MainMvpController {
 
     private final FragmentActivity mActivity;
     private MainPresenter mMainPresenter;
+
+    private HomePresenter mHomePresenter;
+    private TripPresenter mTripPresenter;
+    private ProfilePresenter mProfilePresenter;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({
+            HOME, TRIP, PROFILE
+    })
+    public @interface FragmentType {}
+    static final String HOME = "HOME";
+    static final String TRIP = "TRIP";
+    static final String PROFILE = "PROFILE";
+
+
 
     private MainMvpController(@NonNull FragmentActivity activity) {
         mActivity = activity;
@@ -34,6 +60,90 @@ public class MainMvpController {
                 GoTripLocalDataSource.getInstance()), (MainActivity) mActivity);
 
         return mMainPresenter;
+    }
+
+    void findOrCreateHomeView() {
+
+        HomeFragment homeFragment = findOrCreateHomeFragment();
+
+        if (mHomePresenter == null) {
+            mHomePresenter = new HomePresenter(GoTripRepository.getInstance(
+                    GoTripRemoteDataSource.getInstance(),
+                    GoTripLocalDataSource.getInstance()), homeFragment);
+            mMainPresenter.setHomePresenter(mHomePresenter);
+            homeFragment.setPresenter(mMainPresenter);
+        }
+    }
+
+    void findOrCreateTripView() {
+
+        TripFragment tripFragment = findOrCreateTripFragment();
+
+        if (mTripPresenter == null) {
+            mTripPresenter = new TripPresenter(GoTripRepository.getInstance(
+                    GoTripRemoteDataSource.getInstance(),
+                    GoTripLocalDataSource.getInstance()), tripFragment);
+            mMainPresenter.setTripPresenter(mTripPresenter);
+            tripFragment.setPresenter(mMainPresenter);
+        }
+    }
+
+    void findOrCreateProfileView() {
+
+        ProfileFragment profileFragment = findOrCreateProfileFragment();
+
+        if (mProfilePresenter == null) {
+            mProfilePresenter = new ProfilePresenter(GoTripRepository.getInstance(
+                    GoTripRemoteDataSource.getInstance(),
+                    GoTripLocalDataSource.getInstance()), profileFragment);
+            mMainPresenter.setProfilePresenter(mProfilePresenter);
+            profileFragment.setPresenter(mMainPresenter);
+        }
+    }
+
+    @NonNull
+    private HomeFragment findOrCreateHomeFragment() {
+
+        HomeFragment homeFragment =
+                (HomeFragment) getFragmentManager().findFragmentByTag(HOME);
+        if (homeFragment == null) {
+            homeFragment = homeFragment.newInstance();
+        }
+
+        ActivityUtils.showOrAddFragmentByTag(
+                getFragmentManager(), homeFragment, HOME);
+
+        return homeFragment;
+    }
+
+    @NonNull
+    private TripFragment findOrCreateTripFragment() {
+
+        TripFragment tripFragment =
+                (TripFragment) getFragmentManager().findFragmentByTag(TRIP);
+        if (tripFragment == null) {
+            tripFragment = TripFragment.newInstance();
+        }
+
+        ActivityUtils.showOrAddFragmentByTag(
+                getFragmentManager(), tripFragment, TRIP);
+
+        return tripFragment;
+    }
+
+    @NonNull
+    private ProfileFragment findOrCreateProfileFragment() {
+
+        ProfileFragment profileFragment =
+                (ProfileFragment) getFragmentManager().findFragmentByTag(PROFILE);
+        if (profileFragment == null) {
+            profileFragment = ProfileFragment.newInstance();
+        }
+
+        ActivityUtils.showOrAddFragmentByTag(
+                getFragmentManager(), profileFragment, PROFILE);
+
+        return profileFragment;
     }
 
     private FragmentManager getFragmentManager() {
