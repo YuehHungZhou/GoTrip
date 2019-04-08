@@ -1,7 +1,5 @@
 package com.topdsr2.gotrip;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -11,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
     //private BottomNavigationView mBottomNavigation;
     private BottomNavigationView mBottomNavigation;
+    private boolean isBottomBavigationVisibale = true;
     private MainMvpController mMainMvpController;
     private MainContract.Presenter mPresenter;
     private View mBadge;
@@ -57,6 +58,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 case R.id.navigation_trip:
                     selectedBottomNavigationViewItem(1);
                     mPresenter.openTrip();
+                    hideBottomNavigationUi();
+
                     return true;
                 case R.id.navigation_profile:
                     selectedBottomNavigationViewItem(2);
@@ -100,12 +103,28 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void openTripUi() {
         mMainMvpController.findOrCreateTripView();
-
     }
 
     @Override
     public void openProfileUi() {
         mMainMvpController.findOrCreateProfileView();
+    }
 
+    @Override
+    public void hideBottomNavigationUi() {
+        mBottomNavigation.setVisibility(View.GONE);
+        isBottomBavigationVisibale = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (isBottomBavigationVisibale) {
+            super.onBackPressed();
+        } else {
+            mBottomNavigation.setVisibility(View.VISIBLE);
+            isBottomBavigationVisibale = true;
+            selectedHomePage();
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.topdsr2.gotrip.trip;
 import android.support.annotation.NonNull;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
-import com.topdsr2.gotrip.profile.ProfileContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -33,6 +32,11 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void openTripMap() {
+
+    }
+
+    @Override
+    public void hideBottomNavigation() {
 
     }
 

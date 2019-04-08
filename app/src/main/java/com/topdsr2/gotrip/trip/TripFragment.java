@@ -180,6 +180,8 @@ public class TripFragment extends Fragment implements TripContract.View {
 
     @Override
     public void showTripUi() {
-
     }
+
+
+
 }

@@ -18,5 +18,8 @@ public interface TripContract {
         void setTripData();
 
         void openTripMap();
+
+        void hideBottomNavigation();
+
     }
 }

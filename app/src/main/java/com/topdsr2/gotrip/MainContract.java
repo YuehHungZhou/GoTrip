@@ -9,6 +9,8 @@ public interface MainContract {
 
         void openProfileUi();
 
+        void hideBottomNavigationUi();
+
     }
 
     interface Presenter extends BasePresenter {
