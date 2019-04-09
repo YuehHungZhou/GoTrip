@@ -59,7 +59,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     selectedBottomNavigationViewItem(1);
                     mPresenter.openTrip();
                     hideBottomNavigationUi();
-
                     return true;
                 case R.id.navigation_profile:
                     selectedBottomNavigationViewItem(2);
