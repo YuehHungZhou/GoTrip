@@ -140,7 +140,7 @@ public class MapManager {
                 moveToSelected(place);
             }
         } catch (Exception ex) {
-            Log.e("error",""+ex);
+            Log.e("error","" + ex);
         }
     }
 
