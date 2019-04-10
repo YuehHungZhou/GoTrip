@@ -17,6 +17,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.util.MapManager;
 
 import java.util.Arrays;
@@ -30,6 +31,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
     private SupportMapFragment mSupportMapFragment;
     private TripContentAdapter mTripContentAdapter;
+    private TripContentItemAdapter mTripContentItemAdapter;
 
 
     public TripFragment() {
@@ -48,6 +50,8 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTripContentAdapter = new TripContentAdapter(mPresenter);
+        mTripContentItemAdapter = new TripContentItemAdapter(mPresenter);
+        mPresenter.loadTripData();
 
     }
 
@@ -62,6 +66,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         RecyclerView recyclerView = root.findViewById(R.id.recycle_trip_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(mTripContentAdapter);
+
+        RecyclerView recyclerViewIcon = root.findViewById(R.id.recycler_trip_content_icon);
+        recyclerViewIcon.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewIcon.setAdapter(mTripContentItemAdapter);
 
         return root;
     }
@@ -78,7 +86,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     }
 
     @Override
-    public void showTripUi() {
+    public void showTripUi(TripAndPoint bean) {
+        mTripContentAdapter.updateData(bean.getPoints());
+       // mTripContentItemAdapter.updateData(bean.getPoints());
 
     }
 

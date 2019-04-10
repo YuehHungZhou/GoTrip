@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "17831626150",
+    "firebase_url": "https://gotrip-237003.firebaseio.com",
+    "project_id": "gotrip-237003",
+    "storage_bucket": "gotrip-237003.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17831626150:android:c4bdccf37f808cfe",
+        "android_client_info": {
+          "package_name": "com.topdsr2.gotrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17831626150-nf4fh9iuc102ub6evmnm9n2pers1jr2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.topdsr2.gotrip",
+            "certificate_hash": "3605687aa0c19ceb43d979b85522bd39789b8ddb"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3po5uDRUbCWP6mnS7LfSof5YCfFrBYwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17831626150-itbn1u83leml4iutquhnfcibe9rjp3t7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
