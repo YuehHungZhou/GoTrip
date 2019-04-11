@@ -79,6 +79,11 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
+    public void moveMapToIcon(Double latitude, Double longitude) {
+        mTripView.moveCameraToMarker(latitude, longitude);
+    }
+
+    @Override
     public void start() {
 
     }

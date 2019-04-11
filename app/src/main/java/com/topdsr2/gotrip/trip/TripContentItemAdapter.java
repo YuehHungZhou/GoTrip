@@ -98,6 +98,8 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
             mPresenter.changeIconInfo(getAdapterPosition());
+            mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
+                    mReadyPoints.get(getAdapterPosition()).getLongitude());
         }
     }
 

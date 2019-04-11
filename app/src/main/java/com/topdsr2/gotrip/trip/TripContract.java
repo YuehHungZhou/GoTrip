@@ -12,6 +12,8 @@ public interface TripContract {
 
         void changeIconInfoUi(int posotion);
 
+        void moveCameraToMarker(Double latitude, Double longitude);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -27,6 +29,8 @@ public interface TripContract {
         void addPoint(String documentId);
 
         void changeIconInfo(int position);
+
+        void moveMapToIcon(Double latitude, Double longitude);
 
     }
 }

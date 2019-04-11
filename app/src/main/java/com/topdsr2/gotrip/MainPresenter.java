@@ -119,6 +119,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mTripPresenter.changeIconInfo(position);
     }
 
+    @Override
+    public void moveMapToIcon(Double latitude, Double longitude) {
+        mTripPresenter.moveMapToIcon(latitude, longitude);
+    }
+
 
     /**
      *

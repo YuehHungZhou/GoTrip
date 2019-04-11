@@ -193,6 +193,17 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         return true;
     }
 
+    @Override
+    public void moveCameraToMarker(Double latitude, Double longitude) {
+        CameraPosition googlePlex = CameraPosition.builder()
+                .target(new LatLng(latitude, longitude))
+                .zoom(13)
+                .bearing(0)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 3000, null);
+    }
+
     private void setMaker() {
         aPoint = new LatLng(37.4219999, -122.0862462);
         bPoint = new LatLng(37.4629101, -122.2449094);
@@ -224,7 +235,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
                 .bearing(0)
                 .tilt(45)
                 .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, null);
     }
 
 
