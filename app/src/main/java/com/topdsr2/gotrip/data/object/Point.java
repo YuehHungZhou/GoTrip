@@ -7,24 +7,26 @@ public class Point {
     private String mIconType;
     private int mCost;
     private int mSorte;
-    private Object mGeo;
     ArrayList<String> mImages;
-    private Object mArrivalTime;
+    private long mArrivalTime;
     private int mDay;
     private String mDescribe;
     private String mTitle;
+    private Double mLatitude;
+    private Double mLongitude;
 
 
     public Point() {
         mCost = -1;
         mIconType = "";
         mSorte = -1;
-        mGeo = null;
         mImages = new ArrayList<>();
-        mArrivalTime = null;
+        mArrivalTime = 0;
         mDay = -1;
         mDescribe = "";
         mTitle = "";
+        mLatitude = null;
+        mLongitude = null;
 
 
     }
@@ -53,12 +55,20 @@ public class Point {
         mSorte = sorte;
     }
 
-    public Object getGeo() {
-        return mGeo;
+    public Double getLatitude() {
+        return mLatitude;
     }
 
-    public void setGeo(Object geo) {
-        mGeo = geo;
+    public void setLatitude(Double latitude) {
+        mLatitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return mLongitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        mLongitude = longitude;
     }
 
     public ArrayList<String> getImages() {
@@ -69,11 +79,11 @@ public class Point {
         mImages = images;
     }
 
-    public Object getArrivalTime() {
+    public long getArrivalTime() {
         return mArrivalTime;
     }
 
-    public void setArrivalTime(Object arrivalTime) {
+    public void setArrivalTime(long arrivalTime) {
         mArrivalTime = arrivalTime;
     }
 

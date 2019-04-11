@@ -96,7 +96,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void setTripData() {
-
+        mTripPresenter.setTripData();
     }
 
     @Override
@@ -109,6 +109,10 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.hideBottomNavigationUi();
     }
 
+    @Override
+    public void addPoint(String documentId) {
+        mTripPresenter.addPoint(documentId);
+    }
 
 
     /**

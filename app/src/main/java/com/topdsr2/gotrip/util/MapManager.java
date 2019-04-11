@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
@@ -26,14 +27,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapManager {
+public class MapManager implements GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
 
     private final GoTripRepository mGoTripRepository;
     private GoogleMap mMap;
+    private Marker mMaker;
     ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
 
     private LatLng aPoint;
     private LatLng bPoint;
+
+
+
 
     private static class MapManagerHolder {
         private static final MapManager INSTANCE = new MapManager();
@@ -66,9 +71,10 @@ public class MapManager {
             mMap.setTrafficEnabled(true);
             mMap.clear();
 
-            mMap.setOnMapClickListener(latLng -> {
-                addMaker(latLng);
-            });
+            mMap.setOnMapClickListener(this);
+            mMap.setOnMarkerClickListener(this);
+
+
 
 
             setMaker();
@@ -102,9 +108,12 @@ public class MapManager {
     }
 
     private void addMaker(LatLng latLng) {
+        if (mMaker != null) {
+            mMaker.remove();
+        }
         latLngs.add(new LatLng(latLng.latitude,latLng.longitude));
-        mMap.addMarker(new MarkerOptions().position(latLng).title("new"));
-        addPolyLine(latLng);
+        mMaker = mMap.addMarker(new MarkerOptions().position(latLng).title("new"));
+       // addPolyLine(latLng);
     }
 
     private void addPolyLine(LatLng latLng) {
@@ -148,6 +157,23 @@ public class MapManager {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
         mMap.addMarker(new MarkerOptions().position(place.getLatLng())
                 .title("Name:" + place.getName() + ". Address:" + place.getAddress()));
+    }
+
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        addMaker(latLng);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (mMaker != null) {
+            mMaker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        }
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mMaker = marker;
+
+        return true;
     }
 
 }

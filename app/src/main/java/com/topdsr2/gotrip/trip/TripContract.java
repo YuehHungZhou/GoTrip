@@ -22,6 +22,8 @@ public interface TripContract {
 
         void hideBottomNavigation();
 
+        void addPoint(String documentId);
+
 
     }
 }

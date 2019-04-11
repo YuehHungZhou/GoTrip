@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.topdsr2.gotrip.R;
 
@@ -16,7 +15,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class HomeFragment extends Fragment implements HomeContract.View {
 
     private HomeContract.Presenter mPresenter;
-    private Button mButton;
 
     public HomeFragment() {
     }
@@ -29,6 +27,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 
@@ -44,13 +44,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
 
 
-//        mButton = root.findViewById(R.id.button);
-//        mButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FireBaseManager.getInstance().getSelectedTripPointByDay(1,1);
-//            }
-//        });
 
         return root;
     }

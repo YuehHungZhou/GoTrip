@@ -37,8 +37,8 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         if (mPointsHolder != null) {
             Point point = mPointsHolder.get(position);
 
-            ((TripContentViewHolder) viewHolder).mTextDay.setText(Integer.toString(point.getDay()));
-            ((TripContentViewHolder) viewHolder).mTextCost.setText(Integer.toString(point.getCost()));
+            ((TripContentViewHolder) viewHolder).mTextDay.setText("Day " + Integer.toString(point.getDay()));
+            ((TripContentViewHolder) viewHolder).mTextCost.setText("Cost: " + Integer.toString(point.getCost()));
             ((TripContentViewHolder) viewHolder).mTextTitle.setText(point.getTitle());
             ((TripContentViewHolder) viewHolder).mTextDescribe.setText(point.getDescribe());
         }

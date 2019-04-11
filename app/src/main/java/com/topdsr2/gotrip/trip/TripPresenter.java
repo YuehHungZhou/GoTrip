@@ -14,6 +14,7 @@ public class TripPresenter implements TripContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
     private final TripContract.View mTripView;
+    private TripAndPoint mBean;
 
     private Trip mTrip;
 
@@ -37,6 +38,7 @@ public class TripPresenter implements TripContract.Presenter {
                 Log.v("kerry", bean.getPoints().get(2).getDay()+ "");
 
                 mTripView.showTripUi(bean);
+                mBean = bean;
             }
 
             @Override
@@ -58,6 +60,12 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void hideBottomNavigation() {
+
+    }
+
+    @Override
+    public void addPoint(String documentId) {
+        FireBaseManager.getInstance().addPointToFireBase(documentId);
 
     }
 

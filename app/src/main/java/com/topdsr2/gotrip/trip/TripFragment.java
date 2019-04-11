@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,8 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private SupportMapFragment mSupportMapFragment;
     private TripContentAdapter mTripContentAdapter;
     private TripContentItemAdapter mTripContentItemAdapter;
+    private ImageView mAddPoint;
+    private TripAndPoint mBean;
 
 
     public TripFragment() {
@@ -65,11 +68,25 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         RecyclerView recyclerView = root.findViewById(R.id.recycle_trip_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int position = ((LinearLayoutManager)recyclerView.getLayoutManager())
+                            .findFirstVisibleItemPosition();
+                    recyclerView.smoothScrollToPosition(position);
+                    movePositionChangeIcon(position);
+                }
+            }
+        });
         recyclerView.setAdapter(mTripContentAdapter);
 
         RecyclerView recyclerViewIcon = root.findViewById(R.id.recycler_trip_content_icon);
         recyclerViewIcon.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewIcon.setAdapter(mTripContentItemAdapter);
+
+        mAddPoint = root.findViewById(R.id.image_add_point);
 
         return root;
     }
@@ -83,12 +100,20 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         MapManager.getInstance().loadMap(mSupportMapFragment);
 
+        mAddPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.addPoint(mBean.getDocumentId());
+            }
+        });
+
     }
 
     @Override
     public void showTripUi(TripAndPoint bean) {
+        mBean = bean;
         mTripContentAdapter.updateData(bean.getPoints());
-       // mTripContentItemAdapter.updateData(bean.getPoints());
+        mTripContentItemAdapter.updateData(bean.getPoints());
 
     }
 
@@ -101,6 +126,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     @Override
     public void onError(@NonNull Status status) {
 
+    }
+
+    private void movePositionChangeIcon(int position) {
+        mTripContentItemAdapter.readyChangeIcon(position);
     }
 
 
