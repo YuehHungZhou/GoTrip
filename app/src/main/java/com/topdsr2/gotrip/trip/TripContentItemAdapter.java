@@ -80,7 +80,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    private class TripContentItemViewHolder extends RecyclerView.ViewHolder {
+    private class TripContentItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mIconImage;
         private TextView mIconText;
         private TextView mRoadText;
@@ -91,8 +91,17 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mIconImage = itemView.findViewById(R.id.image_trip_content_icon);
             mIconText = itemView.findViewById(R.id.text_trip_icon_pointime);
             mRoadText = itemView.findViewById(R.id.text_trip_icon_roadtime);
+
+            mIconImage.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mPresenter.changeIconInfo(getAdapterPosition());
         }
     }
+
+
 
     public void updateData(ArrayList<Point> points) {
 

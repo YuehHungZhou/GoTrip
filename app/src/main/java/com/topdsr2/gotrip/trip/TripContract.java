@@ -10,6 +10,8 @@ public interface TripContract {
 
         void showTripUi(TripAndPoint bean);
 
+        void changeIconInfoUi(int posotion);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -24,6 +26,7 @@ public interface TripContract {
 
         void addPoint(String documentId);
 
+        void changeIconInfo(int position);
 
     }
 }

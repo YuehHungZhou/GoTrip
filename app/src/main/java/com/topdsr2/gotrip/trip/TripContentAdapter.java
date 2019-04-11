@@ -80,6 +80,23 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void changeSelectedIconInfo(int visitItemPosition, int position) {
+
+        Point point = ((ArrayList<Point>)mPointsByDay.get(visitItemPosition)).get(position);
+        setPointsHolder(point);
+    }
+
+    public void scrollChangeIconInfo(int visitItemPosition) {
+        ArrayList<Point> points = (ArrayList<Point>) mPointsByDay.get(visitItemPosition);
+        if (points != null) {
+            Point point = points.get(0);
+            setPointsHolder(point);
+        } else {
+            Point point = new Point();
+            setPointsHolder(point);
+        }
+    }
+
     private void parsePointData() {
 
         mPointsByDay = new ArrayList<>();
@@ -114,5 +131,13 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
             }
         }
+    }
+
+    private void setPointsHolder(Point point) {
+        mPointsHolder.clear();
+        for (int i = 0;i < mTripDay;i++) {
+            mPointsHolder.add(point);
+        }
+        notifyDataSetChanged();
     }
 }

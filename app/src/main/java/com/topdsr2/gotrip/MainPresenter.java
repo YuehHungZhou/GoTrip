@@ -114,6 +114,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mTripPresenter.addPoint(documentId);
     }
 
+    @Override
+    public void changeIconInfo(int position) {
+        mTripPresenter.changeIconInfo(position);
+    }
+
 
     /**
      *

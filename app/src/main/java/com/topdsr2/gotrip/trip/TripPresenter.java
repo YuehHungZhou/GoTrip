@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.trip;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
@@ -13,8 +14,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TripPresenter implements TripContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
+    private SupportMapFragment mSupportMapFragment;
     private final TripContract.View mTripView;
     private TripAndPoint mBean;
+
+
 
     private Trip mTrip;
 
@@ -69,9 +73,14 @@ public class TripPresenter implements TripContract.Presenter {
 
     }
 
+    @Override
+    public void changeIconInfo(int position) {
+        mTripView.changeIconInfoUi(position);
+    }
 
     @Override
     public void start() {
 
     }
+
 }
