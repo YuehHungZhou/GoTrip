@@ -18,8 +18,6 @@ import java.util.Date;
 public class TripContentItemAdapter extends RecyclerView.Adapter {
 
     private TripContract.Presenter mPresenter;
-    private ArrayList<Point> mPoints;
-    private int mTripDay;
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mReadyPoints;
     private long mRoadTime;
@@ -105,13 +103,12 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
 
 
-    public void updateData(ArrayList<Point> points) {
+    public void updateData(ArrayList<Object> pointsByDay, ArrayList<Point> readyPoints) {
 
-        if (points != null) {
-            mPoints = points;
-            parsePointData();
-            notifyDataSetChanged();
-        }
+        mPointsByDay = pointsByDay;
+        mReadyPoints = readyPoints;
+        notifyDataSetChanged();
+
     }
 
     public void readyChangeIcon(int position) {
@@ -120,32 +117,6 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mReadyPoints = (ArrayList<Point>) mPointsByDay.get(position);
             notifyDataSetChanged();
         }
-    }
-
-    private void parsePointData() {
-
-        mPointsByDay = new ArrayList<>();
-        mReadyPoints = new ArrayList<>();
-
-        for (int i = 0; i < mPoints.size(); i++) {
-            mTripDay = 0;
-            if (mPoints.get(i).getDay() > mTripDay) {
-                mTripDay = mPoints.get(i).getDay();
-            }
-        }
-
-        for (int i = 1;i <= mTripDay; i++) {
-            ArrayList<Point> points = new ArrayList<>();
-
-            for (int j = 0; j < mPoints.size(); j++) {
-                if (mPoints.get(j).getDay() == i) {
-                    points.add(mPoints.get(j));
-                }
-            }
-            mPointsByDay.add(points);
-        }
-
-        mReadyPoints = (ArrayList<Point>) mPointsByDay.get(0);
     }
 
     private String paseTime(long time) {

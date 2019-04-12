@@ -32,6 +32,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 
 import java.util.ArrayList;
@@ -46,17 +47,21 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
     private Marker mMarker;
-    ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
+    private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
     private LatLng aPoint;
     private LatLng bPoint;
     private int mVisibleItemPosition;
-
 
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
     private TripContentAdapter mTripContentAdapter;
     private TripContentItemAdapter mTripContentItemAdapter;
     private ImageView mAddPoint;
     private TripAndPoint mBean;
+    private ArrayList<Object> mPointsByDay;
+    private ArrayList<Point> mPointsHolder;
+    private ArrayList<Point> mReadyPoints;
+    int mTripDay = 0;
+
 
 
     public TripFragment() {
@@ -95,12 +100,16 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mVisibleItemPosition = ((LinearLayoutManager)recyclerView.getLayoutManager())
                             .findFirstVisibleItemPosition();
                     recyclerView.smoothScrollToPosition(mVisibleItemPosition);
                     movePositionChangeIcon(mVisibleItemPosition);
                     mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition);
+
+                    setMaker(((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)));
+
                 }
             }
         });
@@ -128,10 +137,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             mMap.setTrafficEnabled(true);
             mMap.clear();
 
-            setMaker();
-            setPolyLine();
-            moveCamera();
-
             mMap.setOnMapClickListener(this);
             mMap.setOnMarkerClickListener(this);
         });
@@ -143,8 +148,12 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     @Override
     public void showTripUi(TripAndPoint bean) {
         mBean = bean;
-        mTripContentAdapter.updateData(bean.getPoints());
-        mTripContentItemAdapter.updateData(bean.getPoints());
+
+        parsePointData();
+        setMaker(((ArrayList<Point>)mPointsByDay.get(0)));
+
+        mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
+        mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
     }
 
@@ -155,6 +164,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
     private void movePositionChangeIcon(int position) {
         mTripContentItemAdapter.readyChangeIcon(position);
+
     }
 
 
@@ -177,19 +187,31 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         if (mMarker != null) {
             mMarker.remove();
         }
-        latLngs.add(new LatLng(latLng.latitude,latLng.longitude));
+
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("new"));
+
+
+        for (int i = 0; i < mLatLngs.size(); i++) {
+            if (mLatLngs.get(i).latitude == latLng.latitude) {
+                if (mLatLngs.get(i).longitude == latLng.longitude) {
+                    marker.remove();
+                }
+            }
+        }
+
         mMarker = marker;
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+
         if (mMarker != null) {
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         }
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        mMarker = marker;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarker.getPosition(), 10));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10));
+
         return true;
     }
 
@@ -204,33 +226,38 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 3000, null);
     }
 
-    private void setMaker() {
-        aPoint = new LatLng(37.4219999, -122.0862462);
-        bPoint = new LatLng(37.4629101, -122.2449094);
-        final LatLng cPoint = new LatLng(37.3092293, -122.1136845);
+    private void setMaker(ArrayList<Point> points) {
 
-        MarkerOptions markerOptions1 = new MarkerOptions().position(aPoint).title("Marker in Sydney").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).snippet("Sydney is one of the most popular city in Australia");
-        MarkerOptions markerOptions2 = new MarkerOptions().position(bPoint).title("Marker in Sydney").snippet("Sydney is one of the most popular city in Australia");
-        MarkerOptions markerOptions3 = new MarkerOptions().position(cPoint).title("Marker in Sydney").snippet("Sydney is one of the most popular city in Australia");
+        mMap.clear();
+        mLatLngs.clear();
 
-        mMap.addMarker(markerOptions1);
-        mMap.addMarker(markerOptions2);
-        mMap.addMarker(markerOptions3);
+        for (int i = 0; i < points.size(); i++) {
+          LatLng latLng =  new LatLng(points.get(i).getLatitude(),points.get(i).getLongitude());
+          MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+          mMap.addMarker(markerOptions);
 
+          mLatLngs.add(latLng);
+        }
+
+        setPolyLine();
+        moveCamera();
     }
 
     private void setPolyLine() {
-        latLngs.add(aPoint);
-        LatLng[] latLngs1 = new LatLng[]{aPoint, bPoint};
-        PolylineOptions polylineOpt1 = new PolylineOptions().add(latLngs1).pattern(setDash()).color(Color.BLUE);
 
-        Polyline polyline = mMap.addPolyline(polylineOpt1);
-        polyline.setWidth(10);
+        if (mLatLngs.size() > 1) {
+            for (int i = 0; i < mLatLngs.size() - 1; i++) {
+                LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
+                PolylineOptions polylineOpt = new PolylineOptions().add(latLngs).pattern(setDash()).color(Color.BLUE);
+                Polyline polyline = mMap.addPolyline(polylineOpt);
+                polyline.setWidth(10);
+            }
+        }
     }
 
     private void moveCamera() {
         CameraPosition googlePlex = CameraPosition.builder()
-                .target(aPoint)
+                .target(mLatLngs.get(0))
                 .zoom(10)
                 .bearing(0)
                 .tilt(45)
@@ -240,7 +267,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
 
     private void addpolyLine(LatLng latLng) {
-        LatLng[] latLngs1 = new LatLng[]{latLngs.get(latLngs.size()-2), latLng};
+        LatLng[] latLngs1 = new LatLng[]{mLatLngs.get(mLatLngs.size()-2), latLng};
         PolylineOptions polylineOpt = new PolylineOptions().add(latLngs1).pattern(setDash()).color(Color.BLUE);
         Polyline polyline = mMap.addPolyline(polylineOpt);
         polyline.setWidth(10);
@@ -257,6 +284,61 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         if (!Places.isInitialized()) {
             Places.initialize(GoTrip.getmContext(), "AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0");
         }
+    }
+
+    private void parsePointData() {
+
+
+        mPointsByDay = new ArrayList<>();
+        mPointsHolder = new ArrayList<>();
+        mReadyPoints = new ArrayList<>();
+        mTripDay = 0;
+
+
+        for (int i = 0; i < mBean.getPoints().size(); i++) {
+            if (mBean.getPoints().get(i).getDay() > mTripDay) {
+                mTripDay = mBean.getPoints().get(i).getDay();
+            }
+        }
+
+        for (int i = 1;i <= mTripDay; i++) {
+            ArrayList<Point> points = new ArrayList<>();
+
+            for (int j = 0; j < mBean.getPoints().size(); j++) {
+                if (mBean.getPoints().get(j).getDay() == i) {
+
+                    points.add(mBean.getPoints().get(j));
+                }
+            }
+            mPointsByDay.add(sortPoint(points));
+        }
+
+        mReadyPoints = (ArrayList<Point>) mPointsByDay.get(0);
+
+        for (int i = 0;i < mTripDay; i++) {
+
+            for (int j = 0; j < ((ArrayList<Point>)mPointsByDay.get(i)).size(); j++) {
+
+                if (((ArrayList<Point>)mPointsByDay.get(i)).get(j).getSorte() == 1) {
+                    mPointsHolder.add(((ArrayList<Point>)mPointsByDay.get(i)).get(j));
+                }
+            }
+        }
+    }
+
+    private ArrayList<Point> sortPoint(ArrayList<Point> points) {
+        ArrayList<Point> pointsDayHolder = new ArrayList<>();
+        int sortNumber = 1;
+        do {
+            for (int i = 0; i < points.size(); i++) {
+                if (points.get(i).getSorte() == sortNumber) {
+                    pointsDayHolder.add(points.get(i));
+                    sortNumber++;
+                }
+            }
+        } while (pointsDayHolder.size() != points.size());
+
+        return pointsDayHolder;
     }
 
 }

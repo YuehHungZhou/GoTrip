@@ -15,10 +15,10 @@ import java.util.ArrayList;
 public class TripContentAdapter extends RecyclerView.Adapter {
 
     private TripContract.Presenter mPresenter;
-    private ArrayList<Point> mPoints;
     private int mTripDay;
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mPointsHolder;
+
 
 
     public TripContentAdapter(TripContract.Presenter presenter) {
@@ -46,7 +46,7 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        if (mPoints != null) {
+        if (mPointsHolder != null) {
             return mTripDay;
         }else {
             return 1;
@@ -71,13 +71,12 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void updateData(ArrayList<Point> points) {
+    public void updateData(ArrayList<Object> pointsByDay, ArrayList<Point> pointsHolder, int tripDay ) {
+        mPointsByDay = pointsByDay;
+        mPointsHolder = pointsHolder;
+        mTripDay = tripDay;
+        notifyDataSetChanged();
 
-        if (points != null) {
-            mPoints = points;
-            parsePointData();
-            notifyDataSetChanged();
-        }
     }
 
     public void changeSelectedIconInfo(int visitItemPosition, int position) {
@@ -91,47 +90,14 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         if (points != null) {
             Point point = points.get(0);
             setPointsHolder(point);
+            mPresenter.moveMapToIcon(point.getLatitude(), point.getLongitude());
         } else {
             Point point = new Point();
             setPointsHolder(point);
         }
     }
 
-    private void parsePointData() {
 
-        mPointsByDay = new ArrayList<>();
-        mPointsHolder = new ArrayList<>();
-
-        for (int i = 0; i < mPoints.size(); i++) {
-            mTripDay = 0;
-            if (mPoints.get(i).getDay() > mTripDay) {
-                mTripDay = mPoints.get(i).getDay();
-            }
-        }
-
-        for (int i = 1;i <= mTripDay; i++) {
-            ArrayList<Point> points = new ArrayList<>();
-
-            for (int j = 0; j < mPoints.size(); j++) {
-                if (mPoints.get(j).getDay() == i) {
-                    points.add(mPoints.get(j));
-                }
-            }
-            mPointsByDay.add(points);
-        }
-
-
-        for (int i = 0;i < mTripDay; i++) {
-
-            for (int j = 0; j < ((ArrayList<Point>)mPointsByDay.get(i)).size(); j++) {
-
-                if (((ArrayList<Point>)mPointsByDay.get(i)).get(j).getSorte() == 1) {
-                    mPointsHolder.add(((ArrayList<Point>)mPointsByDay.get(i)).get(j));
-                }
-
-            }
-        }
-    }
 
     private void setPointsHolder(Point point) {
         mPointsHolder.clear();
