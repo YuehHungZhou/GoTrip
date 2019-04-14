@@ -93,6 +93,12 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
+    public void openAddOrDeletePoint() {
+
+
+    }
+
+    @Override
     public void start() {
 
     }

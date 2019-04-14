@@ -37,5 +37,7 @@ public interface TripContract {
 
         void setTripListener(String documentId);
 
+        void openAddOrDeletePoint();
+
     }
 }

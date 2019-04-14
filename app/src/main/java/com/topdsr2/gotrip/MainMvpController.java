@@ -5,6 +5,8 @@ import android.support.annotation.StringDef;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointFragment;
+import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripLocalDataSource;
 import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -30,15 +32,17 @@ public class MainMvpController {
     private HomePresenter mHomePresenter;
     private TripPresenter mTripPresenter;
     private ProfilePresenter mProfilePresenter;
+    private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
-            HOME, TRIP, PROFILE
+            HOME, TRIP, PROFILE, ADDORDELETEPOINT
     })
     public @interface FragmentType {}
     static final String HOME = "HOME";
     static final String TRIP = "TRIP";
     static final String PROFILE = "PROFILE";
+    static final String ADDORDELETEPOINT = "ADDORDELETEPOINT";
 
 
 
@@ -101,6 +105,19 @@ public class MainMvpController {
         }
     }
 
+    void createAddOrDeletePointView(FragmentManager fragmentManager){
+        AddOrDeletePointFragment pointFragment = createAddorDeletePointFragment();
+
+        mAddOrDeletePointPresenter = new AddOrDeletePointPresenter(GoTripRepository.getInstance(
+                GoTripRemoteDataSource.getInstance(),
+                GoTripLocalDataSource.getInstance()), pointFragment);
+        mAddOrDeletePointPresenter.setPointData();
+        mMainPresenter.setAddOrDeletePointPresenter(mAddOrDeletePointPresenter);
+        pointFragment.setPresenter(mMainPresenter);
+
+        pointFragment.show(fragmentManager,"");
+    }
+
     @NonNull
     private HomeFragment findOrCreateHomeFragment() {
 
@@ -145,6 +162,19 @@ public class MainMvpController {
 
         return profileFragment;
     }
+
+    @NonNull
+    private AddOrDeletePointFragment createAddorDeletePointFragment() {
+
+        AddOrDeletePointFragment addOrDeletePointFragment = AddOrDeletePointFragment.newInstance();
+
+//        ActivityUtils.addFragmentByTag(
+//                getFragmentManager(), addOrDeletePointFragment, ADDORDELETEPOINT);
+
+        return addOrDeletePointFragment;
+    }
+
+
 
     private FragmentManager getFragmentManager() {
         return mActivity.getSupportFragmentManager();

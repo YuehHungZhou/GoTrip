@@ -81,6 +81,14 @@
         app:srcCompat="@drawable/sea" />
 
     <android.support.constraint.ConstraintLayout
+        android:layout_width="286dp"
+        android:layout_height="419dp"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="86dp">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="150dp"

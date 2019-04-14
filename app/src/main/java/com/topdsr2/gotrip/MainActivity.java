@@ -116,6 +116,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void openAddOrDeletePointUi() {
+        mMainMvpController.createAddOrDeletePointView(getSupportFragmentManager());
+    }
+
+    @Override
     public void onBackPressed() {
 
         if (isBottomBavigationVisibale) {

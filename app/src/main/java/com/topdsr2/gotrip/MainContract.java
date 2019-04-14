@@ -11,6 +11,8 @@ public interface MainContract {
 
         void hideBottomNavigationUi();
 
+        void openAddOrDeletePointUi();
+
     }
 
     interface Presenter extends BasePresenter {

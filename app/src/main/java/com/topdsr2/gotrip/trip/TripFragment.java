@@ -49,8 +49,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private GoogleMap mMap;
     private Marker mMarker;
     private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
-    private LatLng aPoint;
-    private LatLng bPoint;
     private int mVisibleItemPosition;
 
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
@@ -197,7 +195,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("new"));
 
-
         for (int i = 0; i < mLatLngs.size(); i++) {
             if (mLatLngs.get(i).latitude == latLng.latitude) {
                 if (mLatLngs.get(i).longitude == latLng.longitude) {
@@ -219,29 +216,25 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 13));
 
+        mPresenter.openAddOrDeletePoint();
 
+//        Point point = new Point();
+//        ArrayList<String> images = new ArrayList<>();
+//        images.add("123");
+//        images.add("321");
+//
+//        point.setSorte(2);
+//        point.setDay(1);
+//        point.setCost(123);
+//        point.setTitle("213");
+//        point.setArrivalTime(1553964643);
+//        point.setDescribe("213124124");
+//        point.setIconType("hotel");
+//        point.setLatitude(11.12);
+//        point.setLongitude(12.12);
+//        point.setImages(images);
 
-        Point point = new Point();
-        ArrayList<String> images = new ArrayList<>();
-        images.add("123");
-        images.add("321");
-
-        point.setSorte(2);
-        point.setDay(1);
-        point.setCost(123);
-        point.setTitle("213");
-        point.setArrivalTime(1553964643);
-        point.setDescribe("213124124");
-        point.setIconType("hotel");
-        point.setLatitude(11.12);
-        point.setLongitude(12.12);
-        point.setImages(images);
-
-
-
-
-
-        mPresenter.addPoint(mBean.getDocumentId(),point,mLatLngs.size());
+//        mPresenter.addPoint(mBean.getDocumentId(),point,mLatLngs.size());
 
         return true;
     }
@@ -298,7 +291,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, new GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
-//                mPresenter.setTripListener(mBean.getDocumentId());
+//                mPresenter.setTripListener(mBean.getDocumentId());      // 加入監聽畫面非常緩慢
 
             }
 
@@ -388,5 +381,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         return pointsDayHolder;
     }
+
+
 
 }
