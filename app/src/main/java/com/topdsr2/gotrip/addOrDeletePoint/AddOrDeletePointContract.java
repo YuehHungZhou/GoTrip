@@ -2,6 +2,7 @@ package com.topdsr2.gotrip.addOrDeletePoint;
 
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
+import com.topdsr2.gotrip.data.object.Point;
 
 public interface AddOrDeletePointContract {
 
@@ -16,6 +17,8 @@ public interface AddOrDeletePointContract {
         void loadPointData();
 
         void setPointData();
+
+        void sendNewPoint(Point point);
     }
 
 }

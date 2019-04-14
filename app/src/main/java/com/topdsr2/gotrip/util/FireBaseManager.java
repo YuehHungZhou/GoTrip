@@ -159,17 +159,17 @@ public class FireBaseManager {
 
 
 
-    public void updatePointToFireBase(String documentId,Point point, int dayPoints) {
+    public void updatePointToFireBase(String documentId,Point point, int dayPoints, int today) {
 
         int i = dayPoints - 1;
         int oldSorte = dayPoints;
         int newSorte = dayPoints + 1;
 
         if (dayPoints >= point.getSorte()) {
-            changePointSorte(documentId, point.getDay(), oldSorte, newSorte, new GetPointDocumentIdCallback() {
+            changePointSorte(documentId, today, oldSorte, newSorte, new GetPointDocumentIdCallback() {
                 @Override
                 public void onCompleted(String id) {
-                    updatePointToFireBase(documentId,point,i);
+                    updatePointToFireBase(documentId,point,i, today);
                 }
                 @Override
                 public void onError(String errorMessage) {

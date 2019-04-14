@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#CC000000">
+
+    <View
+        android:id="@+id/isSuccessView"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <ImageView
+        android:id="@+id/isSuccessImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/icons_44px_success01" />
+
+    <TextView
+        android:id="@+id/isSuccessTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:letterSpacing="0.15"
+        android:text="Success"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/isSuccessImageView"
+        app:layout_constraintStart_toStartOf="@+id/isSuccessImageView"
+        app:layout_constraintTop_toBottomOf="@+id/isSuccessImageView" />
+
+</android.support.constraint.ConstraintLayout>

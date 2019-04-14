@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="icon_type_list">
+        <item>"飯店"</item>
+        <item>"餐廳"</item>
+        <item>"景點"</item>
+    </string-array>
+</resources>

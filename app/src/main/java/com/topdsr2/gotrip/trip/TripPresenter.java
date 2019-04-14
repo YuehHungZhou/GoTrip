@@ -62,8 +62,10 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void addPoint(String documentId, Point point, int dayPoints) {
-        FireBaseManager.getInstance().updatePointToFireBase(documentId, point, dayPoints);
+    public void addPoint(Point point) {
+
+        FireBaseManager.getInstance().updatePointToFireBase(mBean.getDocumentId(),
+                mTripView.addPointData(point), mTripView.getPointNumber(), mTripView.getToday());
 
     }
 

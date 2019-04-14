@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.polyak.iconswitch.IconSwitch;
 import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
@@ -48,6 +50,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
     private Marker mMarker;
+    private Marker mSelectedMarker;
     private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
     private int mVisibleItemPosition;
 
@@ -60,7 +63,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private ArrayList<Point> mReadyPoints;
     int mTripDay = 0;
 
-    private ImageView mAddPoint;
+    private ImageView mReloadImage;
+    private ConstraintLayout mConstraintLayout;
+    private IconSwitch mIconSwitch;
+
 
     public TripFragment() {
     }
@@ -117,7 +123,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         recyclerViewIcon.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewIcon.setAdapter(mTripContentItemAdapter);
 
-        mAddPoint = root.findViewById(R.id.image_add_point);
+        mReloadImage = root.findViewById(R.id.image_reload_point);
+        mConstraintLayout = root.findViewById(R.id.constrant_question);
+        mIconSwitch = root.findViewById(R.id.icon_switch);
 
         return root;
     }
@@ -140,9 +148,18 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             mMap.setOnMarkerClickListener(this);
         });
 
+        mReloadImage.setOnClickListener(v -> mPresenter.loadTripData());
+        mIconSwitch.setCheckedChangeListener(current -> {
+            switch (mIconSwitch.getChecked()) {
 
-
-        mAddPoint.setOnClickListener(v -> mPresenter.loadTripData());
+                case RIGHT:
+                    mConstraintLayout.setVisibility(View.INVISIBLE);
+                    mPresenter.openAddOrDeletePoint();
+                    break;
+                default:
+                    break;
+            }
+        });
 
     }
 
@@ -163,6 +180,27 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     }
 
     @Override
+    public int getToday() {
+        return mVisibleItemPosition + 1;
+    }
+
+    @Override
+    public int getPointNumber() {
+        return mLatLngs.size();
+    }
+
+    @Override
+    public Point addPointData(Point point) {
+
+        point.setLatitude(mSelectedMarker.getPosition().latitude);
+        point.setLongitude(mSelectedMarker.getPosition().longitude);
+        point.setDay(mVisibleItemPosition + 1);
+        point.setSorte(sorte(point.getArrivalTime()));
+
+        return point;
+    }
+
+    @Override
     public void changeIconInfoUi(int posotion) {
         mTripContentAdapter.changeSelectedIconInfo(mVisibleItemPosition, posotion);
     }
@@ -175,7 +213,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
     @Override
     public void onPlaceSelected(@NonNull Place place) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 20));
         mMap.addMarker(new MarkerOptions().position(place.getLatLng())
                 .title("Name:" + place.getName() + ". Address:" + place.getAddress()));
 
@@ -189,6 +227,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
     @Override
     public void onMapClick(LatLng latLng) {
+
+        mConstraintLayout.setVisibility(View.INVISIBLE);
+
         if (mMarker != null) {
             mMarker.remove();
         }
@@ -214,27 +255,11 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         }
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 13));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
 
-        mPresenter.openAddOrDeletePoint();
+        mConstraintLayout.setVisibility(View.VISIBLE);
 
-//        Point point = new Point();
-//        ArrayList<String> images = new ArrayList<>();
-//        images.add("123");
-//        images.add("321");
-//
-//        point.setSorte(2);
-//        point.setDay(1);
-//        point.setCost(123);
-//        point.setTitle("213");
-//        point.setArrivalTime(1553964643);
-//        point.setDescribe("213124124");
-//        point.setIconType("hotel");
-//        point.setLatitude(11.12);
-//        point.setLongitude(12.12);
-//        point.setImages(images);
-
-//        mPresenter.addPoint(mBean.getDocumentId(),point,mLatLngs.size());
+        mSelectedMarker = marker;
 
         return true;
     }
@@ -322,13 +347,11 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             Places.initialize(GoTrip.getmContext(), "AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0");
             PlacesClient placesClient = Places.createClient(getContext());
 
-
         }
     }
 
 
     private void parsePointData() {
-
 
         mPointsByDay = new ArrayList<>();
         mPointsHolder = new ArrayList<>();
@@ -380,6 +403,17 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         } while (pointsDayHolder.size() != points.size());
 
         return pointsDayHolder;
+    }
+
+    private int sorte(long time){
+        int sorte = 0;
+        for (int i = 0; i < ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).size(); i++){
+          if (time <= ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()){
+              sorte = ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
+              break;
+          }
+        }
+        return sorte;
     }
 
 

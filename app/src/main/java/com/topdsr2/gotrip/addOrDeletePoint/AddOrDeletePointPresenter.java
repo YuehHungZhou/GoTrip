@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.addOrDeletePoint;
 import android.support.annotation.NonNull;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
+import com.topdsr2.gotrip.data.object.Point;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,6 +29,11 @@ public class AddOrDeletePointPresenter implements AddOrDeletePointContract.Prese
 
     @Override
     public void setPointData() {
+
+    }
+
+    @Override
+    public void sendNewPoint(Point point) {
 
     }
 

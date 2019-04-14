@@ -17,6 +17,12 @@ public interface TripContract {
 
         void reLoadData();
 
+        int getToday();
+
+        int getPointNumber();
+
+        Point addPointData(Point point);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -29,7 +35,7 @@ public interface TripContract {
 
         void hideBottomNavigation();
 
-        void addPoint(String documentId, Point point, int dayPoints);
+        void addPoint(Point point);
 
         void changeIconInfo(int position);
 

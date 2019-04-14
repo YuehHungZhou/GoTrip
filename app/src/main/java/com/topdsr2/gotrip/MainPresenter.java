@@ -124,8 +124,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void addPoint(String documentId, Point point, int dayPoints) {
-        mTripPresenter.addPoint(documentId, point, dayPoints);
+    public void addPoint(Point point) {
+        mTripPresenter.addPoint(point);
     }
 
     @Override
@@ -156,6 +156,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void setPointData() {
         mAddOrDeletePointPresenter.setPointData();
+    }
+
+    @Override
+    public void sendNewPoint(Point point) {
+        mTripPresenter.addPoint(point);
     }
 
 
