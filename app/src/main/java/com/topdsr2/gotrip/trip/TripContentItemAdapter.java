@@ -1,6 +1,8 @@
 package com.topdsr2.gotrip.trip;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +47,15 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
                 case  "hotel":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
                     break;
                 case  "restaurant":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
                     break;
                 case  "attraction":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
                     break;
                 default:
                     break;
@@ -82,6 +87,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         private ImageView mIconImage;
         private TextView mIconText;
         private TextView mRoadText;
+        private ConstraintLayout mConstraintLayout;
 
 
         public TripContentItemViewHolder(@NonNull View itemView) {
@@ -89,6 +95,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mIconImage = itemView.findViewById(R.id.image_trip_content_icon);
             mIconText = itemView.findViewById(R.id.text_trip_icon_pointime);
             mRoadText = itemView.findViewById(R.id.text_trip_icon_roadtime);
+            mConstraintLayout = itemView.findViewById(R.id.constraint_icon);
 
             mIconImage.setOnClickListener(this);
         }

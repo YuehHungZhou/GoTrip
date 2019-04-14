@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.topdsr2.gotrip.GoTrip;
@@ -55,14 +56,13 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
     private TripContentAdapter mTripContentAdapter;
     private TripContentItemAdapter mTripContentItemAdapter;
-    private ImageView mAddPoint;
     private TripAndPoint mBean;
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mPointsHolder;
     private ArrayList<Point> mReadyPoints;
     int mTripDay = 0;
 
-
+    private ImageView mAddPoint;
 
     public TripFragment() {
     }
@@ -81,9 +81,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         super.onCreate(savedInstanceState);
         mTripContentAdapter = new TripContentAdapter(mPresenter);
         mTripContentItemAdapter = new TripContentItemAdapter(mPresenter);
-        mPresenter.loadTripData();
         placeInitialized();
 
+        mPresenter.loadTripData();
     }
 
     @Nullable
@@ -128,6 +128,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         mAutocompleteSupportFragmen.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
         mAutocompleteSupportFragmen.setOnPlaceSelectedListener(this);
 
@@ -141,7 +142,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             mMap.setOnMarkerClickListener(this);
         });
 
-        mAddPoint.setOnClickListener(v -> mPresenter.addPoint(mBean.getDocumentId()));
+
+
+        mAddPoint.setOnClickListener(v -> mPresenter.loadTripData());
 
     }
 
@@ -154,7 +157,11 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
+    }
 
+    @Override
+    public void reLoadData() {
+        mPresenter.loadTripData();
     }
 
     @Override
@@ -210,7 +217,31 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         }
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 13));
+
+
+
+        Point point = new Point();
+        ArrayList<String> images = new ArrayList<>();
+        images.add("123");
+        images.add("321");
+
+        point.setSorte(2);
+        point.setDay(1);
+        point.setCost(123);
+        point.setTitle("213");
+        point.setArrivalTime(1553964643);
+        point.setDescribe("213124124");
+        point.setIconType("hotel");
+        point.setLatitude(11.12);
+        point.setLongitude(12.12);
+        point.setImages(images);
+
+
+
+
+
+        mPresenter.addPoint(mBean.getDocumentId(),point,mLatLngs.size());
 
         return true;
     }
@@ -225,6 +256,8 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 3000, null);
     }
+
+
 
     private void setMaker(ArrayList<Point> points) {
 
@@ -262,7 +295,18 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
                 .bearing(0)
                 .tilt(45)
                 .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, null);
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, new GoogleMap.CancelableCallback() {
+            @Override
+            public void onFinish() {
+//                mPresenter.setTripListener(mBean.getDocumentId());
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
 
@@ -283,8 +327,12 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private void placeInitialized() {
         if (!Places.isInitialized()) {
             Places.initialize(GoTrip.getmContext(), "AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0");
+            PlacesClient placesClient = Places.createClient(getContext());
+
+
         }
     }
+
 
     private void parsePointData() {
 

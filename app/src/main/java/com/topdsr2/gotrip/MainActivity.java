@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         if (isBottomBavigationVisibale) {
             super.onBackPressed();
         } else {
+            mPresenter.detachListener();
             mBottomNavigation.setVisibility(View.VISIBLE);
             isBottomBavigationVisibale = true;
             selectedHomePage();

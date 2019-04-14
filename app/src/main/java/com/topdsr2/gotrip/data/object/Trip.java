@@ -14,6 +14,7 @@ public class Trip {
     private Object mTripStart;
     private Object mTripEnd;
     ArrayList<String> mOwners;
+    private int mAddPointTimes;
 
     public Trip() {
         mId = -1;
@@ -26,6 +27,7 @@ public class Trip {
         mTripStart = null;
         mTripEnd = null;
         mOwners = new ArrayList<>();
+        mAddPointTimes = -1;
     }
 
     public int getId() {
@@ -107,5 +109,13 @@ public class Trip {
 
     public void setOwners(ArrayList<String> owners) {
         mOwners = owners;
+    }
+
+    public int getAddPointTimes() {
+        return mAddPointTimes;
+    }
+
+    public void setAddPointTimes(int addPointTimes) {
+        mAddPointTimes = addPointTimes;
     }
 }

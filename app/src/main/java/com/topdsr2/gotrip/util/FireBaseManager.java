@@ -1,7 +1,13 @@
 package com.topdsr2.gotrip.util;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.topdsr2.gotrip.data.GoTripLocalDataSource;
@@ -14,6 +20,8 @@ import com.topdsr2.gotrip.data.object.TripAndPoint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class FireBaseManager {
 
@@ -28,6 +36,9 @@ public class FireBaseManager {
     private static final String TITLE = "title";
     private static final String TRIPSTART = "tripStart";
     private static final String TRIPEND = "tripEnd";
+    private static final String ADDPOINTTIMES = "addPointTimes";
+
+
 
     private static final String POINT = "Point";
     private static final String ARRIVALTIME = "arrivalTime";
@@ -54,6 +65,7 @@ public class FireBaseManager {
 
     private final GoTripRepository mGoTripRepository;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ListenerRegistration registration;
 
     private static class FireBaseManagerHolder {
         private static final FireBaseManager INSTANCE = new FireBaseManager();
@@ -73,7 +85,7 @@ public class FireBaseManager {
 
 
 
-    public void getSelectedTrip(int id,findTripCallback callback) {
+    public void getSelectedTrip(int id, FindTripCallback callback) {
         TripAndPoint bean = new TripAndPoint();
 
         getTripDocumentIdAndTrip(id, new GetDocumentIdAndTripCallback() {
@@ -91,7 +103,7 @@ public class FireBaseManager {
 
                     @Override
                     public void onError(String errorMessage) {
-
+                        Log.v("FindTripCallback error",errorMessage);
                     }
                 });
             }
@@ -103,7 +115,22 @@ public class FireBaseManager {
         });
     }
 
-    public void addPointToFireBase(String documentId) {
+
+
+    public void setListener(String documentId, EvenHappendCallback callback) {
+        registration = db.collection(TRIP)
+                            .document(documentId)
+                            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                                    callback.onCompleted();
+                                }
+                            });
+    }
+
+
+
+    public void addPointToFireBase(String documentId,Double latitude, Double longitude,int dayPoints) {
 
         ArrayList<String> images = new ArrayList<>();
         images.add("123");
@@ -116,9 +143,9 @@ public class FireBaseManager {
         point.put(COST, 100);
         point.put(DAY, 1);
         point.put(DESCRIBE, "woenvowknevbwpeivn");
-        point.put(LATITUDE, 37.7853889);
-        point.put(LONGITUDE, -122.4056973);
-        point.put(ICONTYPE, "goo");
+        point.put(LATITUDE, latitude);
+        point.put(LONGITUDE, longitude);
+        point.put(ICONTYPE, "hotel");
         point.put(IMAGES, images);
         point.put(SORTE, 3);
         point.put(TITLE, "taiai");
@@ -129,20 +156,54 @@ public class FireBaseManager {
                 .add(point);
     }
 
-    public void updatePointInformation(String documentId,Point point) {
 
-        getPointDocumentId(documentId, point, new GetPointDocumentIdCallback() {
-            @Override
-            public void onCompleted(String id) {
-                setUpdatePoint(documentId, id ,point);
-            }
 
-            @Override
-            public void onError(String errorMessage) {
 
-            }
-        });
+    public void updatePointToFireBase(String documentId,Point point, int dayPoints) {
+
+        int i = dayPoints - 1;
+        int oldSorte = dayPoints;
+        int newSorte = dayPoints + 1;
+
+        if (dayPoints >= point.getSorte()) {
+            changePointSorte(documentId, point.getDay(), oldSorte, newSorte, new GetPointDocumentIdCallback() {
+                @Override
+                public void onCompleted(String id) {
+                    updatePointToFireBase(documentId,point,i);
+                }
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
+
+        } else if (dayPoints < point.getSorte()) {
+            setUpdatePoint(documentId, point);
+            updateTripPointTimes(documentId);
+        }
     }
+
+
+
+
+
+//    public void updatePointInformation(String documentId,Point point) {
+//
+//        getPointDocumentId(documentId, point, new GetPointDocumentIdCallback() {
+//            @Override
+//            public void onCompleted(String pointId) {
+//                setUpdatePoint(documentId, pointId ,point);
+//            }
+//
+//            @Override
+//            public void onError(String errorMessage) {
+//
+//            }
+//        });
+//    }
+
+
+
 
     private void getTripDocumentIdAndTrip(int id, GetDocumentIdAndTripCallback callback) {
 
@@ -184,7 +245,6 @@ public class FireBaseManager {
 
     private void getPointDocumentId(String tripId,Point point,GetPointDocumentIdCallback callback) {
 
-
         db.collection(TRIP)
                 .document(tripId)
                 .collection(POINT)
@@ -198,10 +258,44 @@ public class FireBaseManager {
                             callback.onCompleted(document.getId());
                         }
                     }
+
                 });
     }
 
-    private void setUpdatePoint(String documentId, String pointId, Point pointOld) {
+    private void changePointSorte(String tripId,int day,int oldSorte,int newSorte,GetPointDocumentIdCallback callback) {
+
+        db.collection(TRIP)
+                .document(tripId)
+                .collection(POINT)
+                .whereEqualTo(DAY,day)
+                .whereEqualTo(SORTE,oldSorte)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+                            Map<String,Object> update = new HashMap<>();
+                            update.put(SORTE, newSorte);
+
+                            db.collection(TRIP)
+                                    .document(tripId)
+                                    .collection(POINT)
+                                    .document(document.getId())
+                                    .update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    callback.onCompleted(document.getId());
+
+                                }
+                            });
+                        }
+                    }
+                });
+    }
+
+
+    private void setUpdatePoint(String documentId, Point pointOld) {
 
         Map<String, Object> pointNew = new HashMap<>();
         pointNew.put(ARRIVALTIME, pointOld.getArrivalTime());
@@ -218,14 +312,45 @@ public class FireBaseManager {
         db.collection(TRIP)
                 .document(documentId)
                 .collection(POINT)
-                .document(pointId)
-                .set(pointNew);
+                .add(pointNew);
+    }
+
+    private void updateTripPointTimes(String id) {
+        db.collection(TRIP)
+                .document(id)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            Trip trip = documentSnapshot.toObject(Trip.class);
+
+                            Map<String, Object> update = new HashMap<>();
+                            update.put(ADDPOINTTIMES, trip.getAddPointTimes() + 1);
+
+                            db.collection(TRIP)
+                                    .document(id)
+                                    .update(update);
+
+                    }
+                });
+    }
+
+    public void closeListener() {
+//        registration.remove();
     }
 
 
-    public interface findTripCallback {
+    public interface FindTripCallback {
 
         void onCompleted(TripAndPoint bean);
+
+        void onError(String errorMessage);
+    }
+
+    public interface EvenHappendCallback {
+
+        void onCompleted();
 
         void onError(String errorMessage);
     }

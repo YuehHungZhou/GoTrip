@@ -4,12 +4,14 @@ package com.topdsr2.gotrip;
 import android.support.annotation.NonNull;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
+import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
 import com.topdsr2.gotrip.profile.ProfilePresenter;
 import com.topdsr2.gotrip.trip.TripContract;
 import com.topdsr2.gotrip.trip.TripPresenter;
+import com.topdsr2.gotrip.util.FireBaseManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -65,6 +67,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.openProfileUi();
     }
 
+    @Override
+    public void detachListener() {
+        FireBaseManager.getInstance().closeListener();
+    }
+
     /**
      * Home
      */
@@ -110,8 +117,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void addPoint(String documentId) {
-        mTripPresenter.addPoint(documentId);
+    public void addPoint(String documentId, Point point, int dayPoints) {
+        mTripPresenter.addPoint(documentId, point, dayPoints);
     }
 
     @Override
@@ -122,6 +129,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void moveMapToIcon(Double latitude, Double longitude) {
         mTripPresenter.moveMapToIcon(latitude, longitude);
+    }
+
+    @Override
+    public void setTripListener(String documentId) {
+        mTripPresenter.setTripListener(documentId);
     }
 
 

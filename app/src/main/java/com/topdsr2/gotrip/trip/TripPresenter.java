@@ -1,10 +1,10 @@
 package com.topdsr2.gotrip.trip;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.topdsr2.gotrip.data.GoTripRepository;
+import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.util.FireBaseManager;
@@ -17,8 +17,6 @@ public class TripPresenter implements TripContract.Presenter {
     private SupportMapFragment mSupportMapFragment;
     private final TripContract.View mTripView;
     private TripAndPoint mBean;
-
-
 
     private Trip mTrip;
 
@@ -34,13 +32,9 @@ public class TripPresenter implements TripContract.Presenter {
     @Override
     public void loadTripData() {
 
-        FireBaseManager.getInstance().getSelectedTrip(1,new FireBaseManager.findTripCallback() {
-
+        FireBaseManager.getInstance().getSelectedTrip(1, new FireBaseManager.FindTripCallback() {
             @Override
             public void onCompleted(TripAndPoint bean) {
-
-                Log.v("kerry", bean.getPoints().get(2).getDay()+ "");
-
                 mTripView.showTripUi(bean);
                 mBean = bean;
             }
@@ -68,8 +62,8 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void addPoint(String documentId) {
-        FireBaseManager.getInstance().addPointToFireBase(documentId);
+    public void addPoint(String documentId, Point point, int dayPoints) {
+        FireBaseManager.getInstance().updatePointToFireBase(documentId, point, dayPoints);
 
     }
 
@@ -81,6 +75,21 @@ public class TripPresenter implements TripContract.Presenter {
     @Override
     public void moveMapToIcon(Double latitude, Double longitude) {
         mTripView.moveCameraToMarker(latitude, longitude);
+    }
+
+    @Override
+    public void setTripListener(String documentId) {
+        FireBaseManager.getInstance().setListener(documentId, new FireBaseManager.EvenHappendCallback() {
+            @Override
+            public void onCompleted() {
+                mTripView.reLoadData();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
     }
 
     @Override

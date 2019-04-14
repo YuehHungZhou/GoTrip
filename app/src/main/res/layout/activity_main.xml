@@ -22,10 +22,12 @@
         android:layout_height="@dimen/bottom_navigation_height"
         android:background="@color/bottom_navigation_background"
         app:itemIconSize="36dp"
-        app:menu="@menu/menu_bottom_navigation"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_navigation" >
+
+    </android.support.design.widget.BottomNavigationView>
 
 </android.support.constraint.ConstraintLayout>

@@ -38,9 +38,17 @@ public class TripContentAdapter extends RecyclerView.Adapter {
             Point point = mPointsHolder.get(position);
 
             ((TripContentViewHolder) viewHolder).mTextDay.setText("Day " + Integer.toString(point.getDay()));
-            ((TripContentViewHolder) viewHolder).mTextCost.setText("Cost: " + Integer.toString(point.getCost()));
+            ((TripContentViewHolder) viewHolder).mTextDay.setBackgroundResource(R.drawable.corner_day_color);
+
+            ((TripContentViewHolder) viewHolder).mTextCost.setText("$ " + Integer.toString(point.getCost()));
+            ((TripContentViewHolder) viewHolder).mTextCost.setBackgroundResource(R.drawable.corner_cost_color);
+
             ((TripContentViewHolder) viewHolder).mTextTitle.setText(point.getTitle());
+            ((TripContentViewHolder) viewHolder).mTextTitle.setBackgroundResource(R.drawable.corner_title_color);
+
             ((TripContentViewHolder) viewHolder).mTextDescribe.setText(point.getDescribe());
+            ((TripContentViewHolder) viewHolder).mTextDescribe.setBackgroundResource(R.drawable.corner_describe_color);
+
         }
     }
 
