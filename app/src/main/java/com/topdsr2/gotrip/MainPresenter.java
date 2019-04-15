@@ -79,6 +79,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         FireBaseManager.getInstance().closeListener();
     }
 
+
+
     /**
      * Home
      */
@@ -146,6 +148,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void openAddOrDeletePoint() {
         mMainView.openAddOrDeletePointUi();
+    }
+
+    @Override
+    public void showDeleteView(int position) {
+        mTripPresenter.showDeleteView(position);
+    }
+
+    @Override
+    public void deletePoint(int position) {
+        mTripPresenter.deletePoint(position);
     }
 
     @Override

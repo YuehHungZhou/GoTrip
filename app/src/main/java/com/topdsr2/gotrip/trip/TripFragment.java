@@ -53,6 +53,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private Marker mSelectedMarker;
     private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
     private int mVisibleItemPosition;
+    private int mTouchedIconPosition;
 
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
     private TripContentAdapter mTripContentAdapter;
@@ -64,8 +65,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     int mTripDay = 0;
 
     private ImageView mReloadImage;
-    private ConstraintLayout mConstraintLayout;
-    private IconSwitch mIconSwitch;
+    private ConstraintLayout mConstraintLayoutAdd;
+    private ConstraintLayout mConstraintLayouDelete;
+    private IconSwitch mIconSwitchAdd;
+    private IconSwitch mIconSwitchDelete;
 
 
     public TripFragment() {
@@ -124,8 +127,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         recyclerViewIcon.setAdapter(mTripContentItemAdapter);
 
         mReloadImage = root.findViewById(R.id.image_reload_point);
-        mConstraintLayout = root.findViewById(R.id.constrant_question);
-        mIconSwitch = root.findViewById(R.id.icon_switch);
+        mConstraintLayoutAdd = root.findViewById(R.id.constrant_add_question);
+        mConstraintLayouDelete = root.findViewById(R.id.constrant_delete_question);
+        mIconSwitchAdd = root.findViewById(R.id.icon_switch_add);
+        mIconSwitchDelete = root.findViewById(R.id.icon_switch_delete);
 
         return root;
     }
@@ -149,12 +154,27 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         });
 
         mReloadImage.setOnClickListener(v -> mPresenter.loadTripData());
-        mIconSwitch.setCheckedChangeListener(current -> {
-            switch (mIconSwitch.getChecked()) {
+        mIconSwitchAdd.setCheckedChangeListener(current -> {
+            switch (mIconSwitchAdd.getChecked()) {
 
                 case RIGHT:
-                    mConstraintLayout.setVisibility(View.INVISIBLE);
+                    mConstraintLayoutAdd.setVisibility(View.INVISIBLE);
+                    mIconSwitchAdd.setChecked(IconSwitch.Checked.LEFT);
                     mPresenter.openAddOrDeletePoint();
+
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        mIconSwitchDelete.setCheckedChangeListener(current -> {
+            switch (mIconSwitchDelete.getChecked()) {
+
+                case RIGHT:
+                    mConstraintLayouDelete.setVisibility(View.INVISIBLE);
+                    mIconSwitchDelete.setChecked(IconSwitch.Checked.LEFT);
+                    mPresenter.deletePoint(mTouchedIconPosition);
                     break;
                 default:
                     break;
@@ -201,6 +221,13 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     }
 
     @Override
+    public void showPointDeleteView(int position) {
+        mTouchedIconPosition = position;
+        mConstraintLayouDelete.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
     public void changeIconInfoUi(int posotion) {
         mTripContentAdapter.changeSelectedIconInfo(mVisibleItemPosition, posotion);
     }
@@ -228,7 +255,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     @Override
     public void onMapClick(LatLng latLng) {
 
-        mConstraintLayout.setVisibility(View.INVISIBLE);
+        mConstraintLayoutAdd.setVisibility(View.INVISIBLE);
 
         if (mMarker != null) {
             mMarker.remove();
@@ -257,7 +284,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
 
-        mConstraintLayout.setVisibility(View.VISIBLE);
+        mConstraintLayoutAdd.setVisibility(View.VISIBLE);
 
         mSelectedMarker = marker;
 

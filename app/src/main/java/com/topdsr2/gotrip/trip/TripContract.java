@@ -23,6 +23,8 @@ public interface TripContract {
 
         Point addPointData(Point point);
 
+        void showPointDeleteView(int position);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -44,6 +46,11 @@ public interface TripContract {
         void setTripListener(String documentId);
 
         void openAddOrDeletePoint();
+
+        void showDeleteView(int position);
+
+        void deletePoint(int position);
+
 
     }
 }

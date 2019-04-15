@@ -70,6 +70,12 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
+    public void deletePoint(int position) {
+        FireBaseManager.getInstance().deletePoint(mBean.getDocumentId(), position + 1,
+                position + 1, mTripView.getPointNumber(), mTripView.getToday());
+    }
+
+    @Override
     public void changeIconInfo(int position) {
         mTripView.changeIconInfoUi(position);
     }
@@ -99,6 +105,13 @@ public class TripPresenter implements TripContract.Presenter {
 
 
     }
+
+    @Override
+    public void showDeleteView(int position) {
+        mTripView.showPointDeleteView(position);
+    }
+
+
 
     @Override
     public void start() {

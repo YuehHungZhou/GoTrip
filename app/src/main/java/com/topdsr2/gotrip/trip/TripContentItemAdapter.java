@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    private class TripContentItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class TripContentItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView mIconImage;
         private TextView mIconText;
         private TextView mRoadText;
@@ -98,6 +99,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mConstraintLayout = itemView.findViewById(R.id.constraint_icon);
 
             mIconImage.setOnClickListener(this);
+            mIconImage.setOnLongClickListener(this);
         }
 
         @Override
@@ -105,6 +107,18 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mPresenter.changeIconInfo(getAdapterPosition());
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
                     mReadyPoints.get(getAdapterPosition()).getLongitude());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+
+            Log.v("long","long");
+            mPresenter.showDeleteView(getAdapterPosition());
+            mPresenter.changeIconInfo(getAdapterPosition());
+            mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
+                    mReadyPoints.get(getAdapterPosition()).getLongitude());
+
+            return true;
         }
     }
 

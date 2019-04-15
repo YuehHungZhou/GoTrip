@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textSize="20sp"
         android:paddingLeft="15dp"
         android:paddingRight="12dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
@@ -24,23 +24,23 @@
         android:layout_marginTop="6dp"
         android:paddingLeft="10dp"
         android:paddingRight="13dp"
-        android:textSize="20sp"
-        tools:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/text_trip_content_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        tools:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_trip_content_day"
         app:layout_constraintStart_toEndOf="@+id/text_trip_content_day"
-        app:layout_constraintTop_toTopOf="@+id/text_trip_content_day" />
+        app:layout_constraintTop_toTopOf="@+id/text_trip_content_day"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/text_trip_content_describe"
@@ -51,10 +51,10 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="4dp"
         android:paddingLeft="13dp"
+        android:paddingTop="2dp"
         android:paddingRight="13dp"
         android:paddingBottom="3dp"
-        android:paddingTop="2dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

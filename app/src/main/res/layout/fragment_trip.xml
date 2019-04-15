@@ -81,7 +81,7 @@
         app:srcCompat="@drawable/sea" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constrant_question"
+        android:id="@+id/constrant_add_question"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -93,20 +93,19 @@
         app:layout_constraintTop_toTopOf="@+id/fragment_map">
 
         <com.polyak.iconswitch.IconSwitch
-            android:id="@+id/icon_switch"
+            android:id="@+id/icon_switch_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isw_icon_left="@drawable/ic_check_black_24dp"
-            app:isw_icon_right="@drawable/ic_add_black_24dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-
             app:isw_active_tint_icon_left="#C45259"
             app:isw_active_tint_icon_right="#DB9870"
+
             app:isw_background_color="#fff"
             app:isw_default_selection="left"
+            app:isw_icon_right="@drawable/ic_add_black_24dp"
 
             app:isw_icon_size="20dp"
             app:isw_inactive_tint_icon_left="#43B9A7"
@@ -121,6 +120,50 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constrant_delete_question"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_map">
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/icon_switch_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:isw_active_tint_icon_left="#C45259"
+            app:isw_active_tint_icon_right="#DB9870"
+
+            app:isw_background_color="#fff"
+            app:isw_default_selection="left"
+            app:isw_icon_right="@drawable/ic_clear_black_24dp"
+
+            app:isw_icon_size="20dp"
+            app:isw_inactive_tint_icon_left="#43B9A7"
+            app:isw_inactive_tint_icon_right="#007D49"
+
+            app:isw_thumb_color_left="#fff"
+            app:isw_thumb_color_right="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"

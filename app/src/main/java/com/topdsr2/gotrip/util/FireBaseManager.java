@@ -130,35 +130,6 @@ public class FireBaseManager {
 
 
 
-    public void addPointToFireBase(String documentId,Double latitude, Double longitude,int dayPoints) {
-
-        ArrayList<String> images = new ArrayList<>();
-        images.add("123");
-        images.add("321");
-        long i = 1554963108;
-
-
-        Map<String, Object> point = new HashMap<>();
-        point.put(ARRIVALTIME,i);
-        point.put(COST, 100);
-        point.put(DAY, 1);
-        point.put(DESCRIBE, "woenvowknevbwpeivn");
-        point.put(LATITUDE, latitude);
-        point.put(LONGITUDE, longitude);
-        point.put(ICONTYPE, "hotel");
-        point.put(IMAGES, images);
-        point.put(SORTE, 3);
-        point.put(TITLE, "taiai");
-
-        db.collection(TRIP)
-                .document(documentId)
-                .collection(POINT)
-                .add(point);
-    }
-
-
-
-
     public void updatePointToFireBase(String documentId,Point point, int dayPoints, int today) {
 
         int i = dayPoints - 1;
@@ -178,29 +149,48 @@ public class FireBaseManager {
             });
 
         } else if (dayPoints < point.getSorte()) {
-            setUpdatePoint(documentId, point);
+            readyToAddPoint(documentId, point);
             updateTripPointTimes(documentId);
         }
     }
 
+    public void deletePoint(String documentId,int sorte, int positionHolder, int dayPoints, int today) {
+
+        int i = sorte + 1;
+
+
+        if (sorte == positionHolder){
+            readyToDeletePoint(documentId, sorte, today, new DeletePointCallback() {
+                @Override
+                public void onCompleted() {
+                    deletePoint(documentId, i, positionHolder, dayPoints, today);
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
+        } else if (sorte > positionHolder && sorte <= dayPoints - 1){
+            changePointSorte(documentId, today, sorte, sorte - 1, new GetPointDocumentIdCallback() {
+                @Override
+                public void onCompleted(String id) {
+                    deletePoint(documentId, i, positionHolder, dayPoints, today);
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
+        } else {
+            updateTripPointTimes(documentId);
+        }
 
 
 
+    }
 
-//    public void updatePointInformation(String documentId,Point point) {
-//
-//        getPointDocumentId(documentId, point, new GetPointDocumentIdCallback() {
-//            @Override
-//            public void onCompleted(String pointId) {
-//                setUpdatePoint(documentId, pointId ,point);
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//
-//            }
-//        });
-//    }
 
 
 
@@ -262,7 +252,8 @@ public class FireBaseManager {
                 });
     }
 
-    private void changePointSorte(String tripId,int day,int oldSorte,int newSorte,GetPointDocumentIdCallback callback) {
+
+    private void changePointSorte(String tripId, int day, int oldSorte, int newSorte, GetPointDocumentIdCallback callback) {
 
         db.collection(TRIP)
                 .document(tripId)
@@ -295,7 +286,7 @@ public class FireBaseManager {
     }
 
 
-    private void setUpdatePoint(String documentId, Point pointOld) {
+    private void readyToAddPoint(String documentId, Point pointOld) {
 
         Map<String, Object> pointNew = new HashMap<>();
         pointNew.put(ARRIVALTIME, pointOld.getArrivalTime());
@@ -313,6 +304,33 @@ public class FireBaseManager {
                 .document(documentId)
                 .collection(POINT)
                 .add(pointNew);
+    }
+
+    private void readyToDeletePoint(String documentId, int pointSorte, int day, DeletePointCallback callback) {
+
+        db.collection(TRIP)
+                .document(documentId)
+                .collection(POINT)
+                .whereEqualTo(DAY, day)
+                .whereEqualTo(SORTE, pointSorte)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    db.collection(TRIP)
+                            .document(documentId)
+                            .collection(POINT)
+                            .document(documentSnapshot.getId())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    callback.onCompleted();
+                                }
+                            });
+                }
+            }
+        });
     }
 
     private void updateTripPointTimes(String id) {
@@ -372,6 +390,13 @@ public class FireBaseManager {
     interface GetPointDocumentIdCallback {
 
         void onCompleted(String id);
+
+        void onError(String errorMessage);
+    }
+
+    interface DeletePointCallback {
+
+        void onCompleted();
 
         void onError(String errorMessage);
     }
