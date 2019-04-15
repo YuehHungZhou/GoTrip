@@ -171,7 +171,7 @@ public class FireBaseManager {
 
                 }
             });
-        } else if (sorte > positionHolder && sorte <= dayPoints - 1){
+        } else if (sorte > positionHolder && sorte <= dayPoints) {
             changePointSorte(documentId, today, sorte, sorte - 1, new GetPointDocumentIdCallback() {
                 @Override
                 public void onCompleted(String id) {
