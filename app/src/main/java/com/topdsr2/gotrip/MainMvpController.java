@@ -38,12 +38,13 @@ public class MainMvpController {
     @StringDef({
             HOME, TRIP, PROFILE, ADDORDELETEPOINT
     })
-    public @interface FragmentType {}
+    public @interface FragmentType {
+    }
+
     static final String HOME = "HOME";
     static final String TRIP = "TRIP";
     static final String PROFILE = "PROFILE";
     static final String ADDORDELETEPOINT = "ADDORDELETEPOINT";
-
 
 
     private MainMvpController(@NonNull FragmentActivity activity) {
@@ -105,7 +106,7 @@ public class MainMvpController {
         }
     }
 
-    void createAddOrDeletePointView(FragmentManager fragmentManager){
+    void createAddOrDeletePointView(FragmentManager fragmentManager) {
         AddOrDeletePointFragment pointFragment = createAddorDeletePointFragment();
 
         mAddOrDeletePointPresenter = new AddOrDeletePointPresenter(GoTripRepository.getInstance(
@@ -115,7 +116,7 @@ public class MainMvpController {
         mMainPresenter.setAddOrDeletePointPresenter(mAddOrDeletePointPresenter);
         pointFragment.setPresenter(mMainPresenter);
 
-        pointFragment.show(fragmentManager,"");
+        pointFragment.show(fragmentManager, "");
     }
 
     @NonNull
@@ -173,7 +174,6 @@ public class MainMvpController {
 
         return addOrDeletePointFragment;
     }
-
 
 
     private FragmentManager getFragmentManager() {

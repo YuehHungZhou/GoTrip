@@ -20,16 +20,18 @@ public class TripContentAdapter extends RecyclerView.Adapter {
     private ArrayList<Point> mPointsHolder;
 
 
-
     public TripContentAdapter(TripContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
+
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
         return new TripContentViewHolder(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_trip_content,viewGroup,false));
+                .inflate(R.layout.item_trip_content, viewGroup, false));
     }
 
     @Override
@@ -56,7 +58,7 @@ public class TripContentAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         if (mPointsHolder != null) {
             return mTripDay;
-        }else {
+        } else {
             return 1;
         }
     }
@@ -79,7 +81,7 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void updateData(ArrayList<Object> pointsByDay, ArrayList<Point> pointsHolder, int tripDay ) {
+    public void updateData(ArrayList<Object> pointsByDay, ArrayList<Point> pointsHolder, int tripDay) {
         mPointsByDay = pointsByDay;
         mPointsHolder = pointsHolder;
         mTripDay = tripDay;
@@ -89,28 +91,34 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
     public void changeSelectedIconInfo(int visitItemPosition, int position) {
 
-        Point point = ((ArrayList<Point>)mPointsByDay.get(visitItemPosition)).get(position);
-        setPointsHolder(point);
+        Point point = ((ArrayList<Point>) mPointsByDay.get(visitItemPosition)).get(position);
+        setPointsHolder(point, visitItemPosition);
+        //notifyItemChanged(visitItemPosition);
+
     }
 
-    public void scrollChangeIconInfo(int visitItemPosition) {
+    public void scrollChangeIconInfo(int visitItemPosition, ArrayList<Point> pointsHolder) {
+
         ArrayList<Point> points = (ArrayList<Point>) mPointsByDay.get(visitItemPosition);
         if (points != null) {
             Point point = points.get(0);
-            setPointsHolder(point);
             mPresenter.moveMapToIcon(point.getLatitude(), point.getLongitude());
-        } else {
-            Point point = new Point();
-            setPointsHolder(point);
+            setPointsHolder(point, visitItemPosition);
         }
+//        else {
+//            Point point = new Point();
+//            setPointsHolder(point);
+//        }
     }
 
-
-
-    private void setPointsHolder(Point point) {
+    private void setPointsHolder(Point point,int visitItemPosition) {
         mPointsHolder.clear();
-        for (int i = 0;i < mTripDay;i++) {
-            mPointsHolder.add(point);
+        for (int i = 0; i < mTripDay; i++) {
+            if (i == visitItemPosition){
+                mPointsHolder.add(point);
+            } else {
+                mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(0));
+            }
         }
         notifyDataSetChanged();
     }

@@ -39,7 +39,6 @@ public class FireBaseManager {
     private static final String ADDPOINTTIMES = "addPointTimes";
 
 
-
     private static final String POINT = "Point";
     private static final String ARRIVALTIME = "arrivalTime";
     private static final String COST = "cost";
@@ -62,7 +61,6 @@ public class FireBaseManager {
     private static final String TRUE = "true";
 
 
-
     private final GoTripRepository mGoTripRepository;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration registration;
@@ -82,15 +80,12 @@ public class FireBaseManager {
     }
 
 
-
-
-
     public void getSelectedTrip(int id, FindTripCallback callback) {
         TripAndPoint bean = new TripAndPoint();
 
         getTripDocumentIdAndTrip(id, new GetDocumentIdAndTripCallback() {
             @Override
-            public void onCompleted(String id,Trip trip) {
+            public void onCompleted(String id, Trip trip) {
                 bean.setDocumentId(id);
                 bean.setTrip(trip);
 
@@ -103,7 +98,7 @@ public class FireBaseManager {
 
                     @Override
                     public void onError(String errorMessage) {
-                        Log.v("FindTripCallback error",errorMessage);
+                        Log.v("FindTripCallback error", errorMessage);
                     }
                 });
             }
@@ -116,21 +111,19 @@ public class FireBaseManager {
     }
 
 
-
     public void setListener(String documentId, EvenHappendCallback callback) {
         registration = db.collection(TRIP)
-                            .document(documentId)
-                            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                                    callback.onCompleted();
-                                }
-                            });
+                .document(documentId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        callback.onCompleted();
+                    }
+                });
     }
 
 
-
-    public void updatePointToFireBase(String documentId,Point point, int dayPoints, int today) {
+    public void updatePointToFireBase(String documentId, Point point, int dayPoints, int today) {
 
         int i = dayPoints - 1;
         int oldSorte = dayPoints;
@@ -140,8 +133,9 @@ public class FireBaseManager {
             changePointSorte(documentId, today, oldSorte, newSorte, new GetPointDocumentIdCallback() {
                 @Override
                 public void onCompleted(String id) {
-                    updatePointToFireBase(documentId,point,i, today);
+                    updatePointToFireBase(documentId, point, i, today);
                 }
+
                 @Override
                 public void onError(String errorMessage) {
 
@@ -154,12 +148,12 @@ public class FireBaseManager {
         }
     }
 
-    public void deletePoint(String documentId,int sorte, int positionHolder, int dayPoints, int today) {
+    public void deletePoint(String documentId, int sorte, int positionHolder, int dayPoints, int today) {
 
         int i = sorte + 1;
 
 
-        if (sorte == positionHolder){
+        if (sorte == positionHolder) {
             readyToDeletePoint(documentId, sorte, today, new DeletePointCallback() {
                 @Override
                 public void onCompleted() {
@@ -188,32 +182,27 @@ public class FireBaseManager {
         }
 
 
-
     }
-
-
-
 
 
     private void getTripDocumentIdAndTrip(int id, GetDocumentIdAndTripCallback callback) {
 
         db.collection(TRIP)
-                .whereEqualTo(ID,id)
+                .whereEqualTo(ID, id)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             Trip trip = document.toObject(Trip.class);
-                            callback.onCompleted(document.getId(),trip);
+                            callback.onCompleted(document.getId(), trip);
                         }
                     }
                 });
     }
 
 
-
-    private void getTripPoint(String tripId,GetPointsCallback callback) {
+    private void getTripPoint(String tripId, GetPointsCallback callback) {
 
         ArrayList<Point> points = new ArrayList<>();
 
@@ -233,13 +222,13 @@ public class FireBaseManager {
                 });
     }
 
-    private void getPointDocumentId(String tripId,Point point,GetPointDocumentIdCallback callback) {
+    private void getPointDocumentId(String tripId, Point point, GetPointDocumentIdCallback callback) {
 
         db.collection(TRIP)
                 .document(tripId)
                 .collection(POINT)
-                .whereEqualTo(DAY,point.getDay())
-                .whereEqualTo(SORTE,point.getSorte())
+                .whereEqualTo(DAY, point.getDay())
+                .whereEqualTo(SORTE, point.getSorte())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -258,15 +247,15 @@ public class FireBaseManager {
         db.collection(TRIP)
                 .document(tripId)
                 .collection(POINT)
-                .whereEqualTo(DAY,day)
-                .whereEqualTo(SORTE,oldSorte)
+                .whereEqualTo(DAY, day)
+                .whereEqualTo(SORTE, oldSorte)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                            Map<String,Object> update = new HashMap<>();
+                            Map<String, Object> update = new HashMap<>();
                             update.put(SORTE, newSorte);
 
                             db.collection(TRIP)
@@ -316,7 +305,7 @@ public class FireBaseManager {
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     db.collection(TRIP)
                             .document(documentId)
                             .collection(POINT)
@@ -341,14 +330,14 @@ public class FireBaseManager {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                            Trip trip = documentSnapshot.toObject(Trip.class);
+                        Trip trip = documentSnapshot.toObject(Trip.class);
 
-                            Map<String, Object> update = new HashMap<>();
-                            update.put(ADDPOINTTIMES, trip.getAddPointTimes() + 1);
+                        Map<String, Object> update = new HashMap<>();
+                        update.put(ADDPOINTTIMES, trip.getAddPointTimes() + 1);
 
-                            db.collection(TRIP)
-                                    .document(id)
-                                    .update(update);
+                        db.collection(TRIP)
+                                .document(id)
+                                .update(update);
 
                     }
                 });
@@ -375,7 +364,7 @@ public class FireBaseManager {
 
     interface GetDocumentIdAndTripCallback {
 
-        void onCompleted(String id,Trip trip);
+        void onCompleted(String id, Trip trip);
 
         void onError(String errorMessage);
     }
@@ -400,7 +389,6 @@ public class FireBaseManager {
 
         void onError(String errorMessage);
     }
-
 
 
 }

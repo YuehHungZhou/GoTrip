@@ -1,6 +1,5 @@
 package com.topdsr2.gotrip.trip;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +35,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
 
         return new TripContentItemViewHolder(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_trip_content_icon,viewGroup,false));
+                .inflate(R.layout.item_trip_content_icon, viewGroup, false));
 
     }
 
@@ -46,15 +45,15 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         if (mReadyPoints != null) {
             switch (mReadyPoints.get(position).getIconType()) {
 
-                case  "hotel":
+                case "hotel":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
                     ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
                     break;
-                case  "restaurant":
+                case "restaurant":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
                     ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
                     break;
-                case  "attraction":
+                case "attraction":
                     ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
                     ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
                     break;
@@ -112,7 +111,6 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         @Override
         public boolean onLongClick(View v) {
 
-            Log.v("long","long");
             mPresenter.showDeleteView(getAdapterPosition());
             mPresenter.changeIconInfo(getAdapterPosition());
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
@@ -121,7 +119,6 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             return true;
         }
     }
-
 
 
     public void updateData(ArrayList<Object> pointsByDay, ArrayList<Point> readyPoints) {
@@ -141,17 +138,17 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     }
 
     private String paseTime(long time) {
-        SimpleDateFormat sdf= new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         Date date = new Date(time * 1000);
         String str = sdf.format(date);
 
-        return  str;
+        return str;
     }
 
     private String paseRoadTime(long time) {
-        float minute = time/(60*60);
+        float minute = time / (60 * 60);
         String str = minute + " hr";
 
-        return  str;
+        return str;
     }
 }

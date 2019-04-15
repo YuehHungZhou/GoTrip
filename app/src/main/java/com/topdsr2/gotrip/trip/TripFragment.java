@@ -109,13 +109,13 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    mVisibleItemPosition = ((LinearLayoutManager)recyclerView.getLayoutManager())
+                    mVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
                             .findFirstVisibleItemPosition();
                     recyclerView.smoothScrollToPosition(mVisibleItemPosition);
-                    movePositionChangeIcon(mVisibleItemPosition);
-                    mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition);
+                    mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition, mPointsHolder);
+                    mTripContentItemAdapter.readyChangeIcon(mVisibleItemPosition);
 
-                    setMaker(((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)));
+                    setMaker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
 
                 }
             }
@@ -188,7 +188,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mBean = bean;
 
         parsePointData();
-        setMaker(((ArrayList<Point>)mPointsByDay.get(0)));
+        setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
@@ -230,11 +230,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     @Override
     public void changeIconInfoUi(int posotion) {
         mTripContentAdapter.changeSelectedIconInfo(mVisibleItemPosition, posotion);
-    }
-
-    private void movePositionChangeIcon(int position) {
-        mTripContentItemAdapter.readyChangeIcon(position);
-
     }
 
 
@@ -303,18 +298,17 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     }
 
 
-
     private void setMaker(ArrayList<Point> points) {
 
         mMap.clear();
         mLatLngs.clear();
 
         for (int i = 0; i < points.size(); i++) {
-          LatLng latLng =  new LatLng(points.get(i).getLatitude(),points.get(i).getLongitude());
-          MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-          mMap.addMarker(markerOptions);
+            LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            mMap.addMarker(markerOptions);
 
-          mLatLngs.add(latLng);
+            mLatLngs.add(latLng);
         }
 
         setPolyLine();
@@ -356,7 +350,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
 
     private void addpolyLine(LatLng latLng) {
-        LatLng[] latLngs1 = new LatLng[]{mLatLngs.get(mLatLngs.size()-2), latLng};
+        LatLng[] latLngs1 = new LatLng[]{mLatLngs.get(mLatLngs.size() - 2), latLng};
         PolylineOptions polylineOpt = new PolylineOptions().add(latLngs1).pattern(setDash()).color(Color.BLUE);
         Polyline polyline = mMap.addPolyline(polylineOpt);
         polyline.setWidth(10);
@@ -392,7 +386,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             }
         }
 
-        for (int i = 1;i <= mTripDay; i++) {
+        for (int i = 1; i <= mTripDay; i++) {
             ArrayList<Point> points = new ArrayList<>();
 
             for (int j = 0; j < mBean.getPoints().size(); j++) {
@@ -406,12 +400,12 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mReadyPoints = (ArrayList<Point>) mPointsByDay.get(0);
 
-        for (int i = 0;i < mTripDay; i++) {
+        for (int i = 0; i < mTripDay; i++) {
 
-            for (int j = 0; j < ((ArrayList<Point>)mPointsByDay.get(i)).size(); j++) {
+            for (int j = 0; j < ((ArrayList<Point>) mPointsByDay.get(i)).size(); j++) {
 
-                if (((ArrayList<Point>)mPointsByDay.get(i)).get(j).getSorte() == 1) {
-                    mPointsHolder.add(((ArrayList<Point>)mPointsByDay.get(i)).get(j));
+                if (((ArrayList<Point>) mPointsByDay.get(i)).get(j).getSorte() == 1) {
+                    mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(j));
                 }
             }
         }
@@ -432,17 +426,16 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         return pointsDayHolder;
     }
 
-    private int sorte(long time){
+    private int sorte(long time) {
         int sorte = 0;
-        for (int i = 0; i < ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).size(); i++){
-          if (time <= ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()){
-              sorte = ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
-              break;
-          }
+        for (int i = 0; i < ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).size(); i++) {
+            if (time <= ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()) {
+                sorte = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
+                break;
+            }
         }
         return sorte;
     }
-
 
 
 }

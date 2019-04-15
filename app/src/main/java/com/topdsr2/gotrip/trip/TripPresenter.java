@@ -112,7 +112,6 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
 
-
     @Override
     public void start() {
 
