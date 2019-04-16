@@ -51,6 +51,8 @@ public interface TripContract {
 
         void deletePoint(int position);
 
+        void removeListener();
+
 
     }
 }

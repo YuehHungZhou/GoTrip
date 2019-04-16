@@ -1,5 +1,6 @@
 package com.topdsr2.gotrip;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 
+import com.facebook.AccessToken;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -35,7 +38,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         mMainMvpController = MainMvpController.create(this);
 
-        mPresenter.checkLogInState();
+        mPresenter.checkLogInState(this);
 
         setBottomNavigation();
         selectedHomePage();
@@ -45,7 +48,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
         UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
 
     }

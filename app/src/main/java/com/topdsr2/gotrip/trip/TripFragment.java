@@ -117,6 +117,8 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
                     setMaker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
 
+
+
                 }
             }
         });
@@ -192,6 +194,9 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
+
+        mPresenter.setTripListener(mBean.getDocumentId());
+
     }
 
     @Override
@@ -337,7 +342,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, new GoogleMap.CancelableCallback() {
             @Override
             public void onFinish() {
-//                mPresenter.setTripListener(mBean.getDocumentId());      // 加入監聽畫面非常緩慢
 
             }
 
@@ -437,5 +441,15 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         return sorte;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.setTripListener(mBean.getDocumentId());
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPresenter.removeListener();
+    }
 }

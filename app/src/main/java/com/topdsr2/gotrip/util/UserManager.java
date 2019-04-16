@@ -22,7 +22,12 @@ import com.topdsr2.gotrip.data.object.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class UserManager {
@@ -67,12 +72,9 @@ public class UserManager {
                                         Uri userPhoto = profile.getProfilePictureUri(300, 300);
 
                                         addUserDataToifrebase(email, name, userPhoto.toString(),loadCallback);
-
-
-
+                                        writeInternal(email,(Activity) context);
+                                        loadCallback.onSuccess();
                                     }
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 } catch (IOException e) {
@@ -103,8 +105,69 @@ public class UserManager {
 
     }
 
-    private void loginFacebook(Context context) {
+    public void readInternal(Activity activity){
+        FireBaseManager.getInstance().loadIntenalData(read(activity), new FireBaseManager.GetUserDataCallback() {
+            @Override
+            public void onCompleted(User user) {
+                mUser = user;
+                Log.v("user",mUser.getName()+"");
+            }
 
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void writeInternal(String email, Activity activity){
+        write(email, activity);
+    }
+
+    private String read(Activity activity){
+        FileInputStream inputStream = null;
+        String eamil = "";
+        try {
+            inputStream = activity.openFileInput("GoTrip.txt");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+            eamil = reader.readLine();
+
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                inputStream.close();
+            } catch (Exception e) {
+
+            }
+        }
+
+        return eamil;
+    }
+
+    private void write(String email, Activity activity){
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = activity.openFileOutput("GoTrip.txt", Context.MODE_PRIVATE);
+            outputStream.write(email.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }  finally {
+            try {
+                outputStream.close();
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    public boolean fileExist(Activity activity){
+        File file = activity.getBaseContext().getFileStreamPath("hots.txt");
+        return file.exists();
+    }
+
+    private void loginFacebook(Context context) {
         LoginManager.getInstance().logInWithReadPermissions(
                 (Activity) context, Arrays.asList("email"));
     }
@@ -116,7 +179,6 @@ public class UserManager {
             @Override
             public void onCompleted(User user) {
                 mUser = user;
-                loadCallback.onSuccess();
 
             }
 
@@ -126,6 +188,8 @@ public class UserManager {
             }
         });
     }
+
+
 
     public User getUser() {
         return mUser;

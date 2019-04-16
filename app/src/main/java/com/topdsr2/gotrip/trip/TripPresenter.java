@@ -1,6 +1,7 @@
 package com.topdsr2.gotrip.trip;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -76,6 +77,11 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
+    public void removeListener() {
+        FireBaseManager.getInstance().closeListener();
+    }
+
+    @Override
     public void changeIconInfo(int position) {
         mTripView.changeIconInfoUi(position);
     }
@@ -90,6 +96,7 @@ public class TripPresenter implements TripContract.Presenter {
         FireBaseManager.getInstance().setListener(documentId, new FireBaseManager.EvenHappendCallback() {
             @Override
             public void onCompleted() {
+                Log.v("here","get");
                 mTripView.reLoadData();
             }
 

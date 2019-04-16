@@ -1,5 +1,7 @@
 package com.topdsr2.gotrip;
 
+import android.app.Activity;
+
 public interface MainContract {
     interface View extends BaseView<Presenter> {
 
@@ -19,7 +21,7 @@ public interface MainContract {
 
     interface Presenter extends BasePresenter {
 
-        void checkLogInState();
+        void checkLogInState(Activity activity);
 
         void openHome();
 

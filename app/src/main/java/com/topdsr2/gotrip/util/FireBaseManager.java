@@ -66,7 +66,7 @@ public class FireBaseManager {
 
     private final GoTripRepository mGoTripRepository;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ListenerRegistration registration;
+    private ListenerRegistration mRegistration;
 
     private static class FireBaseManagerHolder {
         private static final FireBaseManager INSTANCE = new FireBaseManager();
@@ -115,7 +115,7 @@ public class FireBaseManager {
 
 
     public void setListener(String documentId, EvenHappendCallback callback) {
-        registration = db.collection(TRIP)
+        mRegistration = db.collection(TRIP)
                 .document(documentId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -421,8 +421,6 @@ public class FireBaseManager {
     }
 
 
-
-
     private void getUserProfile(String documentId, GetUserProfileCallback callback){
         db.collection(USER)
                 .document(documentId)
@@ -436,12 +434,28 @@ public class FireBaseManager {
                 });
     }
 
+    public void loadIntenalData(String email, GetUserDataCallback callback){
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL,email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            User user = document.toObject(User.class);
+                            callback.onCompleted(user);
+                        }
+                    }
+                });
+    }
+
 
 
 
 
     public void closeListener() {
-//        registration.remove();
+        mRegistration.remove();
     }
 
 

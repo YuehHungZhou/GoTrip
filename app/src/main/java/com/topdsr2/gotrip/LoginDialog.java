@@ -57,8 +57,6 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         }
 
 
-
-
     @Override
     public void onClick(View v) {
         UserManager.getInstance().loginByFacebook(getActivity(), new UserManager.LoadCallback() {

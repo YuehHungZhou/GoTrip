@@ -1,13 +1,18 @@
 package com.topdsr2.gotrip;
 
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
@@ -15,6 +20,7 @@ import com.topdsr2.gotrip.profile.ProfilePresenter;
 import com.topdsr2.gotrip.trip.TripContract;
 import com.topdsr2.gotrip.trip.TripPresenter;
 import com.topdsr2.gotrip.util.FireBaseManager;
+import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -61,12 +67,27 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void checkLogInState() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        if (!isLoggedIn){
-            mMainView.openLoginUi();
-        }
+    public void checkLogInState(Activity activity) {
+
+        FacebookSdk.sdkInitialize(GoTrip.getmContext(), new FacebookSdk.InitializeCallback() {
+            @Override
+            public void onInitialized() {
+
+                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                    boolean isLoggedIn = (accessToken != null);
+//                    Profile.fetchProfileForCurrentAccessToken();
+//                    Profile profile = Profile.getCurrentProfile();
+
+                    Log.v("log",isLoggedIn + "  " + accessToken);
+
+                    if (!isLoggedIn){
+                        mMainView.openLoginUi();
+                    } else {
+                        UserManager.getInstance().readInternal(activity);
+                    }
+            }
+        });
+
     }
 
     @Override
@@ -168,6 +189,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void deletePoint(int position) {
         mTripPresenter.deletePoint(position);
+    }
+
+    @Override
+    public void removeListener() {
+        mTripPresenter.removeListener();
     }
 
     @Override
