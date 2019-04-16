@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.util;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -16,6 +17,7 @@ import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
+import com.topdsr2.gotrip.data.object.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +58,7 @@ public class FireBaseManager {
     private static final String EMAIL = "email";
     private static final String FRIENDS = "friends";
     private static final String NAME = "name";
+    private static final String USERIMAGE = "userImage";
     private static final String TRIPCOLLECTION = "tripCollection";
 
     private static final String TRUE = "true";
@@ -343,6 +346,100 @@ public class FireBaseManager {
                 });
     }
 
+    public void addUserData(String email, String name, String photoUri, GetUserDataCallback callback){
+
+        checkHasUserData(email, new GetUserDocumentIdCallback() {
+            @Override
+            public void onCompleted(String documentId) {
+
+                getUserProfile(documentId, new GetUserProfileCallback() {
+                    @Override
+                    public void onCompleted(User user) {
+                        callback.onCompleted(user);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure() {
+
+                Log.v("here","here");
+
+                Map<String, Object> userData = new HashMap<>();
+                ArrayList<String> friends = new ArrayList<>();
+                ArrayList<String> tripCollection = new ArrayList<>();
+                userData.put(EMAIL,email);
+                userData.put(NAME,name);
+                userData.put(USERIMAGE,photoUri);
+                userData.put(FRIENDS,friends);
+                userData.put(TRIPCOLLECTION,tripCollection);
+
+
+                db.collection(USER)
+                        .add(userData)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+
+                                addUserData(email,name,photoUri,callback);
+                            }
+                        });
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+
+    }
+
+    private void checkHasUserData(String email, GetUserDocumentIdCallback callback){
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL,email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        if (queryDocumentSnapshots.size() == 0){
+                            callback.onFailure();
+                        } else {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                callback.onCompleted(document.getId());
+                            }
+                        }
+                    }
+                });
+    }
+
+
+
+
+    private void getUserProfile(String documentId, GetUserProfileCallback callback){
+        db.collection(USER)
+                .document(documentId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User user = documentSnapshot.toObject(User.class);
+                        callback.onCompleted(user);
+                    }
+                });
+    }
+
+
+
+
+
     public void closeListener() {
 //        registration.remove();
     }
@@ -358,6 +455,13 @@ public class FireBaseManager {
     public interface EvenHappendCallback {
 
         void onCompleted();
+
+        void onError(String errorMessage);
+    }
+
+    public  interface GetUserDataCallback {
+
+        void onCompleted(User user);
 
         void onError(String errorMessage);
     }
@@ -389,6 +493,30 @@ public class FireBaseManager {
 
         void onError(String errorMessage);
     }
+
+    interface GetUserDocumentIdCallback {
+
+        void onCompleted(String id);
+
+        void onFailure();
+
+        void onError(String errorMessage);
+    }
+
+    interface GetUserProfileCallback {
+
+        void onCompleted(User user);
+
+        void onError(String errorMessage);
+    }
+
+    interface AddUserData {
+
+        void onCompleted();
+
+        void onError(String errorMessage);
+    }
+
 
 
 }

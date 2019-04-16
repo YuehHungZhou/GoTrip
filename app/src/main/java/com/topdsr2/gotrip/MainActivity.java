@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import com.topdsr2.gotrip.util.UserManager;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
@@ -40,6 +42,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+
+    }
 
     private void setBottomNavigation() {
         mBottomNavigation = findViewById(R.id.bottom_navigation);
