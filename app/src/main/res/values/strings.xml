@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">GoTrip</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="facebook_app_id">2298740733671432</string>
+    <string name="fb_login_protocol_scheme">fb2298740733671432</string>
 </resources>

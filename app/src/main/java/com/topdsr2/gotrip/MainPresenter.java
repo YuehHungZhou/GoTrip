@@ -3,6 +3,7 @@ package com.topdsr2.gotrip;
 
 import android.support.annotation.NonNull;
 
+import com.facebook.AccessToken;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -57,6 +58,15 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void checkLogInState() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if (!isLoggedIn){
+            mMainView.openLoginUi();
+        }
     }
 
     @Override

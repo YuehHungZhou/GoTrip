@@ -1,7 +1,9 @@
 package com.topdsr2.gotrip;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -9,17 +11,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
-    //private BottomNavigationView mBottomNavigation;
     private BottomNavigationView mBottomNavigation;
     private boolean isBottomBavigationVisibale = true;
     private MainMvpController mMainMvpController;
     private MainContract.Presenter mPresenter;
+    private LoginDialog mLoginDialog;
     private View mBadge;
 
 
@@ -30,11 +33,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         mMainMvpController = MainMvpController.create(this);
 
+        mPresenter.checkLogInState();
+
         setBottomNavigation();
         selectedHomePage();
 
     }
-
 
 
     private void setBottomNavigation() {
@@ -107,6 +111,15 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void openProfileUi() {
         mMainMvpController.findOrCreateProfileView();
+    }
+
+    @Override
+    public void openLoginUi() {
+        if (mLoginDialog == null) {
+            mLoginDialog = new LoginDialog();
+            mLoginDialog.setMainPresenter(mPresenter);
+            mLoginDialog.show(getSupportFragmentManager(), "");
+        }
     }
 
     @Override

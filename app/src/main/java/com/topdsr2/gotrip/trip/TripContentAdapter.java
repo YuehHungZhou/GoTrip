@@ -25,7 +25,6 @@ public class TripContentAdapter extends RecyclerView.Adapter {
     }
 
 
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -93,8 +92,7 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
         Point point = ((ArrayList<Point>) mPointsByDay.get(visitItemPosition)).get(position);
         setPointsHolder(point, visitItemPosition);
-        //notifyItemChanged(visitItemPosition);
-
+        notifyItemChanged(visitItemPosition);
     }
 
     public void scrollChangeIconInfo(int visitItemPosition, ArrayList<Point> pointsHolder) {
@@ -104,22 +102,18 @@ public class TripContentAdapter extends RecyclerView.Adapter {
             Point point = points.get(0);
             mPresenter.moveMapToIcon(point.getLatitude(), point.getLongitude());
             setPointsHolder(point, visitItemPosition);
+            notifyDataSetChanged();
         }
-//        else {
-//            Point point = new Point();
-//            setPointsHolder(point);
-//        }
     }
 
-    private void setPointsHolder(Point point,int visitItemPosition) {
+    private void setPointsHolder(Point point, int visitItemPosition) {
         mPointsHolder.clear();
         for (int i = 0; i < mTripDay; i++) {
-            if (i == visitItemPosition){
+            if (i == visitItemPosition) {
                 mPointsHolder.add(point);
             } else {
                 mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(0));
             }
         }
-        notifyDataSetChanged();
     }
 }

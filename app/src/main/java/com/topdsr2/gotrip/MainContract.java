@@ -9,6 +9,8 @@ public interface MainContract {
 
         void openProfileUi();
 
+        void openLoginUi();
+
         void hideBottomNavigationUi();
 
         void openAddOrDeletePointUi();
@@ -16,6 +18,8 @@ public interface MainContract {
     }
 
     interface Presenter extends BasePresenter {
+
+        void checkLogInState();
 
         void openHome();
 
