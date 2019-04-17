@@ -9,6 +9,7 @@ import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.util.FireBaseManager;
+import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -85,6 +86,50 @@ public class TripPresenter implements TripContract.Presenter {
     @Override
     public void reSetTripListener() {
         mTripView.reSetTripListener();
+    }
+
+    @Override
+    public void addFriendRequest(String email) {
+        FireBaseManager.getInstance().addFriendRequest(email, UserManager.getInstance().getUser().getEmail()
+                , new FireBaseManager.AddFriendCallback() {
+            @Override
+            public void onCompleted() {
+                //show 加入成功
+            }
+
+            @Override
+            public void OnFailure() {
+                //show 無此使用者
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    @Override
+    public void addTripRequest(String email) {
+        FireBaseManager.getInstance().addTripRequest(email, UserManager.getInstance().getUser().getEmail()
+                , new FireBaseManager.AddFriendCallback() {
+                    @Override
+                    public void onCompleted() {
+                        //show 加入成功
+
+                        FireBaseManager.getInstance().addOwner(email,mBean.getDocumentId());
+                    }
+
+                    @Override
+                    public void OnFailure() {
+                        //show 無此使用者
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
     }
 
     @Override

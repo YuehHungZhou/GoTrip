@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:ems="10"
-            android:inputType="numberSigned|textEmailAddress"
+            android:inputType="textEmailAddress"
             app:layout_constraintBottom_toBottomOf="@+id/text_point_note"
             app:layout_constraintStart_toEndOf="@+id/text_point_note"
             app:layout_constraintTop_toTopOf="@+id/text_point_note"

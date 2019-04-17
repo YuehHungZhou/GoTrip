@@ -58,6 +58,10 @@ public interface TripContract {
 
         void reSetTripListener();
 
+        void addFriendRequest(String email);
+
+        void addTripRequest(String email);
+
 
     }
 }

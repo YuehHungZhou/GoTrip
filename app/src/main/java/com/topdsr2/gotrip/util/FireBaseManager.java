@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -60,6 +61,8 @@ public class FireBaseManager {
     private static final String NAME = "name";
     private static final String USERIMAGE = "userImage";
     private static final String TRIPCOLLECTION = "tripCollection";
+    private static final String FRIENDREQUESTS = "friendRequests";
+    private static final String TRIPREQUESTS = "tripRequests";
 
     private static final String TRUE = "true";
 
@@ -386,11 +389,15 @@ public class FireBaseManager {
                 Map<String, Object> userData = new HashMap<>();
                 ArrayList<String> friends = new ArrayList<>();
                 ArrayList<String> tripCollection = new ArrayList<>();
+                ArrayList<String> tripRequests = new ArrayList<>();
+                ArrayList<String> friendRequests = new ArrayList<>();
                 userData.put(EMAIL,email);
                 userData.put(NAME,name);
                 userData.put(USERIMAGE,photoUri);
                 userData.put(FRIENDS,friends);
                 userData.put(TRIPCOLLECTION,tripCollection);
+                userData.put(FRIENDREQUESTS,friendRequests);
+                userData.put(TRIPREQUESTS,tripRequests);
 
                 db.collection(USER)
                         .add(userData)
@@ -461,6 +468,86 @@ public class FireBaseManager {
                 });
     }
 
+    public void addFriendRequest(String email, String userEmail, AddFriendCallback callback){
+        checkHasUserData(email, new GetUserDocumentIdCallback() {
+            @Override
+            public void onCompleted(String id) {
+
+                Map<String,Object> addRequest = new HashMap<>();
+                addRequest.put(FRIENDREQUESTS, FieldValue.arrayUnion(userEmail));
+                db.collection(USER).document(id)
+                        .update(addRequest);
+
+                callback.onCompleted();
+
+            }
+
+            @Override
+            public void onFailure() {
+                callback.OnFailure();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void addTripRequest(String email, String userEmail, AddFriendCallback callback){
+        checkHasUserData(email, new GetUserDocumentIdCallback() {
+            @Override
+            public void onCompleted(String id) {
+
+                Map<String,Object> addRequest = new HashMap<>();
+                addRequest.put(TRIPREQUESTS, FieldValue.arrayUnion(userEmail));
+                db.collection(USER).document(id)
+                        .update(addRequest);
+
+                callback.onCompleted();
+
+            }
+
+            @Override
+            public void onFailure() {
+                callback.OnFailure();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    public void addOwner(String email, String documentId){
+        Map<String,Object> addRequest = new HashMap<>();
+        addRequest.put(OWNER, FieldValue.arrayUnion(email));
+        db.collection(TRIP).document(documentId)
+                .update(addRequest);
+    }
+
+    public void removeOwner(String email, String documentId){
+        Map<String,Object> addRequest = new HashMap<>();
+        addRequest.put(OWNER, FieldValue.arrayRemove(email));
+        db.collection(TRIP).document(documentId)
+                .update(addRequest);
+    }
+
+    public void remaoveFriendRequest(String email, String documentId){
+        Map<String,Object> addRequest = new HashMap<>();
+        addRequest.put(FRIENDREQUESTS, FieldValue.arrayRemove(email));
+        db.collection(USER).document(documentId)
+                .update(addRequest);
+    }
+
+    public void remaoveTripRequest(String email, String documentId){
+        Map<String,Object> addRequest = new HashMap<>();
+        addRequest.put(TRIPREQUESTS, FieldValue.arrayRemove(email));
+        db.collection(USER).document(documentId)
+                .update(addRequest);
+    }
+
 
 
     public interface FindTripCallback {
@@ -477,13 +564,21 @@ public class FireBaseManager {
         void onError(String errorMessage);
     }
 
-    public  interface GetUserDataCallback {
+    public interface GetUserDataCallback {
 
         void onCompleted(User user);
 
         void onError(String errorMessage);
     }
 
+    public interface AddFriendCallback {
+
+        void onCompleted();
+
+        void OnFailure();
+
+        void onError(String errorMessage);
+    }
     interface GetDocumentIdAndTripCallback {
 
         void onCompleted(String id, Trip trip);

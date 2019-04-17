@@ -200,6 +200,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void addFriendRequest(String email) {
+        mTripPresenter.addFriendRequest(email);
+    }
+
+    @Override
+    public void addTripRequest(String email) {
+        mTripPresenter.addTripRequest(email);
+    }
+
+    @Override
     public void loadPointData() {
         mAddOrDeletePointPresenter.loadPointData();
     }

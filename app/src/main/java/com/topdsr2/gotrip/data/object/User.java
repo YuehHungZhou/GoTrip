@@ -9,6 +9,8 @@ public class User {
     private String mUserImage;
     ArrayList<String> mFriends;
     ArrayList<String> mTripCollection;
+    ArrayList<String> mTripRequests;
+    ArrayList<String> mFriendRequests;
 
     public User() {
         mEmail = "";
@@ -16,6 +18,9 @@ public class User {
         mUserImage = "";
         mFriends = new ArrayList<>();
         mTripCollection = new ArrayList<>();
+        mTripRequests = new ArrayList<>();
+        mFriendRequests = new ArrayList<>();
+
     }
 
     public String getEmail() {
@@ -56,5 +61,21 @@ public class User {
 
     public void setTripCollection(ArrayList<String> tripCollection) {
         mTripCollection = tripCollection;
+    }
+
+    public ArrayList<String> getTripRequests() {
+        return mTripRequests;
+    }
+
+    public void setTripRequests(ArrayList<String> tripRequests) {
+        mTripRequests = tripRequests;
+    }
+
+    public ArrayList<String> getFriendRequests() {
+        return mFriendRequests;
+    }
+
+    public void setFriendRequests(ArrayList<String> friendRequests) {
+        mFriendRequests = friendRequests;
     }
 }

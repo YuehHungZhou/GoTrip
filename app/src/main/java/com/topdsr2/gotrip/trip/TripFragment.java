@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.gms.common.api.Status;
@@ -44,7 +47,7 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class TripFragment extends Fragment implements TripContract.View, PlaceSelectionListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+public class TripFragment extends Fragment implements TripContract.View, View.OnClickListener, PlaceSelectionListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private TripContract.Presenter mPresenter;
     private SupportMapFragment mSupportMapFragment;
@@ -52,6 +55,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private Marker mMarker;
     private Marker mSelectedMarker;
     private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
+
     private int mVisibleItemPosition;
     private int mTouchedIconPosition;
 
@@ -67,8 +71,12 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     private ImageView mReloadImage;
     private ConstraintLayout mConstraintLayoutAdd;
     private ConstraintLayout mConstraintLayouDelete;
+    private ConstraintLayout mConstraintLayouFriend;
     private IconSwitch mIconSwitchAdd;
     private IconSwitch mIconSwitchDelete;
+    private ImageButton mFriendImageButton;
+    private Button mAddFriendButton;
+    private EditText mAddEditText;
 
 
     public TripFragment() {
@@ -130,6 +138,12 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mIconSwitchAdd = root.findViewById(R.id.icon_switch_add);
         mIconSwitchDelete = root.findViewById(R.id.icon_switch_delete);
 
+        mConstraintLayouFriend = root.findViewById(R.id.constraint_friend);
+        mFriendImageButton = root.findViewById(R.id.imageButton_trip_friend);
+        mAddFriendButton = root.findViewById(R.id.button_trip_add_friend);
+        mAddEditText = root.findViewById(R.id.edit_trip_add_friend);
+
+
         return root;
     }
 
@@ -151,7 +165,11 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
             mMap.setOnMarkerClickListener(this);
         });
 
-        mReloadImage.setOnClickListener(v -> mPresenter.loadTripData());
+        mReloadImage.setOnClickListener(this);
+
+        mFriendImageButton.setOnClickListener(this);
+        mAddFriendButton.setOnClickListener(this);
+
         mIconSwitchAdd.setCheckedChangeListener(current -> {
             switch (mIconSwitchAdd.getChecked()) {
 
@@ -446,5 +464,24 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
     public void onStop() {
         super.onStop();
 //        mPresenter.removeListener();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.image_reload_point:
+                mPresenter.loadTripData();
+                break;
+            case R.id.imageButton_trip_friend:
+                mConstraintLayouFriend.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.button_trip_add_friend:
+                mPresenter.addTripRequest(mAddEditText.getText().toString());
+                break;
+            default:
+                break;
+
+        }
     }
 }
