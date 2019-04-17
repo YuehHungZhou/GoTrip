@@ -68,25 +68,14 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void checkLogInState(Activity activity) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = (accessToken != null);
 
-        FacebookSdk.sdkInitialize(GoTrip.getmContext(), new FacebookSdk.InitializeCallback() {
-            @Override
-            public void onInitialized() {
-
-                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                    boolean isLoggedIn = (accessToken != null);
-//                    Profile.fetchProfileForCurrentAccessToken();
-//                    Profile profile = Profile.getCurrentProfile();
-
-                    Log.v("log",isLoggedIn + "  " + accessToken);
-
-                    if (!isLoggedIn){
-                        mMainView.openLoginUi();
-                    } else {
-                        UserManager.getInstance().readInternal(activity);
-                    }
-            }
-        });
+        if (!isLoggedIn){
+            mMainView.openLoginUi();
+        } else {
+            UserManager.getInstance().readInternal(activity);
+        }
 
     }
 
@@ -110,6 +99,15 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         FireBaseManager.getInstance().closeListener();
     }
 
+    @Override
+    public void checkGoBack() {
+        mMainView.checkListener();
+    }
+
+    @Override
+    public void setOrignalListener() {
+        mTripPresenter.reSetTripListener();
+    }
 
 
     /**
@@ -194,6 +192,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void removeListener() {
         mTripPresenter.removeListener();
+    }
+
+    @Override
+    public void reSetTripListener() {
+
     }
 
     @Override

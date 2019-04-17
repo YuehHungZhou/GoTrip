@@ -36,8 +36,9 @@ public class TripPresenter implements TripContract.Presenter {
         FireBaseManager.getInstance().getSelectedTrip(1, new FireBaseManager.FindTripCallback() {
             @Override
             public void onCompleted(TripAndPoint bean) {
-                mTripView.showTripUi(bean);
                 mBean = bean;
+                mTripView.showTripUi(mBean);
+
             }
 
             @Override
@@ -82,6 +83,11 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
+    public void reSetTripListener() {
+        mTripView.reSetTripListener();
+    }
+
+    @Override
     public void changeIconInfo(int position) {
         mTripView.changeIconInfoUi(position);
     }
@@ -93,10 +99,9 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void setTripListener(String documentId) {
-        FireBaseManager.getInstance().setListener(documentId, new FireBaseManager.EvenHappendCallback() {
+        FireBaseManager.getInstance().setListener(documentId,mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
             @Override
             public void onCompleted() {
-                Log.v("here","get");
                 mTripView.reLoadData();
             }
 

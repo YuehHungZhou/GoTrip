@@ -25,6 +25,9 @@ public interface TripContract {
 
         void showPointDeleteView(int position);
 
+        void reSetTripListener();
+
+
     }
 
     interface Presenter extends BasePresenter {
@@ -52,6 +55,8 @@ public interface TripContract {
         void deletePoint(int position);
 
         void removeListener();
+
+        void reSetTripListener();
 
 
     }

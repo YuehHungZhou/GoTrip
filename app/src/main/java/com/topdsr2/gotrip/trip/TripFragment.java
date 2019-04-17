@@ -114,11 +114,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
                     recyclerView.smoothScrollToPosition(mVisibleItemPosition);
                     mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition, mPointsHolder);
                     mTripContentItemAdapter.readyChangeIcon(mVisibleItemPosition);
-
                     setMaker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
-
-
-
                 }
             }
         });
@@ -195,7 +191,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
-        mPresenter.setTripListener(mBean.getDocumentId());
 
     }
 
@@ -230,6 +225,11 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         mTouchedIconPosition = position;
         mConstraintLayouDelete.setVisibility(View.VISIBLE);
 
+    }
+
+    @Override
+    public void reSetTripListener() {
+        mPresenter.setTripListener(mBean.getDocumentId());
     }
 
     @Override
@@ -307,6 +307,7 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
         mMap.clear();
         mLatLngs.clear();
+        mPresenter.setTripListener(mBean.getDocumentId());
 
         for (int i = 0; i < points.size(); i++) {
             LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());
@@ -315,7 +316,6 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
 
             mLatLngs.add(latLng);
         }
-
         setPolyLine();
         moveCamera();
     }
@@ -441,15 +441,10 @@ public class TripFragment extends Fragment implements TripContract.View, PlaceSe
         return sorte;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.setTripListener(mBean.getDocumentId());
-    }
 
     @Override
     public void onStop() {
         super.onStop();
-        mPresenter.removeListener();
+//        mPresenter.removeListener();
     }
 }

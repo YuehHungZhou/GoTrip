@@ -17,6 +17,8 @@ public interface MainContract {
 
         void openAddOrDeletePointUi();
 
+        void checkListener();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -30,6 +32,10 @@ public interface MainContract {
         void openProfile();
 
         void detachListener();
+
+        void checkGoBack();
+
+        void setOrignalListener();
 
     }
 }

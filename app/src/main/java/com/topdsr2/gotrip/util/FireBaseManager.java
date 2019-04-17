@@ -83,6 +83,33 @@ public class FireBaseManager {
     }
 
 
+    public void setListener(String documentId, int addTimes, EvenHappendCallback callback) {
+        mRegistration = db.collection(TRIP)
+                .document(documentId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            System.err.println("Listen failed: " + e);
+                            return;
+                        }
+                        if (documentSnapshot != null && documentSnapshot.exists() ) {
+                            if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString()) != addTimes){
+                                 callback.onCompleted();
+                            }
+                        } else {
+                            System.out.print("Current data: null");
+                        }
+                    }
+                });
+    }
+
+    public void closeListener() {
+        mRegistration.remove();
+    }
+
+
     public void getSelectedTrip(int id, FindTripCallback callback) {
         TripAndPoint bean = new TripAndPoint();
 
@@ -112,19 +139,6 @@ public class FireBaseManager {
             }
         });
     }
-
-
-    public void setListener(String documentId, EvenHappendCallback callback) {
-        mRegistration = db.collection(TRIP)
-                .document(documentId)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        callback.onCompleted();
-                    }
-                });
-    }
-
 
     public void updatePointToFireBase(String documentId, Point point, int dayPoints, int today) {
 
@@ -369,8 +383,6 @@ public class FireBaseManager {
             @Override
             public void onFailure() {
 
-                Log.v("here","here");
-
                 Map<String, Object> userData = new HashMap<>();
                 ArrayList<String> friends = new ArrayList<>();
                 ArrayList<String> tripCollection = new ArrayList<>();
@@ -379,7 +391,6 @@ public class FireBaseManager {
                 userData.put(USERIMAGE,photoUri);
                 userData.put(FRIENDS,friends);
                 userData.put(TRIPCOLLECTION,tripCollection);
-
 
                 db.collection(USER)
                         .add(userData)
@@ -450,13 +461,6 @@ public class FireBaseManager {
                 });
     }
 
-
-
-
-
-    public void closeListener() {
-        mRegistration.remove();
-    }
 
 
     public interface FindTripCallback {

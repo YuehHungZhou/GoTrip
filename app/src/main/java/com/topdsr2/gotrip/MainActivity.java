@@ -73,6 +73,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     return true;
                 case R.id.navigation_trip:
                     selectedBottomNavigationViewItem(1);
+                    mPresenter.checkGoBack();
                     mPresenter.openTrip();
                     hideBottomNavigationUi();
                     return true;
@@ -143,6 +144,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void openAddOrDeletePointUi() {
         mMainMvpController.createAddOrDeletePointView(getSupportFragmentManager());
+    }
+
+    @Override
+    public void checkListener() {
+        if (mMainMvpController.checkTripAdded()){
+            mPresenter.setOrignalListener();
+        }
     }
 
     @Override

@@ -119,6 +119,15 @@ public class MainMvpController {
         pointFragment.show(fragmentManager, "");
     }
 
+    boolean checkTripAdded(){
+        TripFragment tripFragment =
+                (TripFragment) getFragmentManager().findFragmentByTag(TRIP);
+        if (tripFragment != null) {
+            return true;
+        }
+        return false;
+    }
+
     @NonNull
     private HomeFragment findOrCreateHomeFragment() {
 

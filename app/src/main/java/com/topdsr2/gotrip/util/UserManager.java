@@ -110,7 +110,6 @@ public class UserManager {
             @Override
             public void onCompleted(User user) {
                 mUser = user;
-                Log.v("user",mUser.getName()+"");
             }
 
             @Override
@@ -163,7 +162,7 @@ public class UserManager {
     }
 
     public boolean fileExist(Activity activity){
-        File file = activity.getBaseContext().getFileStreamPath("hots.txt");
+        File file = activity.getBaseContext().getFileStreamPath("GoTrip.txt");
         return file.exists();
     }
 
