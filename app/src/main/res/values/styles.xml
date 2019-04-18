@@ -15,7 +15,7 @@
     </style>
 
     <style name="Dialog">
-        <item name="android:windowBackground">@color/translucent_40</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
 

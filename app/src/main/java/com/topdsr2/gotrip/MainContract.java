@@ -19,6 +19,8 @@ public interface MainContract {
 
         void checkListener();
 
+        void notSignin();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -36,6 +38,8 @@ public interface MainContract {
         void checkGoBack();
 
         void setOrignalListener();
+
+        void notSignin();
 
     }
 }

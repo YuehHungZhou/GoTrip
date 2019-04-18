@@ -58,6 +58,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     private int mVisibleItemPosition;
     private int mTouchedIconPosition;
+    private boolean isOwner;
 
     private AutocompleteSupportFragment mAutocompleteSupportFragmen;
     private TripContentAdapter mTripContentAdapter;
@@ -66,12 +67,14 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mPointsHolder;
     private ArrayList<Point> mReadyPoints;
-    int mTripDay = 0;
+    private int mTripDay = 0;
+
 
     private ImageView mReloadImage;
-    private ConstraintLayout mConstraintLayoutAdd;
+    private ConstraintLayout mConstraintLayouAdd;
     private ConstraintLayout mConstraintLayouDelete;
     private ConstraintLayout mConstraintLayouFriend;
+    private ConstraintLayout mConstraintLayoutSearch;
     private IconSwitch mIconSwitchAdd;
     private IconSwitch mIconSwitchDelete;
     private ImageButton mFriendImageButton;
@@ -98,7 +101,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mTripContentItemAdapter = new TripContentItemAdapter(mPresenter);
         placeInitialized();
 
-        mPresenter.loadTripData();
     }
 
     @Nullable
@@ -133,8 +135,9 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         recyclerViewIcon.setAdapter(mTripContentItemAdapter);
 
         mReloadImage = root.findViewById(R.id.image_reload_point);
-        mConstraintLayoutAdd = root.findViewById(R.id.constrant_add_question);
+        mConstraintLayouAdd = root.findViewById(R.id.constrant_add_question);
         mConstraintLayouDelete = root.findViewById(R.id.constrant_delete_question);
+        mConstraintLayoutSearch = root.findViewById(R.id.constraint_trip_search);
         mIconSwitchAdd = root.findViewById(R.id.icon_switch_add);
         mIconSwitchDelete = root.findViewById(R.id.icon_switch_delete);
 
@@ -174,7 +177,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             switch (mIconSwitchAdd.getChecked()) {
 
                 case RIGHT:
-                    mConstraintLayoutAdd.setVisibility(View.INVISIBLE);
+                    mConstraintLayouAdd.setVisibility(View.INVISIBLE);
                     mIconSwitchAdd.setChecked(IconSwitch.Checked.LEFT);
                     mPresenter.openAddOrDeletePoint();
 
@@ -209,13 +212,10 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
+        mPresenter.checkIsOwner();
 
     }
 
-    @Override
-    public void reLoadData() {
-        mPresenter.loadTripData();
-    }
 
     @Override
     public int getToday() {
@@ -241,13 +241,33 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     @Override
     public void showPointDeleteView(int position) {
         mTouchedIconPosition = position;
-        mConstraintLayouDelete.setVisibility(View.VISIBLE);
+        if (isOwner) {
+            mConstraintLayouDelete.setVisibility(View.VISIBLE);
+        }
 
     }
 
     @Override
     public void reSetTripListener() {
         mPresenter.setTripListener(mBean.getDocumentId());
+    }
+
+    @Override
+    public void closeFunction(boolean ownerStatus) {
+        isOwner = ownerStatus;
+        mReloadImage.setVisibility(View.INVISIBLE);
+        mFriendImageButton.setVisibility(View.INVISIBLE);
+        mConstraintLayoutSearch.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void openFunction(boolean ownerStatus) {
+        isOwner = ownerStatus;
+        mReloadImage.setVisibility(View.VISIBLE);
+        mFriendImageButton.setVisibility(View.VISIBLE);
+        mConstraintLayoutSearch.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -269,11 +289,38 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPresenter.removeListener();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.image_reload_point:
+//                mPresenter.loadTripData();
+                break;
+            case R.id.imageButton_trip_friend:
+                mConstraintLayouFriend.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.button_trip_add_friend:
+                mPresenter.addTripRequest(mAddEditText.getText().toString().trim());
+                break;
+            default:
+                break;
+
+        }
+    }
+
 
     @Override
     public void onMapClick(LatLng latLng) {
 
-        mConstraintLayoutAdd.setVisibility(View.INVISIBLE);
+        mConstraintLayouAdd.setVisibility(View.INVISIBLE);
+        mConstraintLayouDelete.setVisibility(View.INVISIBLE);
+
 
         if (mMarker != null) {
             mMarker.remove();
@@ -297,12 +344,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         if (mMarker != null) {
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        } else {
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
 
-        mConstraintLayoutAdd.setVisibility(View.VISIBLE);
+        if (isOwner) {
+            mConstraintLayouAdd.setVisibility(View.VISIBLE);
+        }
 
         mSelectedMarker = marker;
 
@@ -369,7 +419,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             }
         });
     }
-
 
     private void addpolyLine(LatLng latLng) {
         LatLng[] latLngs1 = new LatLng[]{mLatLngs.get(mLatLngs.size() - 2), latLng};
@@ -460,28 +509,5 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-//        mPresenter.removeListener();
-    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.image_reload_point:
-                mPresenter.loadTripData();
-                break;
-            case R.id.imageButton_trip_friend:
-                mConstraintLayouFriend.setVisibility(View.VISIBLE);
-
-                break;
-            case R.id.button_trip_add_friend:
-                mPresenter.addTripRequest(mAddEditText.getText().toString());
-                break;
-            default:
-                break;
-
-        }
-    }
 }

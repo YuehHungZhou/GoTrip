@@ -148,9 +148,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void checkListener() {
-        if (mMainMvpController.checkTripAdded()){
+        if (mMainMvpController.checkTripAdded()) {
             mPresenter.setOrignalListener();
         }
+    }
+
+    @Override
+    public void notSignin() {
+        onBackPressed();
     }
 
     @Override

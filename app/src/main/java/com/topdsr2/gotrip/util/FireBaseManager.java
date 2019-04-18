@@ -98,8 +98,8 @@ public class FireBaseManager {
                             return;
                         }
                         if (documentSnapshot != null && documentSnapshot.exists() ) {
-                            if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString()) != addTimes){
-                                 callback.onCompleted();
+                            if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString().trim()) != addTimes) {
+                                 callback.onCompleted(Integer.parseInt(documentSnapshot.getData().get(ID).toString().trim()));
                             }
                         } else {
                             System.out.print("Current data: null");
@@ -109,9 +109,26 @@ public class FireBaseManager {
     }
 
     public void closeListener() {
-        mRegistration.remove();
+        if (mRegistration != null) {
+            mRegistration.remove();
+        }
     }
 
+    public void getAllTypeTrip(GetAllTripCallback callback) {
+        ArrayList<Trip> trips = new ArrayList<>();
+        db.collection(TRIP)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Trip trip = documentSnapshot.toObject(Trip.class);
+                            trips.add(trip);
+                        }
+                        callback.onCompleted(trips);
+                    }
+                });
+    }
 
     public void getSelectedTrip(int id, FindTripCallback callback) {
         TripAndPoint bean = new TripAndPoint();
@@ -363,7 +380,7 @@ public class FireBaseManager {
                 });
     }
 
-    public void addUserData(String email, String name, String photoUri, GetUserDataCallback callback){
+    public void addUserData(String email, String name, String photoUri, GetUserDataCallback callback) {
 
         checkHasUserData(email, new GetUserDocumentIdCallback() {
             @Override
@@ -418,7 +435,7 @@ public class FireBaseManager {
 
     }
 
-    private void checkHasUserData(String email, GetUserDocumentIdCallback callback){
+    private void checkHasUserData(String email, GetUserDocumentIdCallback callback) {
 
         db.collection(USER)
                 .whereEqualTo(EMAIL,email)
@@ -427,7 +444,7 @@ public class FireBaseManager {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        if (queryDocumentSnapshots.size() == 0){
+                        if (queryDocumentSnapshots.size() == 0) {
                             callback.onFailure();
                         } else {
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
@@ -439,7 +456,7 @@ public class FireBaseManager {
     }
 
 
-    private void getUserProfile(String documentId, GetUserProfileCallback callback){
+    private void getUserProfile(String documentId, GetUserProfileCallback callback) {
         db.collection(USER)
                 .document(documentId)
                 .get()
@@ -452,7 +469,7 @@ public class FireBaseManager {
                 });
     }
 
-    public void loadIntenalData(String email, GetUserDataCallback callback){
+    public void loadIntenalData(String email, GetUserDataCallback callback) {
 
         db.collection(USER)
                 .whereEqualTo(EMAIL,email)
@@ -468,7 +485,7 @@ public class FireBaseManager {
                 });
     }
 
-    public void addFriendRequest(String email, String userEmail, AddFriendCallback callback){
+    public void addFriendRequest(String email, String userEmail, AddFriendCallback callback) {
         checkHasUserData(email, new GetUserDocumentIdCallback() {
             @Override
             public void onCompleted(String id) {
@@ -494,7 +511,7 @@ public class FireBaseManager {
         });
     }
 
-    public void addTripRequest(String email, String userEmail, AddFriendCallback callback){
+    public void addTripRequest(String email, String userEmail, AddFriendCallback callback) {
         checkHasUserData(email, new GetUserDocumentIdCallback() {
             @Override
             public void onCompleted(String id) {
@@ -520,28 +537,28 @@ public class FireBaseManager {
         });
     }
 
-    public void addOwner(String email, String documentId){
+    public void addOwner(String email, String documentId) {
         Map<String,Object> addRequest = new HashMap<>();
         addRequest.put(OWNER, FieldValue.arrayUnion(email));
         db.collection(TRIP).document(documentId)
                 .update(addRequest);
     }
 
-    public void removeOwner(String email, String documentId){
+    public void removeOwner(String email, String documentId) {
         Map<String,Object> addRequest = new HashMap<>();
         addRequest.put(OWNER, FieldValue.arrayRemove(email));
         db.collection(TRIP).document(documentId)
                 .update(addRequest);
     }
 
-    public void remaoveFriendRequest(String email, String documentId){
+    public void remaoveFriendRequest(String email, String documentId) {
         Map<String,Object> addRequest = new HashMap<>();
         addRequest.put(FRIENDREQUESTS, FieldValue.arrayRemove(email));
         db.collection(USER).document(documentId)
                 .update(addRequest);
     }
 
-    public void remaoveTripRequest(String email, String documentId){
+    public void remaoveTripRequest(String email, String documentId) {
         Map<String,Object> addRequest = new HashMap<>();
         addRequest.put(TRIPREQUESTS, FieldValue.arrayRemove(email));
         db.collection(USER).document(documentId)
@@ -557,9 +574,16 @@ public class FireBaseManager {
         void onError(String errorMessage);
     }
 
+    public interface GetAllTripCallback {
+
+        void onCompleted(ArrayList<Trip> trips);
+
+        void onError(String errorMessage);
+    }
+
     public interface EvenHappendCallback {
 
-        void onCompleted();
+        void onCompleted(int tripId);
 
         void onError(String errorMessage);
     }

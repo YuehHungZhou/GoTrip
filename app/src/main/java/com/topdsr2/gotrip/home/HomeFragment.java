@@ -4,17 +4,25 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.Trip;
+
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
     private HomeContract.Presenter mPresenter;
+    private HomeAdapter mHomeAdapter;
+    private ArrayList<Trip> mTrips;
 
     public HomeFragment() {
     }
@@ -27,8 +35,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        mHomeAdapter = new HomeAdapter(mPresenter);
+        mPresenter.loadHomeData();
 
     }
 
@@ -42,8 +50,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-
+        RecyclerView homeRecyclerView = root.findViewById(R.id.recycleview_home);
+        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeRecyclerView.setAdapter(mHomeAdapter);
 
         return root;
     }
@@ -54,8 +63,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void showHomeUi() {
-
+    public void showHomeUi(ArrayList<Trip> trips) {
+        mTrips = trips;
+        mHomeAdapter.updateData(mTrips);
     }
 
 

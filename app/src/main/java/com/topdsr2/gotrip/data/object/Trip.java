@@ -15,6 +15,8 @@ public class Trip {
     private Object mTripEnd;
     ArrayList<String> mOwners;
     private int mAddPointTimes;
+    private String mCreaterImage;
+    private int mCollectionNumber;
 
     public Trip() {
         mId = -1;
@@ -28,6 +30,8 @@ public class Trip {
         mTripEnd = null;
         mOwners = new ArrayList<>();
         mAddPointTimes = -1;
+        mCreaterImage = "";
+        mCollectionNumber = -1;
     }
 
     public int getId() {
@@ -117,5 +121,21 @@ public class Trip {
 
     public void setAddPointTimes(int addPointTimes) {
         mAddPointTimes = addPointTimes;
+    }
+
+    public String getCreaterImage() {
+        return mCreaterImage;
+    }
+
+    public void setCreaterImage(String createrImage) {
+        mCreaterImage = createrImage;
+    }
+
+    public int getCollectionNumber() {
+        return mCollectionNumber;
+    }
+
+    public void setCollectionNumber(int collectionNumber) {
+        mCollectionNumber = collectionNumber;
     }
 }

@@ -8,6 +8,7 @@ import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
+import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
 
@@ -32,21 +33,38 @@ public class TripPresenter implements TripContract.Presenter {
 
 
     @Override
-    public void loadTripData() {
+    public void loadTripData(int tripId) {
+        if (mBean == null) {
+            FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
+                @Override
+                public void onCompleted(TripAndPoint bean) {
+                    mBean = bean;
+                    mTripView.showTripUi(mBean);
+                }
 
-        FireBaseManager.getInstance().getSelectedTrip(1, new FireBaseManager.FindTripCallback() {
-            @Override
-            public void onCompleted(TripAndPoint bean) {
-                mBean = bean;
-                mTripView.showTripUi(mBean);
+                @Override
+                public void onError(String errorMessage) {
 
-            }
+                }
+            });
+        } else if (mBean.getTrip().getId() != tripId) {
+            FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
+                @Override
+                public void onCompleted(TripAndPoint bean) {
+                    mBean = bean;
+                    mTripView.showTripUi(mBean);
+                }
 
-            @Override
-            public void onError(String errorMessage) {
+                @Override
+                public void onError(String errorMessage) {
 
-            }
-        });
+                }
+            });
+        } else {
+            mTripView.showTripUi(mBean);
+
+        }
+
     }
 
     @Override
@@ -117,7 +135,6 @@ public class TripPresenter implements TripContract.Presenter {
                     public void onCompleted() {
                         //show 加入成功
 
-                        FireBaseManager.getInstance().addOwner(email,mBean.getDocumentId());
                     }
 
                     @Override
@@ -130,6 +147,18 @@ public class TripPresenter implements TripContract.Presenter {
 
                     }
                 });
+    }
+
+    @Override
+    public void checkIsOwner() {
+
+        Log.d(Constants.TAG, "checkIsOwner: " + UserManager.getInstance().getUser().getEmail());
+        boolean isOwner = mBean.getTrip().getOwners().contains(UserManager.getInstance().getUser().getEmail());
+        if (isOwner) {
+            mTripView.openFunction(isOwner);
+        } else {
+            mTripView.closeFunction(isOwner);
+        }
     }
 
     @Override
@@ -146,8 +175,8 @@ public class TripPresenter implements TripContract.Presenter {
     public void setTripListener(String documentId) {
         FireBaseManager.getInstance().setListener(documentId,mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
             @Override
-            public void onCompleted() {
-                mTripView.reLoadData();
+            public void onCompleted(int tripId) {
+               loadTripData(tripId);
             }
 
             @Override

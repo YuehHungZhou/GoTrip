@@ -1,6 +1,7 @@
 package com.topdsr2.gotrip;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.topdsr2.gotrip.util.UserManager;
 
@@ -66,6 +68,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                 showSuccess();
             }
 
+
             @Override
             public void onFail(String errorMessage) {
 
@@ -76,7 +79,6 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
             }
         });
-
     }
 
 
@@ -96,4 +98,14 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         dismiss();
     }
 
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = (accessToken != null);
+        if (!isLoggedIn){
+            mMainPresenter.notSignin();
+        }
+    }
 }

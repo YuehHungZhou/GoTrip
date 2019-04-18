@@ -12,6 +12,7 @@ import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
@@ -71,7 +72,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = (accessToken != null);
 
-        if (!isLoggedIn){
+        if (!isLoggedIn) {
             mMainView.openLoginUi();
         } else {
             UserManager.getInstance().readInternal(activity);
@@ -109,6 +110,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mTripPresenter.reSetTripListener();
     }
 
+    @Override
+    public void notSignin() {
+        mMainView.notSignin();
+    }
+
 
     /**
      * Home
@@ -116,7 +122,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void loadHomeData() {
-
+        mHomePresenter.loadHomeData();
     }
 
     @Override
@@ -135,8 +141,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void loadTripData() {
-        mTripPresenter.loadTripData();
+    public void loadTripData(int tripId) {
+        mTripPresenter.loadTripData(tripId);
     }
 
     @Override
@@ -147,6 +153,13 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void openTripMap() {
 
+    }
+
+    @Override
+    public void loadTrip(int tripId) {
+        mMainView.openTripUi();
+        mMainView.hideBottomNavigationUi();
+        mTripPresenter.loadTripData(tripId);
     }
 
     @Override
@@ -207,6 +220,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void addTripRequest(String email) {
         mTripPresenter.addTripRequest(email);
+    }
+
+    @Override
+    public void checkIsOwner() {
+        mTripPresenter.checkIsOwner();
     }
 
     @Override

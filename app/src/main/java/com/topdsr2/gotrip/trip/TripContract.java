@@ -15,8 +15,6 @@ public interface TripContract {
 
         void moveCameraToMarker(Double latitude, Double longitude);
 
-        void reLoadData();
-
         int getToday();
 
         int getPointNumber();
@@ -27,12 +25,15 @@ public interface TripContract {
 
         void reSetTripListener();
 
+        void closeFunction(boolean isOwner);
+
+        void openFunction(boolean isOwner);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void loadTripData();
+        void loadTripData(int tripId);
 
         void setTripData();
 
@@ -61,6 +62,8 @@ public interface TripContract {
         void addFriendRequest(String email);
 
         void addTripRequest(String email);
+
+        void checkIsOwner();
 
 
     }
