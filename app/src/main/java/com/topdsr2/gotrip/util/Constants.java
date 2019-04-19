@@ -6,8 +6,9 @@ package com.topdsr2.gotrip.util;
 public class Constants {
 
     // Log
-    public static final String TAG = "Wayne-Stylish";
+    public static final String TAG = "GoTrip";
 
+    public static final String TRUE = "true";
 
     // Server error
     public static final String GENERAL_ERROR = "Internal Server Error.";

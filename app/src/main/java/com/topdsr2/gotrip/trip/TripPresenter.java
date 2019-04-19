@@ -2,6 +2,7 @@ package com.topdsr2.gotrip.trip;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -17,12 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TripPresenter implements TripContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
-    private SupportMapFragment mSupportMapFragment;
     private final TripContract.View mTripView;
     private TripAndPoint mBean;
-
-    private Trip mTrip;
-
+    
     public TripPresenter(
             @NonNull GoTripRepository goTripRepository,
             @NonNull TripContract.View tripView) {
@@ -62,7 +60,6 @@ public class TripPresenter implements TripContract.Presenter {
             });
         } else {
             mTripView.showTripUi(mBean);
-
         }
 
     }
@@ -108,29 +105,29 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void addFriendRequest(String email) {
-        FireBaseManager.getInstance().addFriendRequest(email, UserManager.getInstance().getUser().getEmail()
-                , new FireBaseManager.AddFriendCallback() {
-            @Override
-            public void onCompleted() {
-                //show 加入成功
-            }
+        FireBaseManager.getInstance().addFriendRequest(email, UserManager.getInstance().getUser().getEmail(),
+                new FireBaseManager.AddFriendCallback() {
+                    @Override
+                    public void onCompleted() {
+                        //show 加入成功
+                    }
 
-            @Override
-            public void OnFailure() {
-                //show 無此使用者
-            }
+                    @Override
+                    public void OnFailure() {
+                        //show 無此使用者
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
     public void addTripRequest(String email) {
-        FireBaseManager.getInstance().addTripRequest(email, UserManager.getInstance().getUser().getEmail()
-                , new FireBaseManager.AddFriendCallback() {
+        FireBaseManager.getInstance().addTripRequest(email, UserManager.getInstance().getUser().getEmail(),
+                new FireBaseManager.AddFriendCallback() {
                     @Override
                     public void onCompleted() {
                         //show 加入成功
@@ -152,14 +149,24 @@ public class TripPresenter implements TripContract.Presenter {
     @Override
     public void checkIsOwner() {
 
-        Log.d(Constants.TAG, "checkIsOwner: " + UserManager.getInstance().getUser().getEmail());
-        boolean isOwner = mBean.getTrip().getOwners().contains(UserManager.getInstance().getUser().getEmail());
-        if (isOwner) {
-            mTripView.openFunction(isOwner);
+        if (isOwner()) {
+            mTripView.openFunction(isOwner());
         } else {
-            mTripView.closeFunction(isOwner);
+            mTripView.closeFunction(isOwner());
         }
     }
+
+    @Override
+    public void checkTripStatus(TripContract.GetOnTripStatusCallback callback) {
+        if (isOwner() && mBean.getTrip().isOnTrip()) {
+            callback.onCompleted(mBean.getTrip().getId());
+        } else {
+            callback.onFailure();
+        }
+
+        
+    }
+
 
     @Override
     public void changeIconInfo(int position) {
@@ -173,10 +180,10 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void setTripListener(String documentId) {
-        FireBaseManager.getInstance().setListener(documentId,mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
+        FireBaseManager.getInstance().setListener(documentId, mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
             @Override
             public void onCompleted(int tripId) {
-               loadTripData(tripId);
+                loadTripData(tripId);
             }
 
             @Override
@@ -201,6 +208,10 @@ public class TripPresenter implements TripContract.Presenter {
     @Override
     public void start() {
 
+    }
+    
+    private boolean isOwner() {
+        return mBean.getTrip().getOwners().contains(UserManager.getInstance().getUser().getEmail());
     }
 
 }

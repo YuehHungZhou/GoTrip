@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,7 @@ import com.topdsr2.gotrip.data.object.Point;
 
 import java.util.ArrayList;
 
-public class AddOrDeletePointFragment extends BottomSheetDialogFragment implements AddOrDeletePointContract.View{
+public class AddOrDeletePointFragment extends BottomSheetDialogFragment implements AddOrDeletePointContract.View {
 
     private AddOrDeletePointContract.Presenter mPresenter;
 
@@ -85,7 +83,7 @@ public class AddOrDeletePointFragment extends BottomSheetDialogFragment implemen
     }
 
 
-    private void sendData(){
+    private void sendData() {
 
         Point point = new Point();
         ArrayList<String> images = new ArrayList<>();
@@ -177,10 +175,10 @@ public class AddOrDeletePointFragment extends BottomSheetDialogFragment implemen
         return i = 1555261200;
     }
 
-    private void showSuccess(){
+    private void showSuccess() {
         Dialog signinDialog = new Dialog(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_success,null);
+        View view = inflater.inflate(R.layout.dialog_success, null);
         signinDialog.setContentView(view);
         signinDialog.show();
 

@@ -27,7 +27,8 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     MainContract.Presenter mMainPresenter;
 
 
-    public LoginDialog() {}
+    public LoginDialog() {
+    }
 
     public void setMainPresenter(MainContract.Presenter mainPresenter) {
         mMainPresenter = mainPresenter;
@@ -56,7 +57,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         mLoginButton.setOnClickListener(this);
 
-        }
+    }
 
 
     @Override
@@ -82,10 +83,10 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     }
 
 
-    private void showSuccess(){
+    private void showSuccess() {
         Dialog signinDialog = new Dialog(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_success,null);
+        View view = inflater.inflate(R.layout.dialog_success, null);
         signinDialog.setContentView(view);
         signinDialog.show();
 
@@ -104,7 +105,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         super.onDismiss(dialog);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = (accessToken != null);
-        if (!isLoggedIn){
+        if (!isLoggedIn) {
             mMainPresenter.notSignin();
         }
     }

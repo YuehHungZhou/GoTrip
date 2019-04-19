@@ -15,6 +15,7 @@ import android.view.View;
 
 
 import com.facebook.AccessToken;
+import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -73,9 +74,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                     return true;
                 case R.id.navigation_trip:
                     selectedBottomNavigationViewItem(1);
-                    mPresenter.checkGoBack();
-                    mPresenter.openTrip();
-                    hideBottomNavigationUi();
+                    mPresenter.checkOnTrip();
                     return true;
                 case R.id.navigation_profile:
                     selectedBottomNavigationViewItem(2);
@@ -156,6 +155,23 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void notSignin() {
         onBackPressed();
+    }
+
+    @Override
+    public ProfileItemFragment findNewTripView() {
+        return mMainMvpController.findOrCreateNewTripView();
+    }
+
+    @Override
+    public ProfileItemFragment findCompleteTripView() {
+        return mMainMvpController.findOrCreateCompleteTripView();
+
+    }
+
+    @Override
+    public ProfileItemFragment findCollectionTripView() {
+        return mMainMvpController.findOrCreateCollectionTripView();
+
     }
 
     @Override

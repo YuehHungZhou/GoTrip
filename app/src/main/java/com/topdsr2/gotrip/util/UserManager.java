@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -19,9 +18,6 @@ import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +25,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class UserManager {
 
@@ -71,8 +71,8 @@ public class UserManager {
                                         Profile profile = Profile.getCurrentProfile();
                                         Uri userPhoto = profile.getProfilePictureUri(300, 300);
 
-                                        addUserDataToifrebase(email, name, userPhoto.toString(),loadCallback);
-                                        writeInternal(email,(Activity) context);
+                                        addUserDataToifrebase(email, name, userPhoto.toString(), loadCallback);
+                                        writeInternal(email, (Activity) context);
                                         loadCallback.onSuccess();
                                     }
                                 } catch (JSONException e) {
@@ -105,7 +105,7 @@ public class UserManager {
 
     }
 
-    public void readInternal(Activity activity){
+    public void readInternal(Activity activity) {
         FireBaseManager.getInstance().loadIntenalData(read(activity), new FireBaseManager.GetUserDataCallback() {
             @Override
             public void onCompleted(User user) {
@@ -119,11 +119,11 @@ public class UserManager {
         });
     }
 
-    public void writeInternal(String email, Activity activity){
+    public void writeInternal(String email, Activity activity) {
         write(email, activity);
     }
 
-    private String read(Activity activity){
+    private String read(Activity activity) {
         FileInputStream inputStream = null;
         String eamil = "";
         try {
@@ -133,11 +133,12 @@ public class UserManager {
             eamil = reader.readLine();
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             try {
                 inputStream.close();
             } catch (Exception e) {
+                e.printStackTrace();
 
             }
         }
@@ -145,23 +146,23 @@ public class UserManager {
         return eamil;
     }
 
-    private void write(String email, Activity activity){
+    private void write(String email, Activity activity) {
         FileOutputStream outputStream = null;
         try {
             outputStream = activity.openFileOutput("GoTrip.txt", Context.MODE_PRIVATE);
             outputStream.write(email.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             try {
                 outputStream.close();
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     }
 
-    public boolean fileExist(Activity activity){
+    public boolean fileExist(Activity activity) {
         File file = activity.getBaseContext().getFileStreamPath("GoTrip.txt");
         return file.exists();
     }
@@ -187,7 +188,6 @@ public class UserManager {
             }
         });
     }
-
 
 
     public User getUser() {

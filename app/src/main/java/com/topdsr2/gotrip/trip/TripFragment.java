@@ -428,10 +428,10 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     private List<PatternItem> setDash() {
-        Dash myDASH = new Dash(50);
-        Gap myGAP = new Gap(20);
-        List<PatternItem> PATTERN_DASHED = Arrays.asList(myDASH, myGAP);
-        return PATTERN_DASHED;
+        Dash dash = new Dash(50);
+        Gap gap = new Gap(20);
+        List<PatternItem> patternDashed = Arrays.asList(dash, gap);
+        return patternDashed;
     }
 
     private void placeInitialized() {
@@ -507,7 +507,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         }
         return sorte;
     }
-
 
 
 }

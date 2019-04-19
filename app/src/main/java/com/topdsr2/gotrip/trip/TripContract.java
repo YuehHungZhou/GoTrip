@@ -65,6 +65,17 @@ public interface TripContract {
 
         void checkIsOwner();
 
+        void checkTripStatus(GetOnTripStatusCallback callback);
 
+
+    }
+
+    interface GetOnTripStatusCallback {
+
+        void onCompleted(int tripId);
+
+        void onFailure();
+
+        void onError(String errorMessage);
     }
 }

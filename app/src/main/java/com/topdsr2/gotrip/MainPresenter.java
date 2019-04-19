@@ -13,11 +13,15 @@ import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
 import com.topdsr2.gotrip.profile.ProfilePresenter;
+import com.topdsr2.gotrip.profile.item.ProfileItemContract;
+import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
+import com.topdsr2.gotrip.profile.item.ProfileItemPresenter;
 import com.topdsr2.gotrip.trip.TripContract;
 import com.topdsr2.gotrip.trip.TripPresenter;
 import com.topdsr2.gotrip.util.FireBaseManager;
@@ -26,7 +30,7 @@ import com.topdsr2.gotrip.util.UserManager;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainPresenter implements MainContract.Presenter, HomeContract.Presenter,
-        TripContract.Presenter, ProfileContract.Presenter, AddOrDeletePointContract.Presenter {
+        TripContract.Presenter, ProfileContract.Presenter, ProfileItemContract.Presenter, AddOrDeletePointContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
     private MainContract.View mMainView;
@@ -34,6 +38,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     private HomePresenter mHomePresenter;
     private TripPresenter mTripPresenter;
     private ProfilePresenter mProfilePresenter;
+
+    private ProfileItemPresenter mProfileNewTripPresenter;
+    private ProfileItemPresenter mProfileCompleteTripPresenter;
+    private ProfileItemPresenter mProfileCollectionTripPresenter;
+
     private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
 
 
@@ -55,6 +64,18 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     void setProfilePresenter(ProfilePresenter profilePresenter) {
         mProfilePresenter = checkNotNull(profilePresenter);
+    }
+
+    void setProfileNewTripPresenter(ProfileItemPresenter profileNewTripPresenter) {
+        mProfileNewTripPresenter = checkNotNull(profileNewTripPresenter);
+    }
+
+    void setProfileCompleteTripPresenter(ProfileItemPresenter profileCompleteTripPresenter) {
+        mProfileCompleteTripPresenter = checkNotNull(profileCompleteTripPresenter);
+    }
+
+    void setProfileCollectionTripPresenter(ProfileItemPresenter profileCollectionTripPresenter) {
+        mProfileCollectionTripPresenter = checkNotNull(profileCollectionTripPresenter);
     }
 
     void setAddOrDeletePointPresenter(AddOrDeletePointPresenter addOrDeletePointPresenter) {
@@ -115,6 +136,52 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.notSignin();
     }
 
+    @Override
+    public void checkOnTrip() {
+        if (mTripPresenter == null) {
+            FireBaseManager.getInstance().  getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
+                    new FireBaseManager.GetUserOnTripCallback() {
+                    @Override
+                    public void onCompleted(int  tripId) {
+                        mMainView.openTripUi();
+                        mMainView.hideBottomNavigationUi();
+                        mTripPresenter.loadTripData(tripId);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // 轉到profile
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+
+        } else {
+            mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
+                @Override
+                public void onCompleted(int tripId) {
+                    mMainView.openTripUi();
+                    mMainView.hideBottomNavigationUi();
+                    mTripPresenter.loadTripData(tripId);
+                }
+
+                @Override
+                public void onFailure() {
+                    // 轉到profile
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+
+                }
+            });
+        }
+
+    }
+
 
     /**
      * Home
@@ -130,15 +197,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     }
 
-    @Override
-    public void loadProfileData() {
-
-    }
-
-    @Override
-    public void setProfileData() {
-
-    }
 
     @Override
     public void loadTripData(int tripId) {
@@ -228,6 +286,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void checkTripStatus(TripContract.GetOnTripStatusCallback callback) {
+
+    }
+
+    @Override
     public void loadPointData() {
         mAddOrDeletePointPresenter.loadPointData();
     }
@@ -241,6 +304,53 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     public void sendNewPoint(Point point) {
         mTripPresenter.addPoint(point);
     }
+
+    @Override
+    public ProfileItemFragment findNewTrip() {
+        return mMainView.findNewTripView();
+    }
+
+    @Override
+    public ProfileItemFragment findCompleteTrip() {
+        return mMainView.findCompleteTripView();
+    }
+
+    @Override
+    public ProfileItemFragment findCollectionTrip() {
+        return mMainView.findCollectionTripView();
+    }
+
+    @Override
+    public void loadNewTripData() {
+        mProfileNewTripPresenter.loadNewTripData();
+    }
+
+    @Override
+    public void setNewTripData() {
+        mProfileNewTripPresenter.setNewTripData();
+    }
+
+    @Override
+    public void loadCompleteTripData() {
+        mProfileCompleteTripPresenter.loadCompleteTripData();
+    }
+
+    @Override
+    public void setCompleteTripData() {
+        mProfileCompleteTripPresenter.setCompleteTripData();
+    }
+
+    @Override
+    public void loadCollectionTripData() {
+        mProfileCollectionTripPresenter.loadCollectionTripData();
+    }
+
+    @Override
+    public void setCollectionTripData() {
+        mProfileCollectionTripPresenter.setCollectionTripData();
+    }
+
+
 
 
     /**

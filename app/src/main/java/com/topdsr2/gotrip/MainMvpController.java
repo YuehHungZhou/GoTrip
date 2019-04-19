@@ -14,6 +14,8 @@ import com.topdsr2.gotrip.home.HomeFragment;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileFragment;
 import com.topdsr2.gotrip.profile.ProfilePresenter;
+import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
+import com.topdsr2.gotrip.profile.item.ProfileItemPresenter;
 import com.topdsr2.gotrip.trip.TripFragment;
 import com.topdsr2.gotrip.trip.TripPresenter;
 import com.topdsr2.gotrip.util.ActivityUtils;
@@ -34,6 +36,10 @@ public class MainMvpController {
     private ProfilePresenter mProfilePresenter;
     private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
 
+    private ProfileItemPresenter mProfileNewTripPresenter;
+    private ProfileItemPresenter mProfileCompleteTripPresenter;
+    private ProfileItemPresenter mProfileCollectionTripPresenter;
+
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({
             HOME, TRIP, PROFILE, ADDORDELETEPOINT
@@ -45,6 +51,15 @@ public class MainMvpController {
     static final String TRIP = "TRIP";
     static final String PROFILE = "PROFILE";
     static final String ADDORDELETEPOINT = "ADDORDELETEPOINT";
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({
+            NEWTRIP, COMPLETETRIP, COLLECTIONTRIP
+    })
+    public @interface ProfileItem {}
+    public static final String NEWTRIP        = "NEWTRIP";
+    public static final String COMPLETETRIP   = "COMPLETETRIP";
+    public static final String COLLECTIONTRIP = "COLLECTIONTRIP";
 
 
     private MainMvpController(@NonNull FragmentActivity activity) {
@@ -106,6 +121,48 @@ public class MainMvpController {
         }
     }
 
+    ProfileItemFragment findOrCreateNewTripView() {
+
+        ProfileItemFragment newTripFragment = findOrCreateProfileItemFragment(NEWTRIP);
+
+        mProfileNewTripPresenter = new ProfileItemPresenter(GoTripRepository.getInstance(
+                GoTripRemoteDataSource.getInstance(),
+                GoTripLocalDataSource.getInstance()), newTripFragment);
+        newTripFragment.setPresenter(mMainPresenter);
+        newTripFragment.setItemType(NEWTRIP);
+        mMainPresenter.setProfileNewTripPresenter(mProfileNewTripPresenter);
+
+        return newTripFragment;
+    }
+
+    ProfileItemFragment findOrCreateCompleteTripView() {
+
+        ProfileItemFragment completeTripFragment = findOrCreateProfileItemFragment(COMPLETETRIP);
+
+        mProfileCompleteTripPresenter = new ProfileItemPresenter(GoTripRepository.getInstance(
+                GoTripRemoteDataSource.getInstance(),
+                GoTripLocalDataSource.getInstance()), completeTripFragment);
+        completeTripFragment.setPresenter(mMainPresenter);
+        completeTripFragment.setItemType(COMPLETETRIP);
+        mMainPresenter.setProfileCompleteTripPresenter(mProfileCompleteTripPresenter);
+
+        return completeTripFragment;
+    }
+
+    ProfileItemFragment findOrCreateCollectionTripView() {
+
+        ProfileItemFragment collectionTripFragment = findOrCreateProfileItemFragment(COLLECTIONTRIP);
+
+        mProfileCollectionTripPresenter = new ProfileItemPresenter(GoTripRepository.getInstance(
+                GoTripRemoteDataSource.getInstance(),
+                GoTripLocalDataSource.getInstance()), collectionTripFragment);
+        collectionTripFragment.setPresenter(mMainPresenter);
+        collectionTripFragment.setItemType(COLLECTIONTRIP);
+        mMainPresenter.setProfileCollectionTripPresenter(mProfileCollectionTripPresenter);
+
+        return collectionTripFragment;
+    }
+
     void createAddOrDeletePointView(FragmentManager fragmentManager) {
         AddOrDeletePointFragment pointFragment = createAddorDeletePointFragment();
 
@@ -119,7 +176,7 @@ public class MainMvpController {
         pointFragment.show(fragmentManager, "");
     }
 
-    boolean checkTripAdded(){
+    boolean checkTripAdded() {
         TripFragment tripFragment =
                 (TripFragment) getFragmentManager().findFragmentByTag(TRIP);
         if (tripFragment != null) {
@@ -174,12 +231,23 @@ public class MainMvpController {
     }
 
     @NonNull
+    private ProfileItemFragment findOrCreateProfileItemFragment(@ProfileItem String itemType) {
+
+        ProfileItemFragment fragment =
+                (ProfileItemFragment) (getFragmentManager().findFragmentByTag(PROFILE))
+                        .getChildFragmentManager().findFragmentByTag(itemType);
+        if (fragment == null) {
+            // Create the fragment
+            fragment = ProfileItemFragment.newInstance();
+        }
+
+        return fragment;
+    }
+
+    @NonNull
     private AddOrDeletePointFragment createAddorDeletePointFragment() {
 
         AddOrDeletePointFragment addOrDeletePointFragment = AddOrDeletePointFragment.newInstance();
-
-//        ActivityUtils.addFragmentByTag(
-//                getFragmentManager(), addOrDeletePointFragment, ADDORDELETEPOINT);
 
         return addOrDeletePointFragment;
     }

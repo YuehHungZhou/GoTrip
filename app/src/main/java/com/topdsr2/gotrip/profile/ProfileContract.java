@@ -2,6 +2,7 @@ package com.topdsr2.gotrip.profile;
 
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
+import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 
 public interface ProfileContract {
 
@@ -13,10 +14,10 @@ public interface ProfileContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadProfileData();
+        ProfileItemFragment findNewTrip();
 
-        void setProfileData();
+        ProfileItemFragment findCompleteTrip();
 
-        void openTripMap();
+        ProfileItemFragment findCollectionTrip();
     }
 }
