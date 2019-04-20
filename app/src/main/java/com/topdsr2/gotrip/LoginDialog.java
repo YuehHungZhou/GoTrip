@@ -22,7 +22,6 @@ import com.topdsr2.gotrip.util.UserManager;
  */
 public class LoginDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
-    private CallbackManager mCallbackManager;
     private Button mLoginButton;
     MainContract.Presenter mMainPresenter;
 

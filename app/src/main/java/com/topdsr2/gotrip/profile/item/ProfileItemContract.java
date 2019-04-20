@@ -30,5 +30,7 @@ public interface ProfileItemContract {
 
         void loadTrip(int tripId);
 
+        void openAddTripDialog();
+
     }
 }

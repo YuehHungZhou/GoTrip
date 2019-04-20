@@ -179,6 +179,28 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     }
 
+    @Override
+    public void addNewTrip(Trip trip) {
+
+        FireBaseManager.getInstance().addNewTrip(trip, new FireBaseManager.AddNewTripCallback() {
+            @Override
+            public void onCompleted(String tripId) {
+                mProfileNewTripPresenter.loadNewTripData();
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
 
     /**
      * Home
@@ -215,6 +237,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.openTripUi();
         mMainView.hideBottomNavigationUi();
         mTripPresenter.loadTripData(tripId);
+    }
+
+    @Override
+    public void openAddTripDialog() {
+        mMainView.openAddTripDialogView();
     }
 
     @Override

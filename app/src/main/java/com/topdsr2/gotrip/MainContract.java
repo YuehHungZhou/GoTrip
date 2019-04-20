@@ -2,6 +2,7 @@ package com.topdsr2.gotrip;
 
 import android.app.Activity;
 
+import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 
 public interface MainContract {
@@ -29,6 +30,8 @@ public interface MainContract {
 
         ProfileItemFragment findCollectionTripView();
 
+        void openAddTripDialogView();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -50,6 +53,8 @@ public interface MainContract {
         void notSignin();
 
         void checkOnTrip();
+
+        void addNewTrip(Trip trip);
 
     }
 

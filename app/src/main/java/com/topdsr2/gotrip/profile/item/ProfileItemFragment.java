@@ -1,5 +1,6 @@
 package com.topdsr2.gotrip.profile.item;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.topdsr2.gotrip.MainMvpController;
 import com.topdsr2.gotrip.R;
@@ -27,6 +29,7 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
     private ProfileItemAdapter mProfileItemAdapter;
 
     private String mItemType;
+    private ImageView mAddImage;
 
     public ProfileItemFragment() {
     }
@@ -50,6 +53,8 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
         profileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         profileRecyclerView.setAdapter(mProfileItemAdapter);
 
+        mAddImage = root.findViewById(R.id.image_profile_child_add);
+
         return root;
     }
 
@@ -57,14 +62,25 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mPresenter.openAddTripDialog();
+            }
+        });
+
         switch (mItemType) {
             case NEWTRIP:
+                mAddImage.setVisibility(View.VISIBLE);
                 mPresenter.loadNewTripData();
                 break;
             case COMPLETETRIP:
+                mAddImage.setVisibility(View.GONE);
                 mPresenter.loadCompleteTripData();
                 break;
             case COLLECTIONTRIP:
+                mAddImage.setVisibility(View.GONE);
                 mPresenter.loadCollectionTripData();
                 break;
             default:

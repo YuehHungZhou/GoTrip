@@ -12,8 +12,9 @@ public class Trip {
     private boolean isComplete;
     private String mTitle;
     private String mDescribe;
-    private Object mTripStart;
-    private Object mTripEnd;
+    private long mTripStart;
+    private long mTripEnd;
+    private int mTripDay;
     ArrayList<String> mOwners;
     private int mAddPointTimes;
     private String mCreaterImage;
@@ -28,8 +29,9 @@ public class Trip {
         isComplete = false;
         mTitle = "";
         mDescribe = "";
-        mTripStart = null;
-        mTripEnd = null;
+        mTripStart = 0;
+        mTripEnd = 0;
+        mTripDay = 0;
         mOwners = new ArrayList<>();
         mAddPointTimes = -1;
         mCreaterImage = "";
@@ -100,20 +102,28 @@ public class Trip {
         mDescribe = describe;
     }
 
-    public Object getTripStart() {
+    public long getTripStart() {
         return mTripStart;
     }
 
-    public void setTripStart(Object tripStart) {
+    public void setTripStart(long tripStart) {
         mTripStart = tripStart;
     }
 
-    public Object getTripEnd() {
+    public long getTripEnd() {
         return mTripEnd;
     }
 
-    public void setTripEnd(Object tripEnd) {
+    public void setTripEnd(long tripEnd) {
         mTripEnd = tripEnd;
+    }
+
+    public int getTripDay() {
+        return mTripDay;
+    }
+
+    public void setTripDay(int tripDay) {
+        mTripDay = tripDay;
     }
 
     public ArrayList<String> getOwners() {

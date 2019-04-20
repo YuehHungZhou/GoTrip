@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.trip;
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 
 public interface TripContract {
@@ -78,4 +79,6 @@ public interface TripContract {
 
         void onError(String errorMessage);
     }
+
+
 }

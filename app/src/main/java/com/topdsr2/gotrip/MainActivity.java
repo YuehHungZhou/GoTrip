@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.topdsr2.gotrip.dialog.AddTripDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
+import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -130,6 +132,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void openAddTripDialogView() {
+        AddTripDialog mAddTripDialog = new AddTripDialog();
+        mAddTripDialog.setMainPresenter(mPresenter);
+        mAddTripDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
     public void hideBottomNavigationUi() {
         mBottomNavigation.setVisibility(View.GONE);
         isBottomBavigationVisibale = false;
@@ -168,6 +177,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         return mMainMvpController.findOrCreateCollectionTripView();
 
     }
+
+
 
     @Override
     public void onBackPressed() {

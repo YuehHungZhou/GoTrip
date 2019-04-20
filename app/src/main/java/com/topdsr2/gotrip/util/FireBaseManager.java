@@ -252,8 +252,10 @@ public class FireBaseManager {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            Point point = document.toObject(Point.class);
-                            points.add(point);
+                            if (document.getData().size() != 0) {
+                                points.add(document.toObject(Point.class));
+                            }
+
                         }
                         callback.onCompleted(points);
                     }
@@ -597,13 +599,8 @@ public class FireBaseManager {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        Log.v("here", " new here ");
-
-
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             if (document.getData().size() != 0) {
-
-                                Log.v("here", "new " +document.toObject(Trip.class).getDescribe());
 
                                 trips.add(document.toObject(Trip.class));
                             }
@@ -627,11 +624,8 @@ public class FireBaseManager {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            Log.v("here", " complete here ");
 
                             if (document.getData().size() != 0) {
-
-                                Log.v("here", "complete " +document.toObject(Trip.class).getDescribe());
 
                                 trips.add(document.toObject(Trip.class));
                             }
@@ -704,6 +698,41 @@ public class FireBaseManager {
                         }
                     }
                 });
+    }
+
+    public void addNewTrip(Trip trip, AddNewTripCallback callback) {
+
+        db.collection(TRIP)
+                .add(trip)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+//                        Map<String, Object> addRequest = new HashMap<>();
+//                        addRequest.put(ID, documentReference.getId());
+//                        addRequest.put(OWNER,  FieldValue.arrayUnion(trip.getCreater()));
+//
+//                        db.collection(TRIP)
+//                                .document(documentReference.getId())
+//                                .update(addRequest)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        callback.onCompleted(documentReference.getId());
+//                                    }
+//                                });
+
+                        Point point = new Point();
+
+                        db.collection(TRIP)
+                                .document(documentReference.getId())
+                                .collection(POINT)
+                                .add(point);
+
+                        callback.onCompleted(documentReference.getId());
+
+
+                    }
+                });
 
     }
 
@@ -757,6 +786,15 @@ public class FireBaseManager {
     public interface GetUserOnTripCallback {
 
         void onCompleted(int tripId);
+
+        void onFailure();
+
+        void onError(String errorMessage);
+    }
+
+    public interface AddNewTripCallback {
+
+        void onCompleted(String tripId);
 
         void onFailure();
 

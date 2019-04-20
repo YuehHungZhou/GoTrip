@@ -53,10 +53,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-//        if (mTrips != null) {
-//            return mTrips.size();
-//        }
-        return 10;
+        if (mTrips != null) {
+            return mTrips.size();
+        }
+        return 0;
     }
 
     private class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -163,9 +163,9 @@ public class TripPresenter implements TripContract.Presenter {
         } else {
             callback.onFailure();
         }
-
-        
     }
+
+
 
 
     @Override

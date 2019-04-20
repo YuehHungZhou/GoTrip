@@ -11,6 +11,10 @@ public class Constants {
     public static final boolean TRUE = true;
     public static final boolean FALSE = false;
 
+    public static final String STARTTIME = "STARTTIME";
+    public static final String ENDTIME = "ENDTIME";
+
+
     // Server error
     public static final String GENERAL_ERROR = "Internal Server Error.";
 

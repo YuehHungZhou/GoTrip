@@ -110,6 +110,11 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     }
 
     @Override
+    public void openAddTripDialog() {
+
+    }
+
+    @Override
     public void start() {
 
     }

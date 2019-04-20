@@ -124,7 +124,11 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 9;
+
+        if (mTrips != null && mTrips.size() != 0) {
+            return  mTrips.size();
+        }
+        return 0;
     }
 
     private class NewTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

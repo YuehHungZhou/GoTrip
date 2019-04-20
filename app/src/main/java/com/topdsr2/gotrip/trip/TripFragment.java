@@ -206,13 +206,20 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     public void showTripUi(TripAndPoint bean) {
         mBean = bean;
 
-        parsePointData();
-        setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
+        mPresenter.checkIsOwner();
 
+        mPointsByDay = new ArrayList<>();
+        mPointsHolder = new ArrayList<>();
+        mReadyPoints = new ArrayList<>();
+        mTripDay = mBean.getTrip().getTripDay();
+
+        if (mBean.getPoints().size() != 0) {
+            parsePointData();
+            setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
+        }
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
-        mPresenter.checkIsOwner();
 
     }
 
@@ -442,20 +449,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         }
     }
 
-
     private void parsePointData() {
 
-        mPointsByDay = new ArrayList<>();
-        mPointsHolder = new ArrayList<>();
-        mReadyPoints = new ArrayList<>();
-        mTripDay = 0;
-
-
-        for (int i = 0; i < mBean.getPoints().size(); i++) {
-            if (mBean.getPoints().get(i).getDay() > mTripDay) {
-                mTripDay = mBean.getPoints().get(i).getDay();
-            }
-        }
 
         for (int i = 1; i <= mTripDay; i++) {
             ArrayList<Point> points = new ArrayList<>();
