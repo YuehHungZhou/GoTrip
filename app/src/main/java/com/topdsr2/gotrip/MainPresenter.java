@@ -3,18 +3,13 @@ package com.topdsr2.gotrip;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
-import com.topdsr2.gotrip.data.object.TripAndPoint;
-import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
@@ -26,6 +21,8 @@ import com.topdsr2.gotrip.trip.TripContract;
 import com.topdsr2.gotrip.trip.TripPresenter;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
+
+import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -139,25 +136,25 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void checkOnTrip() {
         if (mTripPresenter == null) {
-            FireBaseManager.getInstance().  getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
+            FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
                     new FireBaseManager.GetUserOnTripCallback() {
-                    @Override
-                    public void onCompleted(int  tripId) {
-                        mMainView.openTripUi();
-                        mMainView.hideBottomNavigationUi();
-                        mTripPresenter.loadTripData(tripId);
-                    }
+                        @Override
+                        public void onCompleted(int tripId) {
+                            mMainView.openTripUi();
+                            mMainView.hideBottomNavigationUi();
+                            mTripPresenter.loadTripData(tripId);
+                        }
 
-                    @Override
-                    public void onFailure() {
-                        // 轉到profile
-                    }
+                        @Override
+                        public void onFailure() {
+                            // 轉到profile
+                        }
 
-                    @Override
-                    public void onError(String errorMessage) {
+                        @Override
+                        public void onError(String errorMessage) {
 
-                    }
-                });
+                        }
+                    });
 
         } else {
             mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
@@ -326,8 +323,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setNewTripData() {
-        mProfileNewTripPresenter.setNewTripData();
+    public void setNewTripData(ArrayList<Trip> trips) {
+        mProfileNewTripPresenter.setNewTripData(trips);
     }
 
     @Override
@@ -336,8 +333,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setCompleteTripData() {
-        mProfileCompleteTripPresenter.setCompleteTripData();
+    public void setCompleteTripData(ArrayList<Trip> trips) {
+        mProfileCompleteTripPresenter.setCompleteTripData(trips);
     }
 
     @Override
@@ -346,11 +343,9 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setCollectionTripData() {
-        mProfileCollectionTripPresenter.setCollectionTripData();
+    public void setCollectionTripData(ArrayList<Trip> trips) {
+        mProfileCollectionTripPresenter.setCollectionTripData(trips);
     }
-
-
 
 
     /**

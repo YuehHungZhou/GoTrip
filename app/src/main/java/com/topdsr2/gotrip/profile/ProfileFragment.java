@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.topdsr2.gotrip.R;
-import com.topdsr2.gotrip.home.HomeContract;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

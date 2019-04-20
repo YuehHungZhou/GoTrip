@@ -2,12 +2,15 @@ package com.topdsr2.gotrip.profile.item;
 
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
+import com.topdsr2.gotrip.data.object.Trip;
+
+import java.util.ArrayList;
 
 public interface ProfileItemContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showTripUi();
+        void showTripUi(ArrayList<Trip> trips);
 
     }
 
@@ -15,17 +18,17 @@ public interface ProfileItemContract {
 
         void loadNewTripData();
 
-        void setNewTripData();
+        void setNewTripData(ArrayList<Trip> trips);
 
         void loadCompleteTripData();
 
-        void setCompleteTripData();
+        void setCompleteTripData(ArrayList<Trip> trips);
 
         void loadCollectionTripData();
 
-        void setCollectionTripData();
+        void setCollectionTripData(ArrayList<Trip> trips);
 
-        void openTrip();
+        void loadTrip(int tripId);
 
     }
 }

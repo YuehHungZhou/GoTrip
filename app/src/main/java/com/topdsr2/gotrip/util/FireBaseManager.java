@@ -35,6 +35,7 @@ public class FireBaseManager {
     private static final String DESCRIBE = "describe";
     private static final String MAINIMAGE = "mainImage";
     private static final String ONTRIP = "onTrip";
+    private static final String COMPLETE = "complete";
     private static final String OWNER = "owners";
     private static final String TITLE = "title";
     private static final String TRIPSTART = "tripStart";
@@ -565,7 +566,7 @@ public class FireBaseManager {
                 .update(addRequest);
     }
 
-    public void getHasOnTrip(String email,GetUserOnTripCallback callback) {
+    public void getHasOnTrip(String email, GetUserOnTripCallback callback) {
         db.collection(TRIP)
                 .whereArrayContains(OWNER, email)
                 .whereEqualTo(ONTRIP, Constants.TRUE)
@@ -585,6 +586,127 @@ public class FireBaseManager {
                 });
     }
 
+    public void getNewTripData(String email, GetUserTripCallback callback) {
+        ArrayList<Trip> trips = new ArrayList<>();
+
+        db.collection(TRIP)
+                .whereArrayContains(OWNER, email)
+                .whereEqualTo(COMPLETE, Constants.FALSE)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        Log.v("here", " new here ");
+
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            if (document.getData().size() != 0) {
+
+                                Log.v("here", "new " +document.toObject(Trip.class).getDescribe());
+
+                                trips.add(document.toObject(Trip.class));
+                            }
+                        }
+                        callback.onCompleted(trips);
+
+                    }
+                });
+    }
+
+    public void getCompleteTripData(String email, GetUserTripCallback callback) {
+        ArrayList<Trip> trips = new ArrayList<>();
+
+
+        db.collection(TRIP)
+                .whereArrayContains(OWNER, email)
+                .whereEqualTo(COMPLETE, Constants.TRUE)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            Log.v("here", " complete here ");
+
+                            if (document.getData().size() != 0) {
+
+                                Log.v("here", "complete " +document.toObject(Trip.class).getDescribe());
+
+                                trips.add(document.toObject(Trip.class));
+                            }
+                        }
+                        callback.onCompleted(trips);
+                    }
+                });
+    }
+
+    public void getCollectionTripData(String email, GetUserTripCallback callback) {
+        ArrayList<Trip> trips = new ArrayList<>();
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+                            if (document.getData().size() != 0) {
+                                User user = document.toObject(User.class);
+
+                                if (user.getTripCollection().size() != 0) {
+                                    getColletionTrip(trips, user.getTripCollection(), user.getTripCollection().size(),
+                                            0, new GetCollectionTripCallback() {
+                                                @Override
+                                                public void onCompleted(ArrayList<Trip> trips) {
+                                                    callback.onCompleted(trips);
+                                                }
+
+                                                @Override
+                                                public void onError(String errorMessage) {
+
+                                                }
+                                            });
+                                } else {
+                                    callback.onCompleted(trips);
+                                }
+
+                            } else {
+                                callback.onCompleted(trips);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void getColletionTrip(ArrayList<Trip> trips, ArrayList<String> collections, int collectionsSize, int handleNumber,
+                                  GetCollectionTripCallback callback) {
+
+        int i = handleNumber + 1;
+
+
+        db.collection(TRIP)
+                .whereEqualTo(ID, Integer.parseInt(collections.get(handleNumber)))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            trips.add(document.toObject(Trip.class));
+
+                            if (i < collectionsSize) {
+                                getColletionTrip(trips, collections, collectionsSize, i, callback);
+                            } else {
+                                callback.onCompleted(trips);
+                            }
+                        }
+                    }
+                });
+
+    }
+
 
     public interface FindTripCallback {
 
@@ -596,6 +718,15 @@ public class FireBaseManager {
     public interface GetAllTripCallback {
 
         void onCompleted(ArrayList<Trip> trips);
+
+        void onError(String errorMessage);
+    }
+
+    public interface GetUserTripCallback {
+
+        void onCompleted(ArrayList<Trip> trips);
+
+        void onFailure(ArrayList<Trip> trips);
 
         void onError(String errorMessage);
     }
@@ -679,6 +810,13 @@ public class FireBaseManager {
     interface AddUserData {
 
         void onCompleted();
+
+        void onError(String errorMessage);
+    }
+
+    interface GetCollectionTripCallback {
+
+        void onCompleted(ArrayList<Trip> trips);
 
         void onError(String errorMessage);
     }

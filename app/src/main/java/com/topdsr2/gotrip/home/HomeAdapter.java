@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,7 +83,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             mOwners = itemView.findViewById(R.id.text_home_owner_number);
             mCollectionNumber = itemView.findViewById(R.id.text_home_collection_number);
             mBackgroundImage = itemView.findViewById(R.id.image_home_backgroud);
-            mCardView = itemView.findViewById(R.id.cardview_hot_item);
+            mCardView = itemView.findViewById(R.id.cardview_home_item);
 
             mCollection.setOnClickListener(this);
             mCollectionTint.setOnClickListener(this);
@@ -96,16 +95,13 @@ public class HomeAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.image_home_collection:
-                    Log.d(Constants.TAG, "onClick: ");
                     mCollectionTint.setVisibility(View.VISIBLE);
                     break;
                 case R.id.image_home_collection_tint:
-                    Log.d(Constants.TAG, "tint");
                     mCollectionTint.setVisibility(View.INVISIBLE);
                     break;
-                case R.id.cardview_hot_item:
+                case R.id.cardview_home_item:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
-                    Log.d(Constants.TAG, "card");
                     break;
                 default:
                     break;

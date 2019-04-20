@@ -9,6 +9,7 @@ public class Trip {
     private String mCreater;
     private String mMainImage;
     private boolean isOnTrip;
+    private boolean isComplete;
     private String mTitle;
     private String mDescribe;
     private Object mTripStart;
@@ -24,6 +25,7 @@ public class Trip {
         mCreater = "";
         mMainImage = "";
         isOnTrip = false;
+        isComplete = false;
         mTitle = "";
         mDescribe = "";
         mTripStart = null;
@@ -74,6 +76,14 @@ public class Trip {
         isOnTrip = onTrip;
     }
 
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
+
     public String getTitle() {
         return mTitle;
     }
@@ -89,7 +99,6 @@ public class Trip {
     public void setDescribe(String describe) {
         mDescribe = describe;
     }
-
 
     public Object getTripStart() {
         return mTripStart;

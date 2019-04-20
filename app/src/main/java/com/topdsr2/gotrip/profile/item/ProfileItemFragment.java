@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 
 import com.topdsr2.gotrip.MainMvpController;
 import com.topdsr2.gotrip.R;
-import com.topdsr2.gotrip.profile.ProfileContract;
+import com.topdsr2.gotrip.data.object.Trip;
+
+import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.topdsr2.gotrip.MainMvpController.COLLECTIONTRIP;
@@ -30,7 +32,7 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
     }
 
     public static ProfileItemFragment newInstance() {
-        return  new ProfileItemFragment();
+        return new ProfileItemFragment();
     }
 
     @Override
@@ -47,9 +49,6 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
         RecyclerView profileRecyclerView = root.findViewById(R.id.recycle_profile_child);
         profileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         profileRecyclerView.setAdapter(mProfileItemAdapter);
-
-
-
 
         return root;
     }
@@ -73,9 +72,9 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
     }
 
     @Override
-    public void showTripUi() {
+    public void showTripUi(ArrayList<Trip> trips) {
 
-        mProfileItemAdapter.updateData();
+        mProfileItemAdapter.updateData(trips);
 
     }
 

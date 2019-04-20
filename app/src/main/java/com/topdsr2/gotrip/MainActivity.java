@@ -1,6 +1,5 @@
 package com.topdsr2.gotrip;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,18 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-
-import com.facebook.AccessToken;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 
 
 public class MainActivity extends BaseActivity implements MainContract.View {
@@ -65,26 +60,26 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.navigation_home:
-                    selectedBottomNavigationViewItem(0);
-                    mPresenter.openHome();
-                    return true;
-                case R.id.navigation_trip:
-                    selectedBottomNavigationViewItem(1);
-                    mPresenter.checkOnTrip();
-                    return true;
-                case R.id.navigation_profile:
-                    selectedBottomNavigationViewItem(2);
-                    mPresenter.openProfile();
-                    return true;
-                default:
-                    return false;
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.navigation_home:
+                            selectedBottomNavigationViewItem(0);
+                            mPresenter.openHome();
+                            return true;
+                        case R.id.navigation_trip:
+                            selectedBottomNavigationViewItem(1);
+                            mPresenter.checkOnTrip();
+                            return true;
+                        case R.id.navigation_profile:
+                            selectedBottomNavigationViewItem(2);
+                            mPresenter.openProfile();
+                            return true;
+                        default:
+                            return false;
+                    }
                 }
-            }
-        };
+            };
 
     private void selectedHomePage() {
         ((BottomNavigationView) findViewById(R.id.bottom_navigation)).setSelectedItemId(R.id.navigation_home);
@@ -94,7 +89,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         BottomNavigationMenuView menuView =
                 (BottomNavigationMenuView) mBottomNavigation.getChildAt(0);
 
-        for (int i = 0;i < 3;i++) {
+        for (int i = 0; i < 3; i++) {
             if (i == itemNumber) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(itemNumber);
                 mBadge = LayoutInflater.from(this).inflate(R.layout.badge_main_bottom, itemView, true);

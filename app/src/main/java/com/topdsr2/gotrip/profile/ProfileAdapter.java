@@ -1,17 +1,9 @@
 package com.topdsr2.gotrip.profile;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.topdsr2.gotrip.R;
-import com.topdsr2.gotrip.home.HomeContract;
 
 import static com.topdsr2.gotrip.MainMvpController.COLLECTIONTRIP;
 import static com.topdsr2.gotrip.MainMvpController.COMPLETETRIP;
@@ -21,10 +13,10 @@ public class ProfileAdapter extends FragmentPagerAdapter {
 
     private ProfileContract.Presenter mPresenter;
     private FragmentManager mFragmentManager;
-    private String[] mItemTypes = new String[] {NEWTRIP, COMPLETETRIP, COLLECTIONTRIP};
+    private String[] mItemTypes = new String[]{NEWTRIP, COMPLETETRIP, COLLECTIONTRIP};
 
 
-    public ProfileAdapter(FragmentManager fragmentManager,ProfileContract.Presenter presenter) {
+    public ProfileAdapter(FragmentManager fragmentManager, ProfileContract.Presenter presenter) {
         super(fragmentManager);
 
         mFragmentManager = fragmentManager;
