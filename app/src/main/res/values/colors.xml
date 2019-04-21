@@ -7,4 +7,7 @@
     <color name="bottom_navigation_sun">#FDFF51</color>
     <color name="white">#ffffff</color>
     <color name="translucent_40">#66000000</color>
+    <color name="orange">#FFEDCC70</color>
+    <color name="orange_dialog">#F8E06F</color>
+
 </resources>

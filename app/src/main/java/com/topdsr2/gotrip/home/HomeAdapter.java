@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.util.ImageManager;
+import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 
 import java.util.ArrayList;
 
@@ -51,10 +52,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        if (mTrips != null) {
-            return mTrips.size();
-        }
-        return 0;
+//        if (mTrips != null) {
+//            return mTrips.size();
+//        }
+        return 10;
     }
 
     private class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -78,6 +79,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             mCollection = itemView.findViewById(R.id.image_home_collection);
             mCollectionTint = itemView.findViewById(R.id.image_home_collection_tint);
             mUserPhoto = itemView.findViewById(R.id.image_home_photo);
+            mUserPhoto.setOutlineProvider(new HomeAvatarOutlineProvider());
             mOwners = itemView.findViewById(R.id.text_home_owner_number);
             mCollectionNumber = itemView.findViewById(R.id.text_home_collection_number);
             mBackgroundImage = itemView.findViewById(R.id.image_home_backgroud);

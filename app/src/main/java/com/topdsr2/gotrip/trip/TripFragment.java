@@ -217,6 +217,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             parsePointData();
             setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
         }
+
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
@@ -399,7 +400,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (mLatLngs.size() > 1) {
             for (int i = 0; i < mLatLngs.size() - 1; i++) {
                 LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
-                PolylineOptions polylineOpt = new PolylineOptions().add(latLngs).pattern(setDash()).color(Color.BLUE);
+                PolylineOptions polylineOpt = new PolylineOptions().add(latLngs).pattern(setDash()).color(Color.parseColor("#FFEDCC70"));
                 Polyline polyline = mMap.addPolyline(polylineOpt);
                 polyline.setWidth(10);
             }

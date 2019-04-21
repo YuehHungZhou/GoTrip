@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.User;
+import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
+import com.topdsr2.gotrip.util.ProfileAvatarOutlineProvider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -61,6 +63,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mPhotoImage = root.findViewById(R.id.image_profile_photo);
         mNameText = root.findViewById(R.id.text_profile_name);
 
+        mPhotoImage.setOutlineProvider(new ProfileAvatarOutlineProvider());
 
         return root;
     }
@@ -74,8 +77,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(mProfileAdapter);
-        mViewPager.addOnPageChangeListener(
-                new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
     }
 
 

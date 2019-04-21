@@ -5,68 +5,156 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/view_add_trip"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_gravity="center_horizontal"
-        />
-
-    <TextView
-        android:id="@+id/text_add_trip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Title"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/corner_dialog_background"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/text_add_trip_describe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Describe"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_add_trip_title" />
+        <TextView
+            android:id="@+id/text_add_trip_title"
+            android:layout_width="40dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corner_dialog"
+            android:gravity="center"
+            android:text="標題"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_add_trip_country"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/editText_add_trip_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:hint="點擊輸入"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toBottomOf="@+id/text_add_trip_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_add_trip_title"
+            app:layout_constraintTop_toTopOf="@+id/text_add_trip_title" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Country"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/corner_dialog_background"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_add_trip_describe" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+
+        <TextView
+            android:id="@+id/text_add_trip_describe"
+            android:layout_width="40dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corner_dialog"
+            android:gravity="center"
+            android:text="描述"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editText_add_trip_describe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:hint="點擊輸入"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_add_trip_describe"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout6"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/corner_dialog_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+
+
+        <TextView
+            android:id="@+id/text_add_trip_country"
+            android:layout_width="40dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corner_dialog"
+            android:gravity="center"
+            android:text="地點"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner_add_trip"
+            style="@style/mySpinnerItemStyle"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="8dp"
+            android:entries="@array/add_trip_country_list"
+            android:spinnerMode="dialog"
+            app:layout_constraintBottom_toBottomOf="@+id/text_add_trip_country"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_add_trip_country"
+            app:layout_constraintTop_toTopOf="@+id/text_add_trip_country" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/button_add_trip_starttime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/corner_dialog_background"
+        android:text="出發日期"
+        android:textColor="#996E6E6E"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_add_trip_country" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
     <Button
         android:id="@+id/button_add_trip_endtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Button"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/corner_dialog_background"
+        android:text="結束日期"
+        android:textColor="#996E6E6E"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_trip_starttime" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
     <Button
         android:id="@+id/button_add_trip_send"
@@ -74,46 +162,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:background="@drawable/corner_dialog"
+        android:text="確認加入"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_add_trip_endtime" />
-
-    <EditText
-        android:id="@+id/editText_add_trip_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/text_add_trip_title"
-        app:layout_constraintStart_toEndOf="@+id/text_add_trip_title"
-        app:layout_constraintTop_toTopOf="@+id/text_add_trip_title" />
-
-    <EditText
-        android:id="@+id/editText_add_trip_describe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/text_add_trip_describe"
-        app:layout_constraintStart_toEndOf="@+id/text_add_trip_describe"
-        app:layout_constraintTop_toTopOf="@+id/text_add_trip_describe" />
-
-    <Spinner
-        android:id="@+id/spinner_add_trip"
-        android:layout_width="204dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:entries="@array/add_trip_country_list"
-        android:spinnerMode="dialog"
-        app:layout_constraintBottom_toBottomOf="@+id/text_add_trip_country"
-        app:layout_constraintStart_toEndOf="@+id/text_add_trip_country"
-        app:layout_constraintTop_toTopOf="@+id/text_add_trip_country" />
 
 </android.support.constraint.ConstraintLayout>

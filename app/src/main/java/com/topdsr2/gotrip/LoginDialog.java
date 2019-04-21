@@ -2,6 +2,7 @@ package com.topdsr2.gotrip;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -23,6 +25,7 @@ import com.topdsr2.gotrip.util.UserManager;
 public class LoginDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
     private Button mLoginButton;
+    private TextView mTitleTextView;
     MainContract.Presenter mMainPresenter;
 
 
@@ -46,7 +49,8 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         View view = inflater.inflate(R.layout.dialog_login, container, false);
         mLoginButton = view.findViewById(R.id.button_login);
-
+        mTitleTextView = view.findViewById(R.id.text_login);
+        mTitleTextView.setTypeface(Typeface.createFromAsset(view.getContext().getAssets(), "veganstyle.ttf"));
         return view;
     }
 

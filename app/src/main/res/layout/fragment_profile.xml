@@ -6,17 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/holder" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="0dp"
@@ -25,14 +14,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <View
+            android:id="@+id/view3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/corner_user_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/image_profile_photo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_search_category_default" />
@@ -42,38 +43,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_profile_photo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_profile_photo" />
 
         <TextView
             android:id="@+id/text_profile_mileage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/image_profile_photo"
+            android:layout_marginTop="8dp"
+            android:text="足跡"
+            app:layout_constraintEnd_toStartOf="@+id/text_profile_name"
             app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/orange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_profile_mileage" />
 
         <ProgressBar
             android:id="@+id/progress_profile_mileage"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/text_profile_mileage"
             app:layout_constraintStart_toEndOf="@+id/text_profile_mileage"
             app:layout_constraintTop_toTopOf="@+id/text_profile_mileage" />
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_profile"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         app:tabIndicatorColor="#3f3a3a"
         app:tabSelectedTextColor="#3f3a3a"
         app:tabTextColor="#888888"
@@ -101,6 +112,8 @@
         android:id="@+id/pager_profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

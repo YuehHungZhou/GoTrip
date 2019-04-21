@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottom_navigation_height">50dp</dimen>
+
+    <dimen name="radius_home_avatar">50dp</dimen>
+    <dimen name="radius_profile_avatar">70dp</dimen>
+
 </resources>

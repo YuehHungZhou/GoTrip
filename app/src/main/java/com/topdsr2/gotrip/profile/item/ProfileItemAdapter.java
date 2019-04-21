@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
+import com.topdsr2.gotrip.util.ProfileAvatarOutlineProvider;
 
 import java.util.ArrayList;
 
@@ -87,6 +89,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             holder.mDescribeText.setText(mTrips.get(0).getDescribe());
             holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(0).getOwners().size()));
             holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
+
+            ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mUserPhotoImage,
+                        mTrips.get(0).getCreaterImage());
 
         }
     }
@@ -170,6 +175,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         private TextView mTitleText;
         private TextView mDescribeText;
         private TextView mOwnerNumberText;
+        private ImageView mUserPhotoImage;
         private TextView mCollectionNumberText;
         private ImageView mBackgroundImage;
         private CardView mCardView;
@@ -182,6 +188,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mCollectionNumberText = itemView.findViewById(R.id.text_completetrip_collection_number);
             mBackgroundImage = itemView.findViewById(R.id.image_completetrip);
             mCardView = itemView.findViewById(R.id.cardview_completetrip);
+            mUserPhotoImage = itemView.findViewById(R.id.image_completetrip_photo);
+
+            mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
             mCardView.setOnClickListener(this);
 
@@ -222,6 +231,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mCollectionNumberText = itemView.findViewById(R.id.text_collectiontrip_collection_number);
             mBackgroundImage = itemView.findViewById(R.id.image_collectiontrip);
             mCardView = itemView.findViewById(R.id.cardview_collectiontrip);
+
+            mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
             mCollectionTintImage.setOnClickListener(this);
             mCardView.setOnClickListener(this);
