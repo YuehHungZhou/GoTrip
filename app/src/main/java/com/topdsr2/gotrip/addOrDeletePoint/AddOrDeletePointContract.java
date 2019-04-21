@@ -3,12 +3,13 @@ package com.topdsr2.gotrip.addOrDeletePoint;
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.TripAndPoint;
 
 public interface AddOrDeletePointContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showAddOrDeleteUi();
+        void showAddOrDeleteUi(TripAndPoint bean, int today);
 
     }
 
@@ -16,7 +17,7 @@ public interface AddOrDeletePointContract {
 
         void loadPointData();
 
-        void setPointData();
+        void setPointData(TripAndPoint bean, int today);
 
         void sendNewPoint(Point point);
     }

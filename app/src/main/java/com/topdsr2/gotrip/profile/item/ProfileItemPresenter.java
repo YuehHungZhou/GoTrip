@@ -105,7 +105,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     }
 
     @Override
-    public void loadTrip(int tripId) {
+    public void loadTrip(String tripId) {
 
     }
 

@@ -28,7 +28,7 @@ public interface ProfileItemContract {
 
         void setCollectionTripData(ArrayList<Trip> trips);
 
-        void loadTrip(int tripId);
+        void loadTrip(String tripId);
 
         void openAddTripDialog();
 

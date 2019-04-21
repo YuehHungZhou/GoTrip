@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.TripAndPoint;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,12 +24,12 @@ public class AddOrDeletePointPresenter implements AddOrDeletePointContract.Prese
 
     @Override
     public void loadPointData() {
-        mAddOrDeletePointView.showAddOrDeleteUi();
 
     }
 
     @Override
-    public void setPointData() {
+    public void setPointData(TripAndPoint bean, int today) {
+        mAddOrDeletePointView.showAddOrDeleteUi(bean, today);
 
     }
 

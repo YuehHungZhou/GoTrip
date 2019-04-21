@@ -239,7 +239,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         point.setLatitude(mSelectedMarker.getPosition().latitude);
         point.setLongitude(mSelectedMarker.getPosition().longitude);
-        point.setDay(mVisibleItemPosition + 1);
         point.setSorte(sorte(point.getArrivalTime()));
 
         return point;
@@ -494,12 +493,18 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     private int sorte(long time) {
         int sorte = 0;
-        for (int i = 0; i < ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).size(); i++) {
-            if (time <= ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()) {
-                sorte = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
-                break;
+
+        if (((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).size() != 0) {
+            for (int i = 0; i < ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).size(); i++) {
+                if (time <= ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()) {
+                    sorte = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
+                    break;
+                }
             }
+        } else {
+            sorte = 1;
         }
+
         return sorte;
     }
 

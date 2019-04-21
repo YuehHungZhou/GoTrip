@@ -31,7 +31,7 @@ public class TripPresenter implements TripContract.Presenter {
 
 
     @Override
-    public void loadTripData(int tripId) {
+    public void loadTripData(String tripId) {
         if (mBean == null) {
             FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
                 @Override
@@ -165,7 +165,10 @@ public class TripPresenter implements TripContract.Presenter {
         }
     }
 
-
+    @Override
+    public void getAddPointData(TripContract.GetAddPointDataCallback callback) {
+        callback.onCompleted(mBean, mTripView.getToday());
+    }
 
 
     @Override
@@ -182,7 +185,7 @@ public class TripPresenter implements TripContract.Presenter {
     public void setTripListener(String documentId) {
         FireBaseManager.getInstance().setListener(documentId, mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
             @Override
-            public void onCompleted(int tripId) {
+            public void onCompleted(String tripId) {
                 loadTripData(tripId);
             }
 

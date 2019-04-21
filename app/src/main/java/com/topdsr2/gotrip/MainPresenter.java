@@ -10,6 +10,7 @@ import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
@@ -139,7 +140,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
             FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
                     new FireBaseManager.GetUserOnTripCallback() {
                         @Override
-                        public void onCompleted(int tripId) {
+                        public void onCompleted(String tripId) {
                             mMainView.openTripUi();
                             mMainView.hideBottomNavigationUi();
                             mTripPresenter.loadTripData(tripId);
@@ -159,7 +160,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         } else {
             mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
                 @Override
-                public void onCompleted(int tripId) {
+                public void onCompleted(String tripId) {
                     mMainView.openTripUi();
                     mMainView.hideBottomNavigationUi();
                     mTripPresenter.loadTripData(tripId);
@@ -218,7 +219,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
 
     @Override
-    public void loadTripData(int tripId) {
+    public void loadTripData(String tripId) {
         mTripPresenter.loadTripData(tripId);
     }
 
@@ -233,7 +234,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void loadTrip(int tripId) {
+    public void loadTrip(String tripId) {
         mMainView.openTripUi();
         mMainView.hideBottomNavigationUi();
         mTripPresenter.loadTripData(tripId);
@@ -315,18 +316,43 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void loadPointData() {
-        mAddOrDeletePointPresenter.loadPointData();
+    public void getAddPointData(TripContract.GetAddPointDataCallback callback) {
+
     }
 
     @Override
-    public void setPointData() {
-        mAddOrDeletePointPresenter.setPointData();
+    public void loadPointData() {
+        mTripPresenter.getAddPointData(new TripContract.GetAddPointDataCallback() {
+            @Override
+            public void onCompleted(TripAndPoint bean, int today) {
+
+                mAddOrDeletePointPresenter.setPointData(bean, today);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setPointData(TripAndPoint bean, int today) {
     }
 
     @Override
     public void sendNewPoint(Point point) {
         mTripPresenter.addPoint(point);
+    }
+
+    @Override
+    public void loadUserData() {
+        mProfilePresenter.loadUserData();
     }
 
     @Override

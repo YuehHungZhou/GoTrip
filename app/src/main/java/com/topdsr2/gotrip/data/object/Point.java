@@ -7,7 +7,7 @@ public class Point {
     private String mIconType;
     private int mCost;
     private int mSorte;
-    ArrayList<String> mImages;
+    private ArrayList<String> mImages;
     private long mArrivalTime;
     private int mDay;
     private String mDescribe;
@@ -25,9 +25,8 @@ public class Point {
         mDay = -1;
         mDescribe = "";
         mTitle = "";
-        mLatitude = null;
-        mLongitude = null;
-
+        mLatitude = 0.0;
+        mLongitude = 0.0;
 
     }
 

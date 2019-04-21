@@ -99,8 +99,7 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
 
                 Trip trip = new Trip();
 
-                ArrayList<String> owner = new ArrayList<>();
-                owner.add(UserManager.getInstance().getUser().getEmail());
+
 
                 trip.setTripStart(mStartTime);
                 trip.setTripEnd(mEndTime);
@@ -110,7 +109,6 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
                 trip.setCountry(mSpinner.getSelectedItem().toString());
                 trip.setCreater(UserManager.getInstance().getUser().getEmail());
                 trip.setCreaterImage(UserManager.getInstance().getUser().getUserImage());
-                trip.setOwners(owner);
 
                 mMainPresenter.addNewTrip(trip);
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Trip {
 
-    private int mId;
+    private String mId;
     private String mCountry;
     private String mCreater;
     private String mMainImage;
@@ -15,13 +15,13 @@ public class Trip {
     private long mTripStart;
     private long mTripEnd;
     private int mTripDay;
-    ArrayList<String> mOwners;
+    private ArrayList<String> mOwners;
     private int mAddPointTimes;
     private String mCreaterImage;
     private int mCollectionNumber;
 
     public Trip() {
-        mId = -1;
+        mId = "";
         mCountry = "";
         mCreater = "";
         mMainImage = "";
@@ -38,11 +38,11 @@ public class Trip {
         mCollectionNumber = -1;
     }
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 

@@ -3,7 +3,6 @@ package com.topdsr2.gotrip.home;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
-import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.ImageManager;
 
 import java.util.ArrayList;
@@ -37,15 +35,15 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (mTrips != null) {
-            ImageManager.getInstance().setImageByUrl(((HomeViewHolder)viewHolder).mBackgroundImage,
+            ImageManager.getInstance().setImageByUrl(((HomeViewHolder) viewHolder).mBackgroundImage,
                     mTrips.get(0).getMainImage());
-            ImageManager.getInstance().setImageByUrl(((HomeViewHolder)viewHolder).mUserPhoto,
+            ImageManager.getInstance().setImageByUrl(((HomeViewHolder) viewHolder).mUserPhoto,
                     mTrips.get(0).getCreaterImage());
 
-            ((HomeViewHolder)viewHolder).mTitle.setText(mTrips.get(0).getTitle());
-            ((HomeViewHolder)viewHolder).mDescribe.setText(mTrips.get(0).getDescribe());
-            ((HomeViewHolder)viewHolder).mOwners.setText(Integer.toString(mTrips.get(0).getOwners().size()));
-            ((HomeViewHolder)viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
+            ((HomeViewHolder) viewHolder).mTitle.setText(mTrips.get(0).getTitle());
+            ((HomeViewHolder) viewHolder).mDescribe.setText(mTrips.get(0).getDescribe());
+            ((HomeViewHolder) viewHolder).mOwners.setText(Integer.toString(mTrips.get(0).getOwners().size()));
+            ((HomeViewHolder) viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
         }
 
 

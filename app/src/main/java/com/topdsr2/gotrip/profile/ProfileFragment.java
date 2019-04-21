@@ -9,8 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.User;
+import com.topdsr2.gotrip.util.ImageManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -18,7 +22,10 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
     private ProfileContract.Presenter mPresenter;
     private ProfileAdapter mProfileAdapter;
+    private User mUser;
 
+    private ImageView mPhotoImage;
+    private TextView mNameText;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -35,6 +42,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProfileAdapter = new ProfileAdapter(getChildFragmentManager(), mPresenter);
+        mPresenter.loadUserData();
 
     }
 
@@ -50,6 +58,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
         mTabLayout = root.findViewById(R.id.tab_profile);
         mViewPager = root.findViewById(R.id.pager_profile);
+        mPhotoImage = root.findViewById(R.id.image_profile_photo);
+        mNameText = root.findViewById(R.id.text_profile_name);
 
 
         return root;
@@ -59,6 +69,9 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mNameText.setText(mUser.getName());
+        ImageManager.getInstance().setImageByUrl(mPhotoImage, mUser.getUserImage());
+
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(mProfileAdapter);
         mViewPager.addOnPageChangeListener(
@@ -67,7 +80,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
 
 
     @Override
-    public void showProfileUi() {
-
+    public void showProfileUi(User user) {
+        mUser = user;
     }
+
 }

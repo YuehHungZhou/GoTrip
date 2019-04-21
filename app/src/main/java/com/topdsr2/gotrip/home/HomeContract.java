@@ -22,6 +22,6 @@ public interface HomeContract {
 
         void openTripMap();
 
-        void loadTrip(int tripId);
+        void loadTrip(String tripId);
     }
 }

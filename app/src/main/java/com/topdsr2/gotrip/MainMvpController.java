@@ -169,7 +169,6 @@ public class MainMvpController {
         mAddOrDeletePointPresenter = new AddOrDeletePointPresenter(GoTripRepository.getInstance(
                 GoTripRemoteDataSource.getInstance(),
                 GoTripLocalDataSource.getInstance()), pointFragment);
-        mAddOrDeletePointPresenter.setPointData();
         mMainPresenter.setAddOrDeletePointPresenter(mAddOrDeletePointPresenter);
         pointFragment.setPresenter(mMainPresenter);
 

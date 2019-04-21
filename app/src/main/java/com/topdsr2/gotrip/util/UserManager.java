@@ -175,7 +175,6 @@ public class UserManager {
     private void addUserDataToifrebase(String email, String name, String photoUri, LoadCallback loadCallback) {
         FireBaseManager.getInstance().addUserData(email, name, photoUri, new FireBaseManager.GetUserDataCallback() {
 
-
             @Override
             public void onCompleted(User user) {
                 mUser = user;

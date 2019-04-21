@@ -34,7 +34,7 @@ public interface TripContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadTripData(int tripId);
+        void loadTripData(String tripId);
 
         void setTripData();
 
@@ -68,16 +68,28 @@ public interface TripContract {
 
         void checkTripStatus(GetOnTripStatusCallback callback);
 
+        void getAddPointData(GetAddPointDataCallback callback);
+
 
     }
 
     interface GetOnTripStatusCallback {
 
-        void onCompleted(int tripId);
+        void onCompleted(String tripId);
 
         void onFailure();
 
         void onError(String errorMessage);
+    }
+
+    interface GetAddPointDataCallback {
+
+        void onCompleted(TripAndPoint bean,  int day);
+
+        void onFailure();
+
+        void onError(String errorMessage);
+
     }
 
 
