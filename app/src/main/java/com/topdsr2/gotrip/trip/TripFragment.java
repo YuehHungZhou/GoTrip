@@ -69,7 +69,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ArrayList<Point> mReadyPoints;
     private int mTripDay = 0;
 
-
     private ImageView mReloadImage;
     private ConstraintLayout mConstraintLayouAdd;
     private ConstraintLayout mConstraintLayouDelete;
@@ -80,6 +79,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ImageButton mFriendImageButton;
     private Button mAddFriendButton;
     private EditText mAddEditText;
+    private RecyclerView mInfoRecyclerView;
+    private RecyclerView mIconRecyclerView;
 
 
     public TripFragment() {
@@ -111,9 +112,9 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_map);
         mAutocompleteSupportFragmen = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recycle_trip_content);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mInfoRecyclerView = root.findViewById(R.id.recycle_trip_content);
+        mInfoRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mInfoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -128,11 +129,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 }
             }
         });
-        recyclerView.setAdapter(mTripContentAdapter);
+        mInfoRecyclerView.setAdapter(mTripContentAdapter);
 
-        RecyclerView recyclerViewIcon = root.findViewById(R.id.recycler_trip_content_icon);
-        recyclerViewIcon.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewIcon.setAdapter(mTripContentItemAdapter);
+        mIconRecyclerView = root.findViewById(R.id.recycler_trip_content_icon);
+        mIconRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mIconRecyclerView.setAdapter(mTripContentItemAdapter);
 
         mReloadImage = root.findViewById(R.id.image_reload_point);
         mConstraintLayouAdd = root.findViewById(R.id.constrant_add_question);
@@ -213,15 +214,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mReadyPoints = new ArrayList<>();
         mTripDay = mBean.getTrip().getTripDay();
 
-        if (mBean.getPoints().size() != 0) {
-            parsePointData();
+        parsePointData();
+        if (mMap != null) {
             setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
         }
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
-
+        mInfoRecyclerView.smoothScrollToPosition(0);
     }
 
 
@@ -232,7 +233,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     @Override
     public int getPointNumber() {
-        return mLatLngs.size();
+        return ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).size();
     }
 
     @Override
@@ -380,19 +381,24 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     private void setMaker(ArrayList<Point> points) {
 
-        mMap.clear();
-        mLatLngs.clear();
-        mPresenter.setTripListener(mBean.getDocumentId());
+        if (points.size() != 0) {
+            mMap.clear();
+            mLatLngs.clear();
+            mPresenter.setTripListener(mBean.getDocumentId());
 
-        for (int i = 0; i < points.size(); i++) {
-            LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            mMap.addMarker(markerOptions);
+            for (int i = 0; i < points.size(); i++) {
+                LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                mMap.addMarker(markerOptions);
 
-            mLatLngs.add(latLng);
+                mLatLngs.add(latLng);
+            }
+            setPolyLine();
+            moveCamera();
+        } else {
+            mMap.clear();
         }
-        setPolyLine();
-        moveCamera();
+
     }
 
     private void setPolyLine() {
@@ -455,10 +461,12 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         for (int i = 1; i <= mTripDay; i++) {
             ArrayList<Point> points = new ArrayList<>();
 
-            for (int j = 0; j < mBean.getPoints().size(); j++) {
-                if (mBean.getPoints().get(j).getDay() == i) {
+            if (mBean.getPoints().size() != 0) {
+                for (int j = 0; j < mBean.getPoints().size(); j++) {
+                    if (mBean.getPoints().get(j).getDay() == i) {
 
-                    points.add(mBean.getPoints().get(j));
+                        points.add(mBean.getPoints().get(j));
+                    }
                 }
             }
             mPointsByDay.add(sortPoint(points));
@@ -468,40 +476,54 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         for (int i = 0; i < mTripDay; i++) {
 
-            for (int j = 0; j < ((ArrayList<Point>) mPointsByDay.get(i)).size(); j++) {
+            if (((ArrayList<Point>) mPointsByDay.get(i)).size() != 0) {
+                for (int j = 0; j < ((ArrayList<Point>) mPointsByDay.get(i)).size(); j++) {
 
-                if (((ArrayList<Point>) mPointsByDay.get(i)).get(j).getSorte() == 1) {
-                    mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(j));
+                    if (((ArrayList<Point>) mPointsByDay.get(i)).get(j).getSorte() == 1) {
+                        mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(j));
+                    }
                 }
+            } else {
+                mPointsHolder.add(new Point());
             }
         }
     }
 
     private ArrayList<Point> sortPoint(ArrayList<Point> points) {
         ArrayList<Point> pointsDayHolder = new ArrayList<>();
-        int sortNumber = 1;
-        do {
-            for (int i = 0; i < points.size(); i++) {
-                if (points.get(i).getSorte() == sortNumber) {
-                    pointsDayHolder.add(points.get(i));
-                    sortNumber++;
+
+        if (points.size() != 0) {
+            int sortNumber = 1;
+            do {
+                for (int i = 0; i < points.size(); i++) {
+                    if (points.get(i).getSorte() == sortNumber) {
+                        pointsDayHolder.add(points.get(i));
+                        sortNumber++;
+                    }
                 }
-            }
-        } while (pointsDayHolder.size() != points.size());
+            } while (pointsDayHolder.size() != points.size());
+        }
 
         return pointsDayHolder;
     }
 
     private int sorte(long time) {
+        ArrayList<Point> points = ((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition));
+        int size = points.size();
         int sorte = 0;
 
-        if (((ArrayList<Point>)mPointsByDay.get(mVisibleItemPosition)).size() != 0) {
-            for (int i = 0; i < ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).size(); i++) {
-                if (time <= ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getArrivalTime()) {
-                    sorte = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(i).getSorte();
-                    break;
+        if (size != 0) {
+
+            if (points.get(size - 1).getArrivalTime() <= time) {
+                sorte = points.get(size - 1).getSorte() + 1;
+            } else {
+                for (int i = 0; i < size; i++) {
+                    if (time <= points.get(i).getArrivalTime()) {
+                        sorte = points.get(i).getSorte();
+                    }
                 }
             }
+
         } else {
             sorte = 1;
         }

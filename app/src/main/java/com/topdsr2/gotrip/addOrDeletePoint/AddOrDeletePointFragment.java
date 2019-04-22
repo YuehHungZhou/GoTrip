@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import com.topdsr2.gotrip.data.object.TripAndPoint;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddOrDeletePointFragment extends BottomSheetDialogFragment implements AddOrDeletePointContract.View {
+public class AddOrDeletePointFragment extends AppCompatDialogFragment implements AddOrDeletePointContract.View {
 
     private AddOrDeletePointContract.Presenter mPresenter;
 

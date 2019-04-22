@@ -32,36 +32,18 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void loadTripData(String tripId) {
-        if (mBean == null) {
-            FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
-                @Override
-                public void onCompleted(TripAndPoint bean) {
-                    mBean = bean;
-                    mTripView.showTripUi(mBean);
-                }
+        FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
+            @Override
+            public void onCompleted(TripAndPoint bean) {
+                mBean = bean;
+                mTripView.showTripUi(mBean);
+            }
 
-                @Override
-                public void onError(String errorMessage) {
+            @Override
+            public void onError(String errorMessage) {
 
-                }
-            });
-        } else if (mBean.getTrip().getId() != tripId) {
-            FireBaseManager.getInstance().getSelectedTrip(tripId, new FireBaseManager.FindTripCallback() {
-                @Override
-                public void onCompleted(TripAndPoint bean) {
-                    mBean = bean;
-                    mTripView.showTripUi(mBean);
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-
-                }
-            });
-        } else {
-            mTripView.showTripUi(mBean);
-        }
-
+            }
+        });
     }
 
     @Override

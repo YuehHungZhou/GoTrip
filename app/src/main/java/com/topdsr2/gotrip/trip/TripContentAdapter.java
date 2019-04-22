@@ -36,30 +36,38 @@ public class TripContentAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (mPointsHolder != null) {
-            Point point = mPointsHolder.get(position);
+            if (mPointsHolder.get(position).getSorte() != -1) {
+                Point point = mPointsHolder.get(position);
 
-            ((TripContentViewHolder) viewHolder).mTextDay.setText("Day " + Integer.toString(point.getDay()));
+
+
+                ((TripContentViewHolder) viewHolder).mTextCost.setText("$ " + Integer.toString(point.getCost()));
+                ((TripContentViewHolder) viewHolder).mTextCost.setBackgroundResource(R.drawable.corner_cost_color);
+
+                ((TripContentViewHolder) viewHolder).mTextTitle.setText(point.getTitle());
+                ((TripContentViewHolder) viewHolder).mTextTitle.setBackgroundResource(R.drawable.corner_title_color);
+
+                ((TripContentViewHolder) viewHolder).mTextDescribe.setText(point.getDescribe());
+                ((TripContentViewHolder) viewHolder).mTextDescribe.setBackgroundResource(R.drawable.corner_describe_color);
+
+                ((TripContentViewHolder) viewHolder).mTextCost.setVisibility(View.VISIBLE);
+                ((TripContentViewHolder) viewHolder).mTextTitle.setVisibility(View.VISIBLE);
+                ((TripContentViewHolder) viewHolder).mTextDescribe.setVisibility(View.VISIBLE);
+            } else {
+                ((TripContentViewHolder) viewHolder).mTextCost.setVisibility(View.INVISIBLE);
+                ((TripContentViewHolder) viewHolder).mTextTitle.setVisibility(View.INVISIBLE);
+                ((TripContentViewHolder) viewHolder).mTextDescribe.setVisibility(View.INVISIBLE);
+
+            }
+
+            ((TripContentViewHolder) viewHolder).mTextDay.setText("Day " + (position + 1));
             ((TripContentViewHolder) viewHolder).mTextDay.setBackgroundResource(R.drawable.corner_day_color);
-
-            ((TripContentViewHolder) viewHolder).mTextCost.setText("$ " + Integer.toString(point.getCost()));
-            ((TripContentViewHolder) viewHolder).mTextCost.setBackgroundResource(R.drawable.corner_cost_color);
-
-            ((TripContentViewHolder) viewHolder).mTextTitle.setText(point.getTitle());
-            ((TripContentViewHolder) viewHolder).mTextTitle.setBackgroundResource(R.drawable.corner_title_color);
-
-            ((TripContentViewHolder) viewHolder).mTextDescribe.setText(point.getDescribe());
-            ((TripContentViewHolder) viewHolder).mTextDescribe.setBackgroundResource(R.drawable.corner_describe_color);
-
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mPointsHolder != null) {
-            return mTripDay;
-        } else {
-            return 1;
-        }
+        return mTripDay;
     }
 
     private class TripContentViewHolder extends RecyclerView.ViewHolder {
@@ -85,7 +93,6 @@ public class TripContentAdapter extends RecyclerView.Adapter {
         mPointsHolder = pointsHolder;
         mTripDay = tripDay;
         notifyDataSetChanged();
-
     }
 
     public void changeSelectedIconInfo(int visitItemPosition, int position) {
@@ -99,9 +106,11 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
         ArrayList<Point> points = (ArrayList<Point>) mPointsByDay.get(visitItemPosition);
         if (points != null) {
-            Point point = points.get(0);
-            mPresenter.moveMapToIcon(point.getLatitude(), point.getLongitude());
-            setPointsHolder(point, visitItemPosition);
+            if (points.size() != 0) {
+                Point point = points.get(0);
+                mPresenter.moveMapToIcon(point.getLatitude(), point.getLongitude());
+                setPointsHolder(point, visitItemPosition);
+            }
             notifyDataSetChanged();
         }
     }
@@ -112,7 +121,11 @@ public class TripContentAdapter extends RecyclerView.Adapter {
             if (i == visitItemPosition) {
                 mPointsHolder.add(point);
             } else {
-                mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(0));
+                if (((ArrayList<Point>) mPointsByDay.get(i)).size() != 0) {
+                    mPointsHolder.add(((ArrayList<Point>) mPointsByDay.get(i)).get(0));
+                } else {
+                    mPointsHolder.add(new Point());
+                }
             }
         }
     }

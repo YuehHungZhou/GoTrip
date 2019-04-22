@@ -83,6 +83,8 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
         super.onViewCreated(view, savedInstanceState);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

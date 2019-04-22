@@ -23,6 +23,8 @@
         android:layout_marginBottom="24dp"
         android:tint="@color/orange"
         android:visibility="visible"
+        android:background="@drawable/corner_circle_white"
+        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

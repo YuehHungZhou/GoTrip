@@ -88,25 +88,28 @@ public class FireBaseManager {
 
 
     public void setListener(String documentId, int addTimes, EvenHappendCallback callback) {
-        mRegistration = db.collection(TRIP)
-                .document(documentId)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
 
-                        if (e != null) {
-                            System.err.println("Listen failed: " + e);
-                            return;
-                        }
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString().trim()) != addTimes) {
-                                callback.onCompleted(documentSnapshot.getData().get(ID).toString().trim());
+        if (mRegistration == null) {
+            mRegistration = db.collection(TRIP)
+                    .document(documentId)
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                            if (e != null) {
+                                System.err.println("Listen failed: " + e);
+                                return;
                             }
-                        } else {
-                            System.out.print("Current data: null");
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString().trim()) != addTimes) {
+                                    callback.onCompleted(documentSnapshot.getData().get(ID).toString().trim());
+                                }
+                            } else {
+                                System.out.print("Current data: null");
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public void closeListener() {
@@ -190,7 +193,6 @@ public class FireBaseManager {
 
         int i = sorte + 1;
 
-
         if (sorte == positionHolder) {
             readyToDeletePoint(documentId, sorte, today, new DeletePointCallback() {
                 @Override
@@ -218,10 +220,7 @@ public class FireBaseManager {
         } else {
             updateTripPointTimes(documentId);
         }
-
-
     }
-
 
     private void getTripDocumentIdAndTrip(String tripId, GetDocumentIdAndTripCallback callback) {
 

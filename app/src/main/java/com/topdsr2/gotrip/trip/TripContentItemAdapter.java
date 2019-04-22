@@ -43,36 +43,34 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
         if (mReadyPoints != null) {
-            switch (mReadyPoints.get(position).getIconType()) {
+            if (mReadyPoints.size() != 0) {
+                switch (mReadyPoints.get(position).getIconType()) {
 
-                case "hotel":
-                    ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
-                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
-                    break;
-                case "restaurant":
-                    ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
-                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
-                    break;
-                case "attraction":
-                    ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
-                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
-                    break;
-                default:
-                    break;
+                    case "hotel":
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
+                        break;
+                    case "restaurant":
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
+                        break;
+                    case "attraction":
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
+                        break;
+                    default:
+                        break;
+                }
 
+                long roadTime = (mReadyPoints.get(position).getArrivalTime());
+                if ((roadTime - mRoadTime) != roadTime) {
+                    ((TripContentItemViewHolder) viewHolder).mRoadText.setText(paseRoadTime(roadTime - mRoadTime));
+                }
+                ((TripContentItemViewHolder) viewHolder).mIconText.setText(paseTime(roadTime));
+
+                mRoadTime = roadTime;
             }
-
-            long roadTime = (mReadyPoints.get(position).getArrivalTime());
-            if ((roadTime - mRoadTime) != roadTime) {
-                ((TripContentItemViewHolder) viewHolder).mRoadText.setText(paseRoadTime(roadTime - mRoadTime));
-            }
-            ((TripContentItemViewHolder) viewHolder).mIconText.setText(paseTime(roadTime));
-
-            mRoadTime = roadTime;
-
         }
-
-
     }
 
     @Override

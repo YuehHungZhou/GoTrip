@@ -37,25 +37,23 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (mTrips != null) {
             ImageManager.getInstance().setImageByUrl(((HomeViewHolder) viewHolder).mBackgroundImage,
-                    mTrips.get(0).getMainImage());
+                    mTrips.get(position).getMainImage());
             ImageManager.getInstance().setImageByUrl(((HomeViewHolder) viewHolder).mUserPhoto,
-                    mTrips.get(0).getCreaterImage());
+                    mTrips.get(position).getCreaterImage());
 
-            ((HomeViewHolder) viewHolder).mTitle.setText(mTrips.get(0).getTitle());
-            ((HomeViewHolder) viewHolder).mDescribe.setText(mTrips.get(0).getDescribe());
-            ((HomeViewHolder) viewHolder).mOwners.setText(Integer.toString(mTrips.get(0).getOwners().size()));
-            ((HomeViewHolder) viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
+            ((HomeViewHolder) viewHolder).mTitle.setText(mTrips.get(position).getTitle());
+            ((HomeViewHolder) viewHolder).mDescribe.setText(mTrips.get(position).getDescribe());
+            ((HomeViewHolder) viewHolder).mOwners.setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            ((HomeViewHolder) viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-//        if (mTrips != null) {
-//            return mTrips.size();
-//        }
-        return 10;
+        if (mTrips != null) {
+            return mTrips.size();
+        }
+        return 0;
     }
 
     private class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

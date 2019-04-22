@@ -76,22 +76,22 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
     private void bindNewTripViewHolder(NewTripViewHolder holder, int position) {
         if (mTrips != null && mTrips.size() != 0) {
-            holder.mTitleText.setText(mTrips.get(0).getTitle());
-            holder.mDescribeText.setText(mTrips.get(0).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(0).getOwners().size()));
+            holder.mTitleText.setText(mTrips.get(position).getTitle());
+            holder.mDescribeText.setText(mTrips.get(position).getDescribe());
+            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
 
         }
     }
 
     private void bindCompleteTripViewHolder(CompleteTripViewHolder holder, int position) {
             if (mTrips != null && mTrips.size() != 0) {
-            holder.mTitleText.setText(mTrips.get(0).getTitle());
-            holder.mDescribeText.setText(mTrips.get(0).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(0).getOwners().size()));
-            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
+            holder.mTitleText.setText(mTrips.get(position).getTitle());
+            holder.mDescribeText.setText(mTrips.get(position).getDescribe());
+            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mUserPhotoImage,
-                        mTrips.get(0).getCreaterImage());
+                        mTrips.get(position).getCreaterImage());
 
         }
     }
@@ -99,15 +99,15 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     private void bindCollectionTripTripViewHolder(CollectionTripViewHolder holder, int position) {
 
         if (mTrips != null && mTrips.size() != 0) {
-            holder.mTitleText.setText(mTrips.get(0).getTitle());
-            holder.mDescribeText.setText(mTrips.get(0).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(0).getOwners().size()));
-            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(0).getCollectionNumber()));
+            holder.mTitleText.setText(mTrips.get(position).getTitle());
+            holder.mDescribeText.setText(mTrips.get(position).getDescribe());
+            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             ImageManager.getInstance().setImageByUrl(((CollectionTripViewHolder) holder).mBackgroundImage,
-                    mTrips.get(0).getMainImage());
+                    mTrips.get(position).getMainImage());
             ImageManager.getInstance().setImageByUrl(((CollectionTripViewHolder) holder).mUserPhotoImage,
-                    mTrips.get(0).getCreaterImage());
+                    mTrips.get(position).getCreaterImage());
         }
     }
 
