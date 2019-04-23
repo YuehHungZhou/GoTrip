@@ -33,9 +33,9 @@ public class Trip {
         mTripEnd = 0;
         mTripDay = 0;
         mOwners = new ArrayList<>();
-        mAddPointTimes = -1;
+        mAddPointTimes = 0;
         mCreaterImage = "";
-        mCollectionNumber = -1;
+        mCollectionNumber = 0;
     }
 
     public String getId() {

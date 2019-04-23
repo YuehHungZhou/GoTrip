@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.Image;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
@@ -24,9 +26,9 @@ import static com.topdsr2.gotrip.MainMvpController.NEWTRIP;
 
 public class ProfileItemAdapter extends RecyclerView.Adapter {
 
-    private static final int TYPE_NEWTRIP = 0x01;
-    private static final int TYPE_COMPLETETRIP = 0x02;
-    private static final int TYPE_COLLECTIONTRIP = 0x03;
+    public static final int TYPE_NEWTRIP = 0x01;
+    public static final int TYPE_COMPLETETRIP = 0x02;
+    public static final int TYPE_COLLECTIONTRIP = 0x03;
 
 
     private ProfileItemContract.Presenter mPresenter;
@@ -136,13 +138,14 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    private class NewTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class NewTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
         private TextView mOwnerNumberText;
         private ImageView mBackgroundImage;
         private CardView mCardView;
+        private ImageButton mDeleteButton;
 
         public NewTripViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -152,8 +155,11 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mOwnerNumberText = itemView.findViewById(R.id.text_newtrip_owner_number);
             mBackgroundImage = itemView.findViewById(R.id.image_newtrip);
             mCardView = itemView.findViewById(R.id.cardview_newtrip);
+            mDeleteButton = itemView.findViewById(R.id.imageButton_newtrip_delete);
 
             mCardView.setOnClickListener(this);
+            mCardView.setOnLongClickListener(this);
+            mDeleteButton.setOnClickListener(this);
 
         }
 
@@ -164,13 +170,22 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                 case R.id.cardview_newtrip:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
                     break;
+                case R.id.imageButton_newtrip_delete:
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_NEWTRIP);
+                    break;
                 default:
                     break;
             }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mDeleteButton.setVisibility(View.VISIBLE);
+            return true;
+        }
     }
 
-    private class CompleteTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class CompleteTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
@@ -179,6 +194,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         private TextView mCollectionNumberText;
         private ImageView mBackgroundImage;
         private CardView mCardView;
+        private ImageButton mDeleteButton;
 
         public CompleteTripViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -189,10 +205,14 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mBackgroundImage = itemView.findViewById(R.id.image_completetrip);
             mCardView = itemView.findViewById(R.id.cardview_completetrip);
             mUserPhotoImage = itemView.findViewById(R.id.image_completetrip_photo);
+            mDeleteButton = itemView.findViewById(R.id.imageButton_completetrip_delete);
+
 
             mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
             mCardView.setOnClickListener(this);
+            mCardView.setOnLongClickListener(this);
+            mDeleteButton.setOnClickListener(this);
 
         }
 
@@ -203,13 +223,22 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                 case R.id.cardview_completetrip:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
                     break;
+                case R.id.imageButton_completetrip_delete:
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COMPLETETRIP);
+                    break;
                 default:
                     break;
             }
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mDeleteButton.setVisibility(View.VISIBLE);
+            return true;
+        }
     }
 
-    private class CollectionTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class CollectionTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
@@ -219,6 +248,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         private TextView mCollectionNumberText;
         private ImageView mBackgroundImage;
         private CardView mCardView;
+        private ImageButton mDeleteButton;
 
         public CollectionTripViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -231,11 +261,15 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mCollectionNumberText = itemView.findViewById(R.id.text_collectiontrip_collection_number);
             mBackgroundImage = itemView.findViewById(R.id.image_collectiontrip);
             mCardView = itemView.findViewById(R.id.cardview_collectiontrip);
+            mDeleteButton = itemView.findViewById(R.id.imageButton_collectiontrip_delete);
 
             mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
             mCollectionTintImage.setOnClickListener(this);
             mCardView.setOnClickListener(this);
+            mCardView.setOnLongClickListener(this);
+            mDeleteButton.setOnClickListener(this);
+
         }
 
         @Override
@@ -247,9 +281,18 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                 case R.id.cardview_collectiontrip:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
                     break;
+                case R.id.imageButton_collectiontrip_delete:
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COLLECTIONTRIP);
+                    break;
                 default:
                     break;
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mDeleteButton.setVisibility(View.VISIBLE);
+            return true;
         }
     }
 
@@ -257,4 +300,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         mTrips = trips;
         notifyDataSetChanged();
     }
+
+
 }

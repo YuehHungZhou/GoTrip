@@ -46,6 +46,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.polyak.iconswitch.IconSwitch.Checked.LEFT;
+import static com.polyak.iconswitch.IconSwitch.Checked.RIGHT;
 
 public class TripFragment extends Fragment implements TripContract.View, View.OnClickListener, PlaceSelectionListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -179,7 +181,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
                 case RIGHT:
                     mConstraintLayouAdd.setVisibility(View.INVISIBLE);
-                    mIconSwitchAdd.setChecked(IconSwitch.Checked.LEFT);
+                    mIconSwitchAdd.setChecked(LEFT);
                     mPresenter.openAddOrDeletePoint();
 
                     break;
@@ -193,7 +195,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
                 case RIGHT:
                     mConstraintLayouDelete.setVisibility(View.INVISIBLE);
-                    mIconSwitchDelete.setChecked(IconSwitch.Checked.LEFT);
+                    mIconSwitchDelete.setChecked(LEFT);
                     mPresenter.deletePoint(mTouchedIconPosition);
                     break;
                 default:

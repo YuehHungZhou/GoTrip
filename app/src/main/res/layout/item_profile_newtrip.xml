@@ -84,6 +84,18 @@
                 app:layout_constraintTop_toTopOf="@+id/text_newtrip_owner_number"
                 app:srcCompat="@drawable/ic_person_outline_black_24dp" />
 
+            <ImageButton
+                android:id="@+id/imageButton_newtrip_delete"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/trip_delete"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+
 
         </android.support.constraint.ConstraintLayout>
 

@@ -12,6 +12,8 @@ public interface ProfileItemContract {
 
         void showTripUi(ArrayList<Trip> trips);
 
+        void showToast();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -31,6 +33,8 @@ public interface ProfileItemContract {
         void loadTrip(String tripId);
 
         void openAddTripDialog();
+
+        void deleteTrip(Trip trip, int type);
 
     }
 }

@@ -730,10 +730,100 @@ public class FireBaseManager {
 
                         callback.onCompleted(documentReference.getId());
 
-
                     }
                 });
+    }
 
+    public void deleteTrip(String documentId, DeleteTripCallback callback) {
+        db.collection(TRIP)
+                .document(documentId)
+                .collection(POINT)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        final int[] i = {0};
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            if (document.getData().size() != 0) {
+                                deleteAllPoints(documentId, document.getId(), new DeletePointCallback() {
+                                    @Override
+                                    public void onCompleted() {
+                                        i[0]++;
+                                        if (i[0] == queryDocumentSnapshots.size()) {
+                                            db.collection(TRIP)
+                                                    .document(documentId)
+                                                    .delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            callback.onCompleted();
+                                                        }
+                                                    });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+
+                                    }
+                                });
+
+                            } else {
+                                db.collection(TRIP)
+                                        .document(documentId)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                callback.onCompleted();
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void deleteAllPoints(String documentId, String pointId, DeletePointCallback callback) {
+        db.collection(TRIP)
+                .document(documentId)
+                .collection(POINT)
+                .document(pointId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onCompleted();
+                    }
+                });
+    }
+
+    public void removeCollectionTrip(String documentId, String email, RemoveUserCollectionCallback callback) {
+
+        db.collection(USER)
+                .whereEqualTo(ID, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                        Map<String, Object> removeRequest = new HashMap<>();
+                        removeRequest.put(TRIPCOLLECTION,  FieldValue.arrayRemove(documentId));
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            db.collection(USER)
+                                .document(document.getId())
+                                    .update(removeRequest)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            callback.onCompleted();
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
 
@@ -797,6 +887,20 @@ public class FireBaseManager {
         void onCompleted(String tripId);
 
         void onFailure();
+
+        void onError(String errorMessage);
+    }
+
+    public interface DeleteTripCallback {
+
+        void onCompleted();
+
+        void onError(String errorMessage);
+    }
+
+    public interface RemoveUserCollectionCallback {
+
+        void onCompleted();
 
         void onError(String errorMessage);
     }

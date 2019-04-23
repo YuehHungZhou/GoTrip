@@ -246,6 +246,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void deleteTrip(Trip trip, int type) {
+        mProfileNewTripPresenter.deleteTrip(trip, type);
+    }
+
+    @Override
     public void hideBottomNavigation() {
         mMainView.hideBottomNavigationUi();
     }

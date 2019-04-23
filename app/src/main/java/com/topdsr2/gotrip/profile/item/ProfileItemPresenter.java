@@ -1,6 +1,7 @@
 package com.topdsr2.gotrip.profile.item;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Trip;
@@ -10,6 +11,9 @@ import com.topdsr2.gotrip.util.UserManager;
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_COLLECTIONTRIP;
+import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_COMPLETETRIP;
+import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_NEWTRIP;
 
 public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
@@ -115,7 +119,73 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     }
 
     @Override
+    public void deleteTrip(Trip trip, int type) {
+
+        switch (type) {
+            case TYPE_NEWTRIP :
+                if ((checkIsCreater(trip.getCreater()))) {
+                FireBaseManager.getInstance().deleteTrip(trip.getId(),
+                        new FireBaseManager.DeleteTripCallback() {
+                            @Override
+                            public void onCompleted() {
+                                loadNewTripData();
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+
+                            }
+                        });
+                } else {
+                    mProfileItemView.showToast();
+                }
+                break;
+            case TYPE_COMPLETETRIP :
+                if ((checkIsCreater(trip.getCreater()))) {
+                    FireBaseManager.getInstance().deleteTrip(trip.getId(),
+                            new FireBaseManager.DeleteTripCallback() {
+                                @Override
+                                public void onCompleted() {
+                                    loadCompleteTripData();
+                                }
+
+                                @Override
+                                public void onError(String errorMessage) {
+
+                                }
+                            });
+                } else {
+                    mProfileItemView.showToast();
+                }
+                break;
+            case TYPE_COLLECTIONTRIP :
+                FireBaseManager.getInstance().removeCollectionTrip(trip.getId(),
+                        UserManager.getInstance().getUser().getEmail(),
+                        new FireBaseManager.RemoveUserCollectionCallback() {
+                            @Override
+                            public void onCompleted() {
+                                loadCollectionTripData();
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+
+                            }
+                        });
+                break;
+            default :
+                break;
+        }
+    }
+
+    @Override
     public void start() {
 
     }
+
+    private boolean checkIsCreater(String creater) {
+        return UserManager.getInstance().getUser().getEmail().trim().equals(creater.trim());
+    }
+
+
 }

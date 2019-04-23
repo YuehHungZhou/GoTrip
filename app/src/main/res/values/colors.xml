@@ -9,5 +9,6 @@
     <color name="translucent_40">#66000000</color>
     <color name="orange">#FFEDCC70</color>
     <color name="orange_dialog">#F8E06F</color>
+    <color name="trip_delete">#99FF0000</color>
 
 </resources>
