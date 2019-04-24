@@ -1,4 +1,4 @@
-package com.topdsr2.gotrip;
+package com.topdsr2.gotrip.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.topdsr2.gotrip.MainContract;
+import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.util.UserManager;
 
 
@@ -91,6 +93,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_success, null);
         signinDialog.setContentView(view);
+        signinDialog.setCanceledOnTouchOutside(false);
         signinDialog.show();
 
         Handler handler = new Handler();

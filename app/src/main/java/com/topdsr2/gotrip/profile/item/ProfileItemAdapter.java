@@ -77,6 +77,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     }
 
     private void bindNewTripViewHolder(NewTripViewHolder holder, int position) {
+        holder.mDeleteButton.setVisibility(View.GONE);
+
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
@@ -86,19 +88,23 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     }
 
     private void bindCompleteTripViewHolder(CompleteTripViewHolder holder, int position) {
-            if (mTrips != null && mTrips.size() != 0) {
+        holder.mDeleteButton.setVisibility(View.GONE);
+
+
+        if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
             holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
             holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mUserPhotoImage,
-                        mTrips.get(position).getCreaterImage());
+                    mTrips.get(position).getCreaterImage());
 
         }
     }
 
     private void bindCollectionTripTripViewHolder(CollectionTripViewHolder holder, int position) {
+        holder.mDeleteButton.setVisibility(View.GONE);
 
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
@@ -133,7 +139,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
 
         if (mTrips != null && mTrips.size() != 0) {
-            return  mTrips.size();
+            return mTrips.size();
         }
         return 0;
     }
@@ -206,7 +212,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mCardView = itemView.findViewById(R.id.cardview_completetrip);
             mUserPhotoImage = itemView.findViewById(R.id.image_completetrip_photo);
             mDeleteButton = itemView.findViewById(R.id.imageButton_completetrip_delete);
-
 
             mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
@@ -300,6 +305,4 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         mTrips = trips;
         notifyDataSetChanged();
     }
-
-
 }

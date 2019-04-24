@@ -14,6 +14,10 @@ public class Constants {
     public static final String STARTTIME = "STARTTIME";
     public static final String ENDTIME = "ENDTIME";
 
+    public static final String AGREE = "agree";
+    public static final String DISAGREE = "disagree";
+    public static final String NOTVOTE = "notVote";
+
 
     // Server error
     public static final String GENERAL_ERROR = "Internal Server Error.";

@@ -51,6 +51,9 @@ public class FireBaseManager {
     private static final String DAY = "day";
     private static final String LATITUDE = "latitude";
     private static final String LONGITUDE = "longitude";
+    private static final String AGREE = "agree";
+    private static final String DISAGREE = "disagree";
+    private static final String VOTESTATUS = "voteStatus";
 
     private static final String GEOPOINT = "Geopoint";
     private static final String GEO = "geo";
@@ -314,24 +317,26 @@ public class FireBaseManager {
     }
 
 
-    private void readyToAddPoint(String documentId, Point pointOld) {
-
-        Map<String, Object> pointNew = new HashMap<>();
-        pointNew.put(ARRIVALTIME, pointOld.getArrivalTime());
-        pointNew.put(COST, pointOld.getCost());
-        pointNew.put(DAY, pointOld.getDay());
-        pointNew.put(DESCRIBE, pointOld.getDescribe());
-        pointNew.put(LATITUDE, pointOld.getLatitude());
-        pointNew.put(LONGITUDE, pointOld.getLongitude());
-        pointNew.put(ICONTYPE, pointOld.getIconType());
-        pointNew.put(IMAGES, pointOld.getImages());
-        pointNew.put(SORTE, pointOld.getSorte());
-        pointNew.put(TITLE, pointOld.getTitle());
+    private void readyToAddPoint(String documentId, Point point) {
 
         db.collection(TRIP)
                 .document(documentId)
                 .collection(POINT)
-                .add(pointNew);
+                .add(point)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Map<String, Object> pointId = new HashMap<>();
+                        pointId.put(ID, documentReference.getId().trim());
+
+                        db.collection(TRIP)
+                                .document(documentId)
+                                .collection(POINT)
+                                .document(documentReference.getId())
+                                .update(pointId);
+
+                    }
+                });
     }
 
     private void readyToDeletePoint(String documentId, int pointSorte, int day, DeletePointCallback callback) {
@@ -713,23 +718,21 @@ public class FireBaseManager {
 
                         db.collection(TRIP)
                                 .document(documentReference.getId())
-                                .update(addRequest)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        callback.onCompleted(documentReference.getId());
-                                    }
-                                });
+                                .update(addRequest);
+
 
                         Point point = new Point();
 
                         db.collection(TRIP)
                                 .document(documentReference.getId())
                                 .collection(POINT)
-                                .add(point);
-
-                        callback.onCompleted(documentReference.getId());
-
+                                .add(point)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        callback.onCompleted(documentReference.getId());
+                                    }
+                                });
                     }
                 });
     }
@@ -822,6 +825,55 @@ public class FireBaseManager {
                                         }
                                     });
                         }
+                    }
+                });
+    }
+
+    public void votePoint(String documentId, String pointId, String type, int tripOwners, String email) {
+        db.collection(TRIP)
+                .document(documentId)
+                .collection(POINT)
+                .document(pointId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Point point = documentSnapshot.toObject(Point.class);
+                        Map<String, Object> voteRequest = new HashMap<>();
+
+                        switch (type) {
+                            case AGREE:
+                                voteRequest.put(AGREE,  FieldValue.arrayUnion(email));
+
+                                if (((point.getAgree().size() + 1) * 2) > tripOwners) {
+                                    voteRequest.put(VOTESTATUS,AGREE);
+                                }
+
+                                db.collection(TRIP)
+                                        .document(documentId)
+                                        .collection(POINT)
+                                        .document(pointId)
+                                        .update(voteRequest);
+                                break;
+
+                            case DISAGREE:
+                                voteRequest.put(DISAGREE,  FieldValue.arrayUnion(email));
+
+                                if (((point.getAgree().size() + 1) * 2) > tripOwners) {
+                                    voteRequest.put(VOTESTATUS,DISAGREE);
+                                }
+
+                                db.collection(TRIP)
+                                        .document(documentId)
+                                        .collection(POINT)
+                                        .document(pointId)
+                                        .update(voteRequest);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        updateTripPointTimes(documentId);
                     }
                 });
     }

@@ -22,5 +22,7 @@ public interface ProfileContract {
         ProfileItemFragment findCompleteTrip();
 
         ProfileItemFragment findCollectionTrip();
+
+        void openLogoutView();
     }
 }

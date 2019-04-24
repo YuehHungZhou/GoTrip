@@ -51,4 +51,9 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     public ProfileItemFragment findCollectionTrip() {
         return null;
     }
+
+    @Override
+    public void openLogoutView() {
+
+    }
 }

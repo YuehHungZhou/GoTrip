@@ -202,6 +202,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         });
     }
 
+    @Override
+    public void logout() {
+        mMainView.selectHome();
+    }
+
 
     /**
      * Home
@@ -326,6 +331,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void showVoteView(int position) {
+        mTripPresenter.showVoteView(position);
+    }
+
+    @Override
+    public void vote(String pointId, String type) {
+        mTripPresenter.vote(pointId, type);
+    }
+
+    @Override
     public void loadPointData() {
         mTripPresenter.getAddPointData(new TripContract.GetAddPointDataCallback() {
             @Override
@@ -373,6 +388,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public ProfileItemFragment findCollectionTrip() {
         return mMainView.findCollectionTripView();
+    }
+
+    @Override
+    public void openLogoutView() {
+        mMainView.openLogoutUi();
     }
 
     @Override

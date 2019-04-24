@@ -30,6 +30,8 @@ public interface TripContract {
 
         void openFunction(boolean isOwner);
 
+        void showVoteViewUi(int position);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -69,6 +71,10 @@ public interface TripContract {
         void checkTripStatus(GetOnTripStatusCallback callback);
 
         void getAddPointData(GetAddPointDataCallback callback);
+
+        void showVoteView(int position);
+
+        void vote(String pointId, String type);
 
 
     }

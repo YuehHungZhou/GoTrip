@@ -8,12 +8,16 @@ public class Point {
     private int mCost;
     private int mSorte;
     private ArrayList<String> mImages;
+    private ArrayList<String> mAgree;
+    private ArrayList<String> mDisagree;
     private long mArrivalTime;
     private int mDay;
     private String mDescribe;
     private String mTitle;
     private Double mLatitude;
     private Double mLongitude;
+    private String mId;
+    private String mVoteStatus;
 
 
     public Point() {
@@ -21,12 +25,16 @@ public class Point {
         mIconType = "";
         mSorte = -1;
         mImages = new ArrayList<>();
+        mAgree = new ArrayList<>();
+        mDisagree = new ArrayList<>();
         mArrivalTime = 0;
         mDay = -1;
         mDescribe = "";
         mTitle = "";
         mLatitude = 0.0;
         mLongitude = 0.0;
+        mId = "";
+        mVoteStatus = "";
 
     }
 
@@ -108,5 +116,37 @@ public class Point {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public ArrayList<String> getAgree() {
+        return mAgree;
+    }
+
+    public void setAgree(ArrayList<String> agree) {
+        mAgree = agree;
+    }
+
+    public ArrayList<String> getDisagree() {
+        return mDisagree;
+    }
+
+    public void setDisagree(ArrayList<String> disagree) {
+        mDisagree = disagree;
+    }
+
+    public String getVoteStatus() {
+        return mVoteStatus;
+    }
+
+    public void setVoteStatus(String voteStatus) {
+        mVoteStatus = voteStatus;
     }
 }

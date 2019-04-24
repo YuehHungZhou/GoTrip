@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRecyclerView.setAdapter(mHomeAdapter);
 
+
         return root;
     }
 

@@ -152,6 +152,21 @@ public class TripPresenter implements TripContract.Presenter {
         callback.onCompleted(mBean, mTripView.getToday());
     }
 
+    @Override
+    public void showVoteView(int position) {
+        mTripView.showVoteViewUi(position);
+    }
+
+    @Override
+    public void vote(String pointId, String type) {
+        FireBaseManager.getInstance().votePoint(
+                mBean.getTrip().getId(),
+                pointId,
+                type,
+                mBean.getTrip().getOwners().size(),
+                UserManager.getInstance().getUser().getEmail());
+    }
+
 
     @Override
     public void changeIconInfo(int position) {

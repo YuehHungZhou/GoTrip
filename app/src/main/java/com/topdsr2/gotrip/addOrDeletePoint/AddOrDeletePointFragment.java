@@ -125,14 +125,12 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     private void sendData() {
 
         Point point = new Point();
-        ArrayList<String> images = new ArrayList<>();
 
         point.setCost(Integer.parseInt(mCostEditText.getText().toString()));
         point.setTitle(mPlaceEditText.getText().toString());
         point.setArrivalTime(mTime);
         point.setDescribe(mNoteEditText.getText().toString());
         point.setIconType(getIcontype());
-        point.setImages(images);
         point.setDay(mToday);
 
         mPresenter.sendNewPoint(point);

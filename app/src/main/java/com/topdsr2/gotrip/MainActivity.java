@@ -1,5 +1,6 @@
 package com.topdsr2.gotrip;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,14 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.topdsr2.gotrip.dialog.AddTripDialog;
+import com.topdsr2.gotrip.dialog.LoginDialog;
+import com.topdsr2.gotrip.dialog.LogoutDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
-import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -26,7 +27,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private boolean isBottomBavigationVisibale = true;
     private MainMvpController mMainMvpController;
     private MainContract.Presenter mPresenter;
-    private LoginDialog mLoginDialog;
     private View mBadge;
 
 
@@ -37,8 +37,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         mMainMvpController = MainMvpController.create(this);
 
-        mPresenter.checkLogInState(this);
-
         setBottomNavigation();
         selectedHomePage();
 
@@ -47,7 +45,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
 
     }
@@ -67,6 +65,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
+                            mPresenter.checkLogInState(getActivity());
                             selectedBottomNavigationViewItem(0);
                             mPresenter.openHome();
                             return true;
@@ -125,11 +124,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void openLoginUi() {
-        if (mLoginDialog == null) {
-            mLoginDialog = new LoginDialog();
-            mLoginDialog.setMainPresenter(mPresenter);
-            mLoginDialog.show(getSupportFragmentManager(), "");
-        }
+        LoginDialog loginDialog = new LoginDialog();
+        loginDialog.setMainPresenter(mPresenter);
+        loginDialog.show(getSupportFragmentManager(), "");
     }
 
     @Override
@@ -137,6 +134,19 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         AddTripDialog mAddTripDialog = new AddTripDialog();
         mAddTripDialog.setMainPresenter(mPresenter);
         mAddTripDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void openLogoutUi() {
+        LogoutDialog logoutDialog = new LogoutDialog();
+        logoutDialog.setMainPresenter(mPresenter);
+        logoutDialog.show(getSupportFragmentManager(), "");
+
+    }
+
+    @Override
+    public void selectHome() {
+        selectedHomePage();
     }
 
     @Override
@@ -192,5 +202,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             isBottomBavigationVisibale = true;
             selectedHomePage();
         }
+    }
+
+    private Activity getActivity() {
+        return this;
     }
 }

@@ -78,6 +78,12 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(mProfileAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mPhotoImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.openLogoutView();
+            }
+        });
     }
 
 

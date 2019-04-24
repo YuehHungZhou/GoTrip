@@ -32,6 +32,11 @@ public interface MainContract {
 
         void openAddTripDialogView();
 
+        void openLogoutUi();
+
+        void selectHome();
+
+
     }
 
     interface Presenter extends BasePresenter {
@@ -56,6 +61,7 @@ public interface MainContract {
 
         void addNewTrip(Trip trip);
 
+        void logout();
     }
 
 

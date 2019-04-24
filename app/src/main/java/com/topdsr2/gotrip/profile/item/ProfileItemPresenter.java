@@ -32,23 +32,23 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
     @Override
     public void loadNewTripData() {
-        FireBaseManager.getInstance().getNewTripData(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetUserTripCallback() {
-            @Override
-            public void onCompleted(ArrayList<Trip> trips) {
-                setNewTripData(trips);
-            }
+        FireBaseManager.getInstance().getNewTripData(UserManager.getInstance().getUser().getEmail(),
+                new FireBaseManager.GetUserTripCallback() {
+                    @Override
+                    public void onCompleted(ArrayList<Trip> trips) {
+                        setNewTripData(trips);
+                    }
 
-            @Override
-            public void onFailure(ArrayList<Trip> trips) {
+                    @Override
+                    public void onFailure(ArrayList<Trip> trips) {
 
-            }
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
-
+                    }
+                });
     }
 
     @Override
@@ -58,7 +58,8 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
     @Override
     public void loadCompleteTripData() {
-        FireBaseManager.getInstance().getCompleteTripData(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetUserTripCallback() {
+        FireBaseManager.getInstance().getCompleteTripData(UserManager.getInstance().getUser().getEmail(),
+                new FireBaseManager.GetUserTripCallback() {
             @Override
             public void onCompleted(ArrayList<Trip> trips) {
                 setCompleteTripData(trips);
@@ -84,7 +85,8 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
     @Override
     public void loadCollectionTripData() {
-        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetUserTripCallback() {
+        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance().getUser().getEmail(),
+                new FireBaseManager.GetUserTripCallback() {
             @Override
             public void onCompleted(ArrayList<Trip> trips) {
                 setCollectionTripData(trips);
@@ -122,25 +124,25 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     public void deleteTrip(Trip trip, int type) {
 
         switch (type) {
-            case TYPE_NEWTRIP :
+            case TYPE_NEWTRIP:
                 if ((checkIsCreater(trip.getCreater()))) {
-                FireBaseManager.getInstance().deleteTrip(trip.getId(),
-                        new FireBaseManager.DeleteTripCallback() {
-                            @Override
-                            public void onCompleted() {
-                                loadNewTripData();
-                            }
+                    FireBaseManager.getInstance().deleteTrip(trip.getId(),
+                            new FireBaseManager.DeleteTripCallback() {
+                                @Override
+                                public void onCompleted() {
+                                    loadNewTripData();
+                                }
 
-                            @Override
-                            public void onError(String errorMessage) {
+                                @Override
+                                public void onError(String errorMessage) {
 
-                            }
-                        });
+                                }
+                            });
                 } else {
                     mProfileItemView.showToast();
                 }
                 break;
-            case TYPE_COMPLETETRIP :
+            case TYPE_COMPLETETRIP:
                 if ((checkIsCreater(trip.getCreater()))) {
                     FireBaseManager.getInstance().deleteTrip(trip.getId(),
                             new FireBaseManager.DeleteTripCallback() {
@@ -158,7 +160,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                     mProfileItemView.showToast();
                 }
                 break;
-            case TYPE_COLLECTIONTRIP :
+            case TYPE_COLLECTIONTRIP:
                 FireBaseManager.getInstance().removeCollectionTrip(trip.getId(),
                         UserManager.getInstance().getUser().getEmail(),
                         new FireBaseManager.RemoveUserCollectionCallback() {
@@ -173,7 +175,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                             }
                         });
                 break;
-            default :
+            default:
                 break;
         }
     }

@@ -104,15 +104,16 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mPresenter.changeIconInfo(getAdapterPosition());
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
                     mReadyPoints.get(getAdapterPosition()).getLongitude());
+            mPresenter.showVoteView(getAdapterPosition());
         }
 
         @Override
         public boolean onLongClick(View v) {
 
-            mPresenter.showDeleteView(getAdapterPosition());
-            mPresenter.changeIconInfo(getAdapterPosition());
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
                     mReadyPoints.get(getAdapterPosition()).getLongitude());
+            mPresenter.changeIconInfo(getAdapterPosition());
+            mPresenter.showDeleteView(getAdapterPosition());
 
             return true;
         }
