@@ -32,6 +32,8 @@ public interface TripContract {
 
         void showVoteViewUi(int position);
 
+        void showToast();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -76,6 +78,10 @@ public interface TripContract {
 
         void vote(String pointId, String type);
 
+        void openExit();
+
+        void leaveThisTrip(LeaveOrNotCallback callback);
+
 
     }
 
@@ -96,6 +102,15 @@ public interface TripContract {
 
         void onError(String errorMessage);
 
+    }
+
+    interface LeaveOrNotCallback {
+
+        void onCompleted();
+
+        void onFailure();
+
+        void onError(String errorMessage);
     }
 
 

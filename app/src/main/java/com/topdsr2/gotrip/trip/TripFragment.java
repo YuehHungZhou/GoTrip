@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -89,6 +90,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ImageButton mFriendImageButton;
     private ImageButton mAddFriendImageButton;
     private ImageButton mTalkFriendImageButton;
+    private ImageButton mExitImageButton;
     private Button mAddFriendButton;
     private EditText mAddEditText;
     private RecyclerView mInfoRecyclerView;
@@ -162,6 +164,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mFriendImageButton = root.findViewById(R.id.imageButton_trip_friend);
         mAddFriendImageButton = root.findViewById(R.id.imageButton_add_friend);
         mTalkFriendImageButton = root.findViewById(R.id.imageButton_talk_friend);
+        mExitImageButton = root.findViewById(R.id.imageButton_exit);
         mAddFriendButton = root.findViewById(R.id.button_trip_add_friend);
         mAddEditText = root.findViewById(R.id.edit_trip_add_friend);
 
@@ -190,6 +193,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mFriendImageButton.setOnClickListener(this);
         mAddFriendImageButton.setOnClickListener(this);
         mTalkFriendImageButton.setOnClickListener(this);
+        mExitImageButton.setOnClickListener(this);
         mAddFriendButton.setOnClickListener(this);
         mVoteAgreeImage.setOnClickListener(this);
         mVoteDisagreeImage.setOnClickListener(this);
@@ -287,6 +291,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mFriendImageButton.setVisibility(View.INVISIBLE);
         mAddFriendImageButton.setVisibility(View.INVISIBLE);
         mTalkFriendImageButton.setVisibility(View.INVISIBLE);
+        mExitImageButton.setVisibility(View.INVISIBLE);
         mConstraintLayoutSearch.setVisibility(View.INVISIBLE);
 
     }
@@ -298,6 +303,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mFriendImageButton.setVisibility(View.VISIBLE);
         mAddFriendImageButton.setVisibility(View.VISIBLE);
         mTalkFriendImageButton.setVisibility(View.VISIBLE);
+        mExitImageButton.setVisibility(View.VISIBLE);
         mConstraintLayoutSearch.setVisibility(View.VISIBLE);
 
     }
@@ -337,6 +343,12 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     @Override
+    public void showToast() {
+        Toast.makeText(getContext(), "創建者無法退出此旅程，請至個人頁面刪除。", Toast.LENGTH_LONG).show();
+    }
+
+
+    @Override
     public void changeIconInfoUi(int posotion) {
         mTripContentAdapter.changeSelectedIconInfo(mVisibleItemPosition, posotion);
     }
@@ -371,9 +383,12 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 friendAnimate();
                 break;
             case R.id.imageButton_add_friend:
-                mConstraintLayouFriend.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.imageButton_talk_friend:
+                break;
+            case R.id.imageButton_exit:
+                mPresenter.openExit();
                 break;
             case R.id.button_trip_add_friend:
                 mPresenter.addTripRequest(mAddEditText.getText().toString().trim());
@@ -627,14 +642,19 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (mFriendStatus) {
             mFriendStatus = false;
             mAddFriendImageButton.animate().rotation(0).translationX(0).translationY(0);
-            mTalkFriendImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(500);
+            mTalkFriendImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(200);
+            mExitImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(400);
+
         } else {
             mAddFriendImageButton.clearAnimation();
             mTalkFriendImageButton.clearAnimation();
-
             mFriendStatus = true;
-            mAddFriendImageButton.animate().rotation(720).translationX(-80).translationY(220);
-            mTalkFriendImageButton.animate().rotation(720).translationX(-200).translationY(120).setStartDelay(500);
+            mAddFriendImageButton.animate().rotation(720).translationX(0).translationY(-250);
+            mTalkFriendImageButton.animate().rotation(720).translationX(-150).translationY(-150).setStartDelay(200);
+            mExitImageButton.animate().rotation(720).translationX(-250).translationY(-0).setStartDelay(400);
+
         }
     }
+
+
 }

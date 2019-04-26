@@ -9,6 +9,7 @@ import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
+import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
@@ -167,6 +168,21 @@ public class TripPresenter implements TripContract.Presenter {
                 UserManager.getInstance().getUser().getEmail());
     }
 
+    @Override
+    public void openExit() {
+
+    }
+
+    @Override
+    public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
+        if ((isCreater())) {
+            mTripView.showToast();
+        } else {
+            FireBaseManager.getInstance().removeOwner(UserManager.getInstance().getUser().getEmail(), mBean.getTrip().getId());
+            callback.onCompleted();
+        }
+    }
+
 
     @Override
     public void changeIconInfo(int position) {
@@ -212,6 +228,10 @@ public class TripPresenter implements TripContract.Presenter {
     
     private boolean isOwner() {
         return mBean.getTrip().getOwners().contains(UserManager.getInstance().getUser().getEmail());
+    }
+
+    private boolean isCreater() {
+        return mBean.getTrip().getCreater().equals(UserManager.getInstance().getUser().getEmail());
     }
 
 }

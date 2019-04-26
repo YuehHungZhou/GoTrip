@@ -39,8 +39,6 @@ public class TripContentAdapter extends RecyclerView.Adapter {
             if (mPointsHolder.get(position).getSorte() != -1) {
                 Point point = mPointsHolder.get(position);
 
-
-
                 ((TripContentViewHolder) viewHolder).mTextCost.setText("$ " + Integer.toString(point.getCost()));
                 ((TripContentViewHolder) viewHolder).mTextCost.setBackgroundResource(R.drawable.corner_cost_color);
 

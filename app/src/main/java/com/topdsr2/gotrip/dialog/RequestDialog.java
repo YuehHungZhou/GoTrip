@@ -22,6 +22,8 @@ import com.topdsr2.gotrip.data.object.Request;
 
 public class RequestDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
+    private Request mRequest;
+
     private MainContract.Presenter mMainPresenter;
     private RequestFriendAdapter mRequestFriendAdapter;
     private RequestTripAdapter mRequestTripAdapter;
@@ -36,7 +38,6 @@ public class RequestDialog extends AppCompatDialogFragment implements View.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStyle(STYLE_NO_FRAME, R.style.Dialog);
 
         mRequestFriendAdapter = new RequestFriendAdapter(mMainPresenter);
         mRequestTripAdapter = new RequestTripAdapter(mMainPresenter);
@@ -65,6 +66,8 @@ public class RequestDialog extends AppCompatDialogFragment implements View.OnCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mRequestTripAdapter.updateData(mRequest);
+        mRequestFriendAdapter.updateData(mRequest);
 
     }
 
@@ -74,8 +77,7 @@ public class RequestDialog extends AppCompatDialogFragment implements View.OnCli
     }
 
     public void setData(Request request) {
-        mRequestTripAdapter.updateData(request);
-        mRequestFriendAdapter.updateData(request);
+        mRequest = request;
     }
 
 

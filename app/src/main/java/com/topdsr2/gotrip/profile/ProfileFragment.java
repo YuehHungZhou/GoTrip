@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
@@ -25,9 +26,11 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     private ProfileContract.Presenter mPresenter;
     private ProfileAdapter mProfileAdapter;
     private User mUser;
+    private Request mRequest;
 
     private ImageView mPhotoImage;
     private TextView mNameText;
+    private TextView mRequestText;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -62,6 +65,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mViewPager = root.findViewById(R.id.pager_profile);
         mPhotoImage = root.findViewById(R.id.image_profile_photo);
         mNameText = root.findViewById(R.id.text_profile_name);
+        mRequestText = root.findViewById(R.id.text_profile_request);
 
         mPhotoImage.setOutlineProvider(new ProfileAvatarOutlineProvider());
 
@@ -95,10 +99,24 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         });
     }
 
-
     @Override
     public void showProfileUi(User user) {
         mUser = user;
     }
 
+    @Override
+    public void showRequestUi(Request request) {
+        mRequest = request;
+
+        if (mUser.getTripRequests().size() != 0 || mUser.getFriendRequests().size() != 0) {
+            mRequestText.setVisibility(View.VISIBLE);
+        } else {
+            mRequestText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

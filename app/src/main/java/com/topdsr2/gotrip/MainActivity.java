@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.dialog.AddTripDialog;
+import com.topdsr2.gotrip.dialog.LeaveDialog;
 import com.topdsr2.gotrip.dialog.LoginDialog;
 import com.topdsr2.gotrip.dialog.LogoutDialog;
 import com.topdsr2.gotrip.dialog.RequestDialog;
@@ -23,7 +24,7 @@ import com.topdsr2.gotrip.util.UserManager;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class MainActivity extends BaseActivity implements MainContract.View {
+            public class MainActivity extends BaseActivity implements MainContract.View {
 
     private BottomNavigationView mBottomNavigation;
     private boolean isBottomBavigationVisibale = true;
@@ -78,6 +79,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                         case R.id.navigation_profile:
                             selectedBottomNavigationViewItem(2);
                             mPresenter.openProfile();
+                            mPresenter.loadRequestData();
                             return true;
                         default:
                             return false;
@@ -147,27 +149,31 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void openRequestUi() {
+    public void openRequestUi(Request request) {
         RequestDialog requestDialog = new RequestDialog();
         requestDialog.setMainPresenter(mPresenter);
-        mPresenter.loadRequestData(new MainContract.GetAllRequestCallback() {
-            @Override
-            public void onCompleted(Request request) {
-                requestDialog.setData(request);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
+        requestDialog.setData(request);
         requestDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void openExitUi() {
+        LeaveDialog leaveDialog = new LeaveDialog();
+        leaveDialog.setMainPresenter(mPresenter);
+        leaveDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void back() {
+        onBackPressed();
     }
 
     @Override
     public void selectHome() {
         selectedHomePage();
     }
+
+
 
     @Override
     public void hideBottomNavigationUi() {

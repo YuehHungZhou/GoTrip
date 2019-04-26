@@ -35,9 +35,13 @@ public interface MainContract {
 
         void openLogoutUi();
 
-        void openRequestUi();
+        void openRequestUi(Request request);
 
         void selectHome();
+
+        void openExitUi();
+
+        void back();
 
 
     }
@@ -66,7 +70,9 @@ public interface MainContract {
 
         void logout();
 
-        void loadRequestData(GetAllRequestCallback callback);
+        void leaveTrip();
+
+        void loadRequestData();
 
         void agreeTripRequest(String documentId);
 
@@ -75,6 +81,7 @@ public interface MainContract {
         void agreeFriendRequest(String email);
 
         void disagreeFriendRequest(String email);
+
     }
 
     public interface GetAllRequestCallback {

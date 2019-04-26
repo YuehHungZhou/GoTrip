@@ -209,11 +209,32 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void loadRequestData(MainContract.GetAllRequestCallback callback) {
+    public void leaveTrip() {
+
+        mTripPresenter.leaveThisTrip(new TripContract.LeaveOrNotCallback() {
+            @Override
+            public void onCompleted() {
+                mMainView.back();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    @Override
+    public void loadRequestData() {
         FireBaseManager.getInstance().getRequest(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
             @Override
             public void onCompleted(Request request) {
-                callback.onCompleted(request);
+                mProfilePresenter.setRequestData(request);
             }
 
             @Override
@@ -379,6 +400,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void openExit() {
+        mMainView.openExitUi();
+    }
+
+    @Override
+    public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
+
+    }
+
+    @Override
     public void loadPointData() {
         mTripPresenter.getAddPointData(new TripContract.GetAddPointDataCallback() {
             @Override
@@ -435,7 +466,17 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void openRequestView() {
-        mMainView.openRequestUi();
+        mMainView.openRequestUi(mProfilePresenter.getRequestData());
+    }
+
+    @Override
+    public void setRequestData(Request request) {
+
+    }
+
+    @Override
+    public Request getRequestData() {
+        return null;
     }
 
     @Override
@@ -469,7 +510,4 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
 
-    /**
-     *
-     */
 }
