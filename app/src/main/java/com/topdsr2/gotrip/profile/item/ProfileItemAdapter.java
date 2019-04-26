@@ -3,7 +3,6 @@ package com.topdsr2.gotrip.profile.item;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
-import com.topdsr2.gotrip.data.object.Image;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
-import com.topdsr2.gotrip.util.ProfileAvatarOutlineProvider;
 
 import java.util.ArrayList;
 

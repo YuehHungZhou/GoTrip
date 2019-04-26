@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.dialog.AddTripDialog;
 import com.topdsr2.gotrip.dialog.LoginDialog;
 import com.topdsr2.gotrip.dialog.LogoutDialog;
+import com.topdsr2.gotrip.dialog.RequestDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 import com.topdsr2.gotrip.util.UserManager;
 
@@ -131,9 +133,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void openAddTripDialogView() {
-        AddTripDialog mAddTripDialog = new AddTripDialog();
-        mAddTripDialog.setMainPresenter(mPresenter);
-        mAddTripDialog.show(getSupportFragmentManager(), "");
+        AddTripDialog addTripDialog = new AddTripDialog();
+        addTripDialog.setMainPresenter(mPresenter);
+        addTripDialog.show(getSupportFragmentManager(), "");
     }
 
     @Override
@@ -142,6 +144,24 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         logoutDialog.setMainPresenter(mPresenter);
         logoutDialog.show(getSupportFragmentManager(), "");
 
+    }
+
+    @Override
+    public void openRequestUi() {
+        RequestDialog requestDialog = new RequestDialog();
+        requestDialog.setMainPresenter(mPresenter);
+        mPresenter.loadRequestData(new MainContract.GetAllRequestCallback() {
+            @Override
+            public void onCompleted(Request request) {
+                requestDialog.setData(request);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+        requestDialog.show(getSupportFragmentManager(), "");
     }
 
     @Override

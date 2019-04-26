@@ -9,6 +9,7 @@ import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.home.HomeContract;
@@ -207,6 +208,43 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.selectHome();
     }
 
+    @Override
+    public void loadRequestData(MainContract.GetAllRequestCallback callback) {
+        FireBaseManager.getInstance().getRequest(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
+            @Override
+            public void onCompleted(Request request) {
+                callback.onCompleted(request);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    @Override
+    public void agreeTripRequest(String documentId) {
+        FireBaseManager.getInstance().agreeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
+    }
+
+    @Override
+    public void disagreeTripRequest(String documentId) {
+        FireBaseManager.getInstance().removeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
+    }
+
+    @Override
+    public void agreeFriendRequest(String email) {
+        FireBaseManager.getInstance().agreeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
+
+    }
+
+    @Override
+    public void disagreeFriendRequest(String email) {
+        FireBaseManager.getInstance().removeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
+
+    }
+
 
     /**
      * Home
@@ -393,6 +431,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void openLogoutView() {
         mMainView.openLogoutUi();
+    }
+
+    @Override
+    public void openRequestView() {
+        mMainView.openRequestUi();
     }
 
     @Override

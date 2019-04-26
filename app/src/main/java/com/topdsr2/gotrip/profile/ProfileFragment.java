@@ -81,7 +81,16 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mPhotoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPresenter.openRequestView();
+
+            }
+        });
+
+        mPhotoImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 mPresenter.openLogoutView();
+                return true;
             }
         });
     }

@@ -626,9 +626,12 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private void friendAnimate() {
         if (mFriendStatus) {
             mFriendStatus = false;
-            mAddFriendImageButton.animate().translationX(0).translationY(0);
-            mTalkFriendImageButton.animate().translationX(0).translationY(0).setStartDelay(500);
+            mAddFriendImageButton.animate().rotation(0).translationX(0).translationY(0);
+            mTalkFriendImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(500);
         } else {
+            mAddFriendImageButton.clearAnimation();
+            mTalkFriendImageButton.clearAnimation();
+
             mFriendStatus = true;
             mAddFriendImageButton.animate().rotation(720).translationX(-80).translationY(220);
             mTalkFriendImageButton.animate().rotation(720).translationX(-200).translationY(120).setStartDelay(500);

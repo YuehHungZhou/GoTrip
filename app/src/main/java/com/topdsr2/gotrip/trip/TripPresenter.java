@@ -107,8 +107,8 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void addTripRequest(String email) {
-        FireBaseManager.getInstance().addTripRequest(email, UserManager.getInstance().getUser().getEmail(),
+    public void addTripRequest(String addEmail) {
+        FireBaseManager.getInstance().addTripRequest(addEmail, mBean.getTrip().getId(),
                 new FireBaseManager.AddFriendCallback() {
                     @Override
                     public void onCompleted() {

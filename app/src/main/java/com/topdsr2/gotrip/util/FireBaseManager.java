@@ -16,6 +16,7 @@ import com.topdsr2.gotrip.data.GoTripLocalDataSource;
 import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.data.object.User;
@@ -25,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
+
+import static com.google.firebase.firestore.Query.Direction.ASCENDING;
+import static com.google.firebase.firestore.Query.Direction.DESCENDING;
 
 public class FireBaseManager {
 
@@ -124,6 +128,7 @@ public class FireBaseManager {
     public void getAllTypeTrip(GetAllTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
         db.collection(TRIP)
+                .orderBy(TRIPSTART, DESCENDING).limit(50)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -518,13 +523,58 @@ public class FireBaseManager {
         });
     }
 
-    public void addTripRequest(String email, String userEmail, AddFriendCallback callback) {
-        checkHasUserData(email, new GetUserDocumentIdCallback() {
+    public void agreeFriendRequest(String userEmail, String email) {
+        removeFriendRequest(userEmail, email);
+
+        addFriend(userEmail, email);
+        addFriend(email, userEmail);
+    }
+
+    public void addFriend(String email, String addEmail) {
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Map<String, Object> removeRequest = new HashMap<>();
+                        removeRequest.put(FRIENDS, FieldValue.arrayUnion(addEmail));
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            db.collection(USER).document(document.getId())
+                                    .update(removeRequest);
+                        }
+
+                    }
+                });
+    }
+
+    public void removeFriendRequest(String userEmail, String requestEmail) {
+        db.collection(USER)
+                .whereEqualTo(EMAIL, userEmail)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Map<String, Object> removeRequest = new HashMap<>();
+                        removeRequest.put(FRIENDREQUESTS, FieldValue.arrayRemove(requestEmail));
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            db.collection(USER).document(document.getId())
+                                    .update(removeRequest);
+                        }
+
+                    }
+                });
+    }
+
+    public void addTripRequest(String AddEmail, String documentId, AddFriendCallback callback) {
+        checkHasUserData(AddEmail, new GetUserDocumentIdCallback() {
             @Override
             public void onCompleted(String documentId) {
 
                 Map<String, Object> addRequest = new HashMap<>();
-                addRequest.put(TRIPREQUESTS, FieldValue.arrayUnion(userEmail));
+                addRequest.put(TRIPREQUESTS, FieldValue.arrayUnion(documentId));
                 db.collection(USER).document(documentId)
                         .update(addRequest);
 
@@ -544,11 +594,34 @@ public class FireBaseManager {
         });
     }
 
-    public void addOwner(String email, String documentId) {
+    public void agreeTripRequest(String email, String documentId) {
+        removeTripRequest(email, documentId);
+
         Map<String, Object> addRequest = new HashMap<>();
         addRequest.put(OWNER, FieldValue.arrayUnion(email));
         db.collection(TRIP).document(documentId)
                 .update(addRequest);
+    }
+
+    public void removeTripRequest(String email, String documentId) {
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Map<String, Object> removeRequest = new HashMap<>();
+                        removeRequest.put(TRIPREQUESTS, FieldValue.arrayRemove(documentId));
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            db.collection(USER)
+                                    .document(document.getId())
+                                    .update(removeRequest);
+                        }
+
+                        }
+                });
     }
 
     public void removeOwner(String email, String documentId) {
@@ -558,18 +631,109 @@ public class FireBaseManager {
                 .update(addRequest);
     }
 
-    public void remaoveFriendRequest(String email, String documentId) {
-        Map<String, Object> addRequest = new HashMap<>();
-        addRequest.put(FRIENDREQUESTS, FieldValue.arrayRemove(email));
-        db.collection(USER).document(documentId)
-                .update(addRequest);
+    public void getRequest(String email, GetRequestCallback callback) {
+        Request request = new Request();
+        final int[] i = {0};
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            User user = document.toObject(User.class);
+
+                            if (user.getFriendRequests().size() == 0) {
+                                i[0]++;
+                                if (i[0] == 2) {
+                                    callback.onCompleted(request);
+                                }
+                            } else {
+                                getFriendRequestData(request.getUsers(), user.getFriendRequests(), user.getFriendRequests().size(), 0, new GetFriendRequestDataCallback() {
+                                    @Override
+                                    public void onCompleted(ArrayList<User> users) {
+                                        request.setUsers(users);
+                                        i[0]++;
+                                        if (i[0] == 2) {
+                                            callback.onCompleted(request);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+
+                                    }
+                                });
+                            }
+
+                            if (user.getTripRequests().size() == 0) {
+                                i[0]++;
+                                if (i[0] == 2) {
+                                    callback.onCompleted(request);
+                                }
+                            } else {
+                                getTripRequestData(request.getTrips(), user.getTripRequests(), user.getTripRequests().size(), 0, new GetTripRequestDataCallback() {
+                                    @Override
+                                    public void onCompleted(ArrayList<Trip> trips) {
+                                        request.setTrips(trips);
+                                        i[0]++;
+                                        if (i[0] == 2) {
+                                            callback.onCompleted(request);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+
+                                    }
+                                });
+                            }
+                        }
+                        }
+                });
     }
 
-    public void remaoveTripRequest(String email, String documentId) {
-        Map<String, Object> addRequest = new HashMap<>();
-        addRequest.put(TRIPREQUESTS, FieldValue.arrayRemove(email));
-        db.collection(USER).document(documentId)
-                .update(addRequest);
+    private void getFriendRequestData(ArrayList<User> users, ArrayList<String> friendRequest, int size, int handleNumber, GetFriendRequestDataCallback callback) {
+        int i = handleNumber + 1;
+
+        db.collection(USER)
+                .whereEqualTo(EMAIL, friendRequest.get(handleNumber))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            users.add((document.toObject(User.class)));
+
+                            if (i < size) {
+                                getFriendRequestData(users, friendRequest, size, i, callback);
+                            } else {
+                                callback.onCompleted(users);
+                            }
+                        }
+                        }
+                });
+    }
+
+    private void getTripRequestData(ArrayList<Trip> trips, ArrayList<String> tripRequest, int size, int handleNumber, GetTripRequestDataCallback callback) {
+        int i = handleNumber + 1;
+
+        db.collection(TRIP)
+                .document(tripRequest.get(handleNumber))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            trips.add((documentSnapshot.toObject(Trip.class)));
+
+                            if (i < size) {
+                                getTripRequestData(trips, tripRequest, size, i, callback);
+                            } else {
+                                callback.onCompleted(trips);
+                            }
+                    }
+                });
     }
 
     public void getHasOnTrip(String email, GetUserOnTripCallback callback) {
@@ -957,6 +1121,13 @@ public class FireBaseManager {
         void onError(String errorMessage);
     }
 
+    public interface GetRequestCallback {
+
+        void onCompleted(Request request);
+
+        void onError(String errorMessage);
+    }
+
     interface GetDocumentIdAndTripCallback {
 
         void onCompleted(String id, Trip trip);
@@ -1009,6 +1180,20 @@ public class FireBaseManager {
     }
 
     interface GetCollectionTripCallback {
+
+        void onCompleted(ArrayList<Trip> trips);
+
+        void onError(String errorMessage);
+    }
+
+    interface GetFriendRequestDataCallback {
+
+        void onCompleted(ArrayList<User> users);
+
+        void onError(String errorMessage);
+    }
+
+    interface GetTripRequestDataCallback {
 
         void onCompleted(ArrayList<Trip> trips);
 
