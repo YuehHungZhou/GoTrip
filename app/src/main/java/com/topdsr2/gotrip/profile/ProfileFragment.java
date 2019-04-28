@@ -102,6 +102,8 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     @Override
     public void showProfileUi(User user) {
         mUser = user;
+
+
     }
 
     @Override
@@ -116,7 +118,23 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
+    public void checkUser() {
+        if (!isSameUser()) {
+            mNameText.setText(mUser.getName());
+            ImageManager.getInstance().setImageByUrl(mPhotoImage, mUser.getUserImage());
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+    }
+
+    private boolean isSameUser() {
+        if (mNameText != null) {
+            return mNameText.getText().toString().trim().equals(mUser.getName().trim());
+        } else {
+            return true;
+        }
     }
 }

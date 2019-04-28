@@ -17,6 +17,7 @@ import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Request;
+import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 import com.topdsr2.gotrip.data.object.User;
@@ -42,8 +43,10 @@ public class FireBaseManager {
     private static final String COMPLETE = "complete";
     private static final String OWNER = "owners";
     private static final String TITLE = "title";
+    private static final String TRIPDAY = "tripDay";
     private static final String TRIPSTART = "tripStart";
     private static final String TRIPEND = "tripEnd";
+    private static final String COLLECTIONNUMBER = "collectionNumber";
     private static final String ADDPOINTTIMES = "addPointTimes";
 
 
@@ -140,6 +143,34 @@ public class FireBaseManager {
                         callback.onCompleted(trips);
                     }
                 });
+    }
+
+    public void getSearchTrip(SearchData searchData, long startTime, long endTime, GetAllTripCallback callback) {
+        ArrayList<Trip> trips = new ArrayList<>();
+
+            db.collection(TRIP)
+                    .whereGreaterThanOrEqualTo(TRIPSTART, startTime)
+                    .whereLessThan(TRIPSTART, endTime)
+                    .orderBy(TRIPSTART, DESCENDING).limit(20)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                Trip trip = documentSnapshot.toObject(Trip.class);
+
+                                if (trip.getCountry().equals(searchData.getCountry())
+                                        && trip.getCollectionNumber() >= searchData.getCollection()
+                                        && trip.getTripDay() >= searchData.getDay()) {
+
+                                    trips.add(trip);
+
+                                }
+                            }
+                            callback.onCompleted(trips);
+                        }
+                    });
+
     }
 
     public void getSelectedTrip(String tripId, FindTripCallback callback) {
@@ -571,11 +602,11 @@ public class FireBaseManager {
     public void addTripRequest(String AddEmail, String documentId, AddFriendCallback callback) {
         checkHasUserData(AddEmail, new GetUserDocumentIdCallback() {
             @Override
-            public void onCompleted(String documentId) {
+            public void onCompleted(String document) {
 
                 Map<String, Object> addRequest = new HashMap<>();
                 addRequest.put(TRIPREQUESTS, FieldValue.arrayUnion(documentId));
-                db.collection(USER).document(documentId)
+                db.collection(USER).document(document)
                         .update(addRequest);
 
                 callback.onCompleted();

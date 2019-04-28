@@ -41,7 +41,9 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setStyle(STYLE_NO_FRAME, R.style.Dialog);
+
     }
 
     @Nullable
@@ -49,6 +51,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dialog_login, container, false);
+
         mLoginButton = view.findViewById(R.id.button_login);
         mTitleTextView = view.findViewById(R.id.text_login);
         mTitleTextView.setTypeface(Typeface.createFromAsset(view.getContext().getAssets(), "veganstyle.ttf"));
@@ -101,6 +104,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
                 signinDialog.dismiss();
             }
         }, 2000);
+
         dismiss();
     }
 
@@ -108,6 +112,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = (accessToken != null);
         if (!isLoggedIn) {

@@ -76,4 +76,9 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     public Request getRequestData() {
         return mRequest;
     }
+
+    @Override
+    public void checkUser() {
+        mProfileView.checkUser();
+    }
 }

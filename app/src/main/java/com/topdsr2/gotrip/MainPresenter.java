@@ -3,6 +3,7 @@ package com.topdsr2.gotrip;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
@@ -10,8 +11,10 @@ import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Request;
+import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
+import com.topdsr2.gotrip.dialog.AddTripOwnerDialog;
 import com.topdsr2.gotrip.home.HomeContract;
 import com.topdsr2.gotrip.home.HomePresenter;
 import com.topdsr2.gotrip.profile.ProfileContract;
@@ -43,6 +46,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     private ProfileItemPresenter mProfileCollectionTripPresenter;
 
     private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
+
+    private AddTripOwnerDialog mAddTripOwnerDialog;
 
 
     public MainPresenter(
@@ -137,7 +142,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void checkOnTrip() {
-        if (mTripPresenter == null) {
+//        if (mTripPresenter == null) {
             FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
                     new FireBaseManager.GetUserOnTripCallback() {
                         @Override
@@ -158,26 +163,26 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
                         }
                     });
 
-        } else {
-            mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
-                @Override
-                public void onCompleted(String tripId) {
-                    mMainView.openTripUi();
-                    mMainView.hideBottomNavigationUi();
-                    mTripPresenter.loadTripData(tripId);
-                }
-
-                @Override
-                public void onFailure() {
-                    // 轉到profile
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-
-                }
-            });
-        }
+//        } else {
+//            mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
+//                @Override
+//                public void onCompleted(String tripId) {
+//                    mMainView.openTripUi();
+//                    mMainView.hideBottomNavigationUi();
+//                    mTripPresenter.loadTripData(tripId);
+//                }
+//
+//                @Override
+//                public void onFailure() {
+//                    // 轉到profile
+//                }
+//
+//                @Override
+//                public void onError(String errorMessage) {
+//
+//                }
+//            });
+//        }
 
     }
 
@@ -266,6 +271,42 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     }
 
+    @Override
+    public void setAddTripOwnerDialog(AddTripOwnerDialog addTripOwnerDialog) {
+        mAddTripOwnerDialog = addTripOwnerDialog;
+    }
+
+    @Override
+    public void addTripOwner(String email) {
+      mTripPresenter.addTripRequest(email, new TripContract.AddTripOwnerOrNotCallback() {
+          @Override
+          public void onCompleted() {
+              mAddTripOwnerDialog.dismiss();
+              mMainView.showToast("加入成功");
+          }
+
+          @Override
+          public void onFailure() {
+              mMainView.showToast("沒有此會員");
+          }
+
+          @Override
+          public void onError(String errorMessage) {
+
+          }
+      });
+    }
+
+    @Override
+    public void checkUserData() {
+        mProfilePresenter.checkUser();
+    }
+
+    @Override
+    public void search(SearchData searchData) {
+        mHomePresenter.searchData(searchData);
+    }
+
 
     /**
      * Home
@@ -302,6 +343,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mMainView.openTripUi();
         mMainView.hideBottomNavigationUi();
         mTripPresenter.loadTripData(tripId);
+    }
+
+    @Override
+    public void openFilterView() {
+        mMainView.openFilterUi();
+    }
+
+    @Override
+    public void searchData(SearchData searchData) {
+
     }
 
     @Override
@@ -355,11 +406,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void removeListener() {
-        mTripPresenter.removeListener();
-    }
-
-    @Override
     public void reSetTripListener() {
 
     }
@@ -370,8 +416,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void addTripRequest(String email) {
-        mTripPresenter.addTripRequest(email);
+    public void addTripRequest(String email, TripContract.AddTripOwnerOrNotCallback callback) {
+
     }
 
     @Override
@@ -407,6 +453,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
 
+    }
+
+    @Override
+    public void openAddTripOwner() {
+        mMainView.openAddTripOwnerUi();
     }
 
     @Override
@@ -477,6 +528,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public Request getRequestData() {
         return null;
+    }
+
+    @Override
+    public void checkUser() {
+
     }
 
     @Override

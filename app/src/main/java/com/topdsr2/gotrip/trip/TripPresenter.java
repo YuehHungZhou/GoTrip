@@ -77,11 +77,6 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void removeListener() {
-        FireBaseManager.getInstance().closeListener();
-    }
-
-    @Override
     public void reSetTripListener() {
         mTripView.reSetTripListener();
     }
@@ -108,18 +103,18 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void addTripRequest(String addEmail) {
+    public void addTripRequest(String addEmail,TripContract.AddTripOwnerOrNotCallback callback) {
         FireBaseManager.getInstance().addTripRequest(addEmail, mBean.getTrip().getId(),
                 new FireBaseManager.AddFriendCallback() {
                     @Override
                     public void onCompleted() {
-                        //show 加入成功
+                        callback.onCompleted();
 
                     }
 
                     @Override
                     public void OnFailure() {
-                        //show 無此使用者
+                        callback.onFailure();
                     }
 
                     @Override
@@ -134,6 +129,7 @@ public class TripPresenter implements TripContract.Presenter {
 
         if (isOwner()) {
             mTripView.openFunction(isOwner());
+            setTripListener(mBean.getDocumentId());
         } else {
             mTripView.closeFunction(isOwner());
         }
@@ -181,6 +177,11 @@ public class TripPresenter implements TripContract.Presenter {
             FireBaseManager.getInstance().removeOwner(UserManager.getInstance().getUser().getEmail(), mBean.getTrip().getId());
             callback.onCompleted();
         }
+    }
+
+    @Override
+    public void openAddTripOwner() {
+
     }
 
 

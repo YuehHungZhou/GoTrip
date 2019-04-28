@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.topdsr2.gotrip"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.polyak:icon-switch:1.0.0'
     implementation 'com.facebook.android:facebook-login:4.42.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

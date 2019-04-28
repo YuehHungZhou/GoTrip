@@ -8,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ImageView mReloadImage;
     private ConstraintLayout mConstraintLayouAdd;
     private ConstraintLayout mConstraintLayouDelete;
-    private ConstraintLayout mConstraintLayouFriend;
     private ConstraintLayout mConstraintLayoutSearch;
     private ConstraintLayout mConstraintLayoutVote;
     private TextView mVoteTitleText;
@@ -91,8 +91,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ImageButton mAddFriendImageButton;
     private ImageButton mTalkFriendImageButton;
     private ImageButton mExitImageButton;
-    private Button mAddFriendButton;
-    private EditText mAddEditText;
     private RecyclerView mInfoRecyclerView;
     private RecyclerView mIconRecyclerView;
 
@@ -160,13 +158,10 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mIconSwitchAdd = root.findViewById(R.id.icon_switch_add);
         mIconSwitchDelete = root.findViewById(R.id.icon_switch_delete);
 
-        mConstraintLayouFriend = root.findViewById(R.id.constraint_friend);
         mFriendImageButton = root.findViewById(R.id.imageButton_trip_friend);
         mAddFriendImageButton = root.findViewById(R.id.imageButton_add_friend);
         mTalkFriendImageButton = root.findViewById(R.id.imageButton_talk_friend);
         mExitImageButton = root.findViewById(R.id.imageButton_exit);
-        mAddFriendButton = root.findViewById(R.id.button_trip_add_friend);
-        mAddEditText = root.findViewById(R.id.edit_trip_add_friend);
 
         return root;
     }
@@ -194,7 +189,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mAddFriendImageButton.setOnClickListener(this);
         mTalkFriendImageButton.setOnClickListener(this);
         mExitImageButton.setOnClickListener(this);
-        mAddFriendButton.setOnClickListener(this);
         mVoteAgreeImage.setOnClickListener(this);
         mVoteDisagreeImage.setOnClickListener(this);
 
@@ -238,7 +232,9 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mReadyPoints = new ArrayList<>();
         mTripDay = mBean.getTrip().getTripDay();
 
+
         parsePointData();
+
         if (mMap != null) {
             setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
         }
@@ -368,12 +364,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        mPresenter.removeListener();
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_reload_point:
@@ -383,15 +373,13 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 friendAnimate();
                 break;
             case R.id.imageButton_add_friend:
-
+                mPresenter.openAddTripOwner();
                 break;
             case R.id.imageButton_talk_friend:
+                Toast.makeText(getContext(), "聊天系統 coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButton_exit:
                 mPresenter.openExit();
-                break;
-            case R.id.button_trip_add_friend:
-                mPresenter.addTripRequest(mAddEditText.getText().toString().trim());
                 break;
             case R.id.image_trip_vote_agree:
                 mPresenter.vote(
@@ -472,7 +460,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (points.size() != 0) {
             mMap.clear();
             mLatLngs.clear();
-            mPresenter.setTripListener(mBean.getDocumentId());
 
             for (int i = 0; i < points.size(); i++) {
                 LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());

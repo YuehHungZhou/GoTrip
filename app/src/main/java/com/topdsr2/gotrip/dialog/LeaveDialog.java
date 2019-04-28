@@ -53,6 +53,8 @@ public class LeaveDialog extends BottomSheetDialogFragment implements View.OnCli
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mMainPresenter.leaveTrip();
+
                 dismiss();
             }
         });
@@ -70,6 +72,5 @@ public class LeaveDialog extends BottomSheetDialogFragment implements View.OnCli
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        mMainPresenter.leaveTrip();
     }
 }

@@ -2,6 +2,7 @@ package com.topdsr2.gotrip.home;
 
 import com.topdsr2.gotrip.BasePresenter;
 import com.topdsr2.gotrip.BaseView;
+import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public interface HomeContract {
     interface View extends BaseView<Presenter> {
 
         void showHomeUi(ArrayList<Trip> trips);
+
 
     }
 
@@ -23,5 +25,10 @@ public interface HomeContract {
         void openTripMap();
 
         void loadTrip(String tripId);
+
+        void openFilterView();
+
+        void searchData(SearchData searchData);
+
     }
 }

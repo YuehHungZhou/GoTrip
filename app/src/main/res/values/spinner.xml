@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="add_trip_country_list">
+        <item>"Asia"</item>
+        <item>"Europe"</item>
+        <item>"North America"</item>
+        <item>"South America"</item>
+        <item>"Oceania"</item>
+        <item>"Africa"</item>
+        <item>"Antarctica"</item>
+    </string-array>
+
+    <string-array name="filter_trip_country_list">
+        <item>"Asia"</item>
+        <item>"Europe"</item>
+        <item>"North America"</item>
+        <item>"South America"</item>
+        <item>"Oceania"</item>
+        <item>"Africa"</item>
+        <item>"Antarctica"</item>
+    </string-array>
+
+    <string-array name="filter_trip_year">
+        <item>"2017"</item>
+        <item>"2018"</item>
+        <item>"2019"</item>
+    </string-array>
+
+    <string-array name="filter_trip_month">
+        <item>"無"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>"9"</item>
+        <item>"10"</item>
+        <item>"11"</item>
+        <item>"12"</item>
+    </string-array>
+
+
+    <string-array name="icon_type_list">
+        <item>"飯店"</item>
+        <item>"餐廳"</item>
+        <item>"景點"</item>
+    </string-array>
+
+</resources>
+

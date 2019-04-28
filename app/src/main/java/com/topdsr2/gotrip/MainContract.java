@@ -3,7 +3,9 @@ package com.topdsr2.gotrip;
 import android.app.Activity;
 
 import com.topdsr2.gotrip.data.object.Request;
+import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.dialog.AddTripOwnerDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 
 public interface MainContract {
@@ -43,6 +45,12 @@ public interface MainContract {
 
         void back();
 
+        void openAddTripOwnerUi();
+
+        void showToast(String message);
+
+        void openFilterUi();
+
 
     }
 
@@ -81,6 +89,14 @@ public interface MainContract {
         void agreeFriendRequest(String email);
 
         void disagreeFriendRequest(String email);
+
+        void setAddTripOwnerDialog(AddTripOwnerDialog addTripOwnerDialog);
+
+        void addTripOwner(String email);
+
+        void checkUserData();
+
+        void search(SearchData searchData);
 
     }
 

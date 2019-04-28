@@ -68,10 +68,11 @@ public class UserManager {
 
                                         String email = object.getString("email");
                                         String name = object.getString("name");
-                                        Profile profile = Profile.getCurrentProfile();
-                                        Uri userPhoto = profile.getProfilePictureUri(300, 300);
+                                        String userPhoto = "https://graph.facebook.com/" + object.getLong("id") + "/picture?type=large";
+//                                        Profile profile = Profile.getCurrentProfile();
+//                                        Uri userPhoto = profile.getProfilePictureUri(300, 300);
 
-                                        addUserDataToifrebase(email, name, userPhoto.toString(), loadCallback);
+                                        addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                         writeInternal(email, (Activity) context);
                                         loadCallback.onSuccess();
                                     }

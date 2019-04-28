@@ -1,39 +1,30 @@
 package com.topdsr2.gotrip.dialog;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.MainContract;
 import com.topdsr2.gotrip.R;
-import com.topdsr2.gotrip.data.object.Trip;
-import com.topdsr2.gotrip.util.Constants;
-import com.topdsr2.gotrip.util.UserManager;
 
-import java.util.Calendar;
-
-public class LogoutDialog extends BottomSheetDialogFragment implements View.OnClickListener {
+public class AddTripOwnerDialog extends BottomSheetDialogFragment implements View.OnClickListener {
 
     MainContract.Presenter mMainPresenter;
 
     private Button mButton;
+    private EditText mEditText;
 
-    public LogoutDialog() {
+    public AddTripOwnerDialog() {
     }
 
     public void setMainPresenter(MainContract.Presenter mainPresenter) {
@@ -50,9 +41,10 @@ public class LogoutDialog extends BottomSheetDialogFragment implements View.OnCl
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_logout, container, false);
+        View view = inflater.inflate(R.layout.dialog_add_tirp_owner, container, false);
 
-        mButton = view.findViewById(R.id.button_logout);
+        mButton = view.findViewById(R.id.button_add_trip_owner);
+        mEditText = view.findViewById(R.id.editText_add_trip_owner);
         return view;
 
     }
@@ -64,12 +56,9 @@ public class LogoutDialog extends BottomSheetDialogFragment implements View.OnCl
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FacebookSdk.sdkInitialize(GoTrip.getmContext());
-                LoginManager.getInstance().logOut();
 
-                mMainPresenter.logout();
-
-                dismiss();
+                String email = mEditText.getText().toString().trim();
+                mMainPresenter.addTripOwner(email);
             }
         });
     }

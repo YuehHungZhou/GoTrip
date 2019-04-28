@@ -8,12 +8,17 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.dialog.AddTripDialog;
+import com.topdsr2.gotrip.dialog.AddTripOwnerDialog;
+import com.topdsr2.gotrip.dialog.HomeFilterDialog;
 import com.topdsr2.gotrip.dialog.LeaveDialog;
 import com.topdsr2.gotrip.dialog.LoginDialog;
 import com.topdsr2.gotrip.dialog.LogoutDialog;
@@ -24,7 +29,7 @@ import com.topdsr2.gotrip.util.UserManager;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-            public class MainActivity extends BaseActivity implements MainContract.View {
+public class MainActivity extends BaseActivity implements MainContract.View {
 
     private BottomNavigationView mBottomNavigation;
     private boolean isBottomBavigationVisibale = true;
@@ -79,6 +84,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
                         case R.id.navigation_profile:
                             selectedBottomNavigationViewItem(2);
                             mPresenter.openProfile();
+                            mPresenter.checkUserData();
                             mPresenter.loadRequestData();
                             return true;
                         default:
@@ -164,6 +170,28 @@ import static com.google.common.base.Preconditions.checkNotNull;
     }
 
     @Override
+    public void openFilterUi() {
+        HomeFilterDialog filterDialog = new HomeFilterDialog();
+        filterDialog.setMainPresenter(mPresenter);
+        filterDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void openAddTripOwnerUi() {
+        AddTripOwnerDialog addTripOwnerDialog = new AddTripOwnerDialog();
+        addTripOwnerDialog.setMainPresenter(mPresenter);
+        addTripOwnerDialog.show(getSupportFragmentManager(), "");
+        mPresenter.setAddTripOwnerDialog(addTripOwnerDialog);
+    }
+
+
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void back() {
         onBackPressed();
     }
@@ -172,8 +200,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
     public void selectHome() {
         selectedHomePage();
     }
-
-
 
     @Override
     public void hideBottomNavigationUi() {
@@ -233,4 +259,5 @@ import static com.google.common.base.Preconditions.checkNotNull;
     private Activity getActivity() {
         return this;
     }
+
 }

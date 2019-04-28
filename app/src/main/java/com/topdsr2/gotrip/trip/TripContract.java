@@ -60,13 +60,11 @@ public interface TripContract {
 
         void deletePoint(int position);
 
-        void removeListener();
-
         void reSetTripListener();
 
         void addFriendRequest(String email);
 
-        void addTripRequest(String email);
+        void addTripRequest(String email, AddTripOwnerOrNotCallback callback);
 
         void checkIsOwner();
 
@@ -81,6 +79,8 @@ public interface TripContract {
         void openExit();
 
         void leaveThisTrip(LeaveOrNotCallback callback);
+
+        void openAddTripOwner();
 
 
     }
@@ -105,6 +105,15 @@ public interface TripContract {
     }
 
     interface LeaveOrNotCallback {
+
+        void onCompleted();
+
+        void onFailure();
+
+        void onError(String errorMessage);
+    }
+
+    interface AddTripOwnerOrNotCallback {
 
         void onCompleted();
 

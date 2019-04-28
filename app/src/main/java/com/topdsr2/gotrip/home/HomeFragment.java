@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
     private HomeAdapter mHomeAdapter;
     private ArrayList<Trip> mTrips;
+    private FloatingActionButton mFloatingActionButton;
 
     public HomeFragment() {
     }
@@ -54,6 +56,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRecyclerView.setAdapter(mHomeAdapter);
 
+        mFloatingActionButton = root.findViewById(R.id.floatingActionButton);
+
 
         return root;
     }
@@ -61,6 +65,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.openFilterView();
+            }
+        });
     }
 
     @Override
@@ -68,6 +79,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mTrips = trips;
         mHomeAdapter.updateData(mTrips);
     }
+
 
 
 }

@@ -14,6 +14,8 @@ public interface ProfileContract {
 
         void showRequestUi(Request request);
 
+        void checkUser();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -33,5 +35,8 @@ public interface ProfileContract {
         void setRequestData(Request request);
 
         Request getRequestData();
+
+        void checkUser();
+
     }
 }
