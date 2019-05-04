@@ -2,7 +2,9 @@ package com.topdsr2.gotrip.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -52,8 +54,10 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         View view = inflater.inflate(R.layout.dialog_login, container, false);
 
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         mLoginButton = view.findViewById(R.id.button_login);
-        mTitleTextView = view.findViewById(R.id.text_login);
+        mTitleTextView = view.findViewById(R.id.text_login_title);
         mTitleTextView.setTypeface(Typeface.createFromAsset(view.getContext().getAssets(), "veganstyle.ttf"));
         return view;
     }
@@ -73,6 +77,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
             @Override
             public void onSuccess() {
+                mMainPresenter.openHome();
                 showSuccess();
             }
 
@@ -91,17 +96,18 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
 
     private void showSuccess() {
-        Dialog signinDialog = new Dialog(getActivity());
+        Dialog successDialog = new Dialog(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_success, null);
-        signinDialog.setContentView(view);
-        signinDialog.setCanceledOnTouchOutside(false);
-        signinDialog.show();
+        successDialog.setContentView(view);
+        successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        successDialog.setCanceledOnTouchOutside(false);
+        successDialog.show();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                signinDialog.dismiss();
+                successDialog.dismiss();
             }
         }, 2000);
 

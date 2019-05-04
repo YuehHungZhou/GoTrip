@@ -20,6 +20,8 @@ public interface TripContract {
 
         int getPointNumber();
 
+        int getTouchedIconPosition();
+
         Point addPointData(Point point);
 
         void showPointDeleteView(int position);
@@ -54,11 +56,9 @@ public interface TripContract {
 
         void setTripListener(String documentId);
 
-        void openAddOrDeletePoint();
-
         void showDeleteView(int position);
 
-        void deletePoint(int position);
+        void deletePoint();
 
         void reSetTripListener();
 
@@ -82,6 +82,9 @@ public interface TripContract {
 
         void openAddTripOwner();
 
+        void openAddPointRequestView();
+
+        void openDeletePointRequestView();
 
     }
 

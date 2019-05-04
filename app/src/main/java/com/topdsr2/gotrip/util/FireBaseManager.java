@@ -28,7 +28,6 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import static com.google.firebase.firestore.Query.Direction.ASCENDING;
 import static com.google.firebase.firestore.Query.Direction.DESCENDING;
 
 public class FireBaseManager {
@@ -148,29 +147,85 @@ public class FireBaseManager {
     public void getSearchTrip(SearchData searchData, long startTime, long endTime, GetAllTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
 
-            db.collection(TRIP)
-                    .whereGreaterThanOrEqualTo(TRIPSTART, startTime)
-                    .whereLessThan(TRIPSTART, endTime)
-                    .orderBy(TRIPSTART, DESCENDING).limit(20)
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                Trip trip = documentSnapshot.toObject(Trip.class);
+        db.collection(TRIP)
+                .whereGreaterThanOrEqualTo(TRIPSTART, startTime)
+                .whereLessThan(TRIPSTART, endTime)
+                .orderBy(TRIPSTART, DESCENDING).limit(20)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Trip trip = documentSnapshot.toObject(Trip.class);
 
-                                if (trip.getCountry().equals(searchData.getCountry())
-                                        && trip.getCollectionNumber() >= searchData.getCollection()
-                                        && trip.getTripDay() >= searchData.getDay()) {
+                            if (trip.getCountry().equals(searchData.getCountry())
+                                    && trip.getCollectionNumber() >= searchData.getCollection()
+                                    && trip.getTripDay() >= searchData.getDay()) {
 
-                                    trips.add(trip);
+                                trips.add(trip);
 
-                                }
                             }
-                            callback.onCompleted(trips);
                         }
-                    });
+                        callback.onCompleted(trips);
+                    }
+                });
+    }
 
+    public void addUserCollection(String documentId, String email) {
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Map<String, Object> addRequest = new HashMap<>();
+                            addRequest.put(TRIPCOLLECTION, FieldValue.arrayUnion(documentId));
+
+                            db.collection(USER)
+                                    .document(documentSnapshot.getId())
+                                    .update(addRequest);
+                        }
+                    }
+                });
+    }
+
+    public void removeUserCollection(String documentId, String email) {
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Map<String, Object> addRequest = new HashMap<>();
+                            addRequest.put(TRIPCOLLECTION, FieldValue.arrayRemove(documentId));
+
+                            db.collection(USER)
+                                    .document(documentSnapshot.getId())
+                                    .update(addRequest);
+                        }
+                    }
+                });
+    }
+
+    public void setUserCollection(ArrayList<String> tripCollection, String email) {
+        db.collection(USER)
+                .whereEqualTo(EMAIL, email)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Map<String, Object> addRequest = new HashMap<>();
+                            addRequest.put(TRIPCOLLECTION, tripCollection);
+
+                            db.collection(USER)
+                                    .document(documentSnapshot.getId())
+                                    .update(addRequest);
+                        }
+                    }
+                });
     }
 
     public void getSelectedTrip(String tripId, FindTripCallback callback) {
@@ -300,26 +355,6 @@ public class FireBaseManager {
                 });
     }
 
-    private void getPointDocumentId(String tripId, Point point, GetPointDocumentIdCallback callback) {
-
-        db.collection(TRIP)
-                .document(tripId)
-                .collection(POINT)
-                .whereEqualTo(DAY, point.getDay())
-                .whereEqualTo(SORTE, point.getSorte())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            callback.onCompleted(document.getId());
-                        }
-                    }
-
-                });
-    }
-
-
     private void changePointSorte(String documentId, int day, int oldSorte, int newSorte, GetPointDocumentIdCallback callback) {
 
         db.collection(TRIP)
@@ -341,12 +376,12 @@ public class FireBaseManager {
                                     .collection(POINT)
                                     .document(document.getId())
                                     .update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            callback.onCompleted(document.getId());
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    callback.onCompleted(document.getId());
 
-                                        }
-                                    });
+                                }
+                            });
                         }
                     }
                 });
@@ -383,23 +418,23 @@ public class FireBaseManager {
                 .whereEqualTo(DAY, day)
                 .whereEqualTo(SORTE, pointSorte)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            db.collection(TRIP)
-                                    .document(documentId)
-                                    .collection(POINT)
-                                    .document(documentSnapshot.getId())
-                                    .delete()
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            callback.onCompleted();
-                                        }
-                                    });
-                        }
-                    }
-                });
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    db.collection(TRIP)
+                            .document(documentId)
+                            .collection(POINT)
+                            .document(documentSnapshot.getId())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    callback.onCompleted();
+                                }
+                            });
+                }
+            }
+        });
     }
 
     private void updateTripPointTimes(String documentId) {
@@ -651,7 +686,7 @@ public class FireBaseManager {
                                     .update(removeRequest);
                         }
 
-                        }
+                    }
                 });
     }
 
@@ -721,7 +756,7 @@ public class FireBaseManager {
                                 });
                             }
                         }
-                        }
+                    }
                 });
     }
 
@@ -743,7 +778,7 @@ public class FireBaseManager {
                                 callback.onCompleted(users);
                             }
                         }
-                        }
+                    }
                 });
     }
 
@@ -756,13 +791,13 @@ public class FireBaseManager {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            trips.add((documentSnapshot.toObject(Trip.class)));
+                        trips.add((documentSnapshot.toObject(Trip.class)));
 
-                            if (i < size) {
-                                getTripRequestData(trips, tripRequest, size, i, callback);
-                            } else {
-                                callback.onCompleted(trips);
-                            }
+                        if (i < size) {
+                            getTripRequestData(trips, tripRequest, size, i, callback);
+                        } else {
+                            callback.onCompleted(trips);
+                        }
                     }
                 });
     }
@@ -813,7 +848,6 @@ public class FireBaseManager {
     public void getCompleteTripData(String email, GetUserTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
 
-
         db.collection(TRIP)
                 .whereArrayContains(OWNER, email)
                 .whereEqualTo(COMPLETE, Constants.TRUE)
@@ -834,44 +868,25 @@ public class FireBaseManager {
                 });
     }
 
-    public void getCollectionTripData(String email, GetUserTripCallback callback) {
+    public void getCollectionTripData(ArrayList<String> tripCollection, GetUserTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
 
-        db.collection(USER)
-                .whereEqualTo(EMAIL, email)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
-                            if (document.getData().size() != 0) {
-                                User user = document.toObject(User.class);
-
-                                if (user.getTripCollection().size() != 0) {
-                                    getColletionTrip(trips, user.getTripCollection(), user.getTripCollection().size(),
-                                            0, new GetCollectionTripCallback() {
-                                                @Override
-                                                public void onCompleted(ArrayList<Trip> trips) {
-                                                    callback.onCompleted(trips);
-                                                }
-
-                                                @Override
-                                                public void onError(String errorMessage) {
-
-                                                }
-                                            });
-                                } else {
-                                    callback.onCompleted(trips);
-                                }
-
-                            } else {
-                                callback.onCompleted(trips);
-                            }
+        if (tripCollection.size() != 0) {
+            getColletionTrip(trips, tripCollection, tripCollection.size(),
+                    0, new GetCollectionTripCallback() {
+                        @Override
+                        public void onCompleted(ArrayList<Trip> trips) {
+                            callback.onCompleted(trips);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(String errorMessage) {
+
+                        }
+                    });
+        } else {
+            callback.onCompleted(trips);
+        }
     }
 
     private void getColletionTrip(ArrayList<Trip> trips, ArrayList<String> collections, int collectionsSize, int handleNumber,
@@ -909,7 +924,7 @@ public class FireBaseManager {
 
                         Map<String, Object> addRequest = new HashMap<>();
                         addRequest.put(ID, documentReference.getId());
-                        addRequest.put(OWNER,  FieldValue.arrayUnion(trip.getCreater()));
+                        addRequest.put(OWNER, FieldValue.arrayUnion(trip.getCreater()));
 
                         db.collection(TRIP)
                                 .document(documentReference.getId())
@@ -1007,11 +1022,11 @@ public class FireBaseManager {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         Map<String, Object> removeRequest = new HashMap<>();
-                        removeRequest.put(TRIPCOLLECTION,  FieldValue.arrayRemove(documentId));
+                        removeRequest.put(TRIPCOLLECTION, FieldValue.arrayRemove(documentId));
 
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             db.collection(USER)
-                                .document(document.getId())
+                                    .document(document.getId())
                                     .update(removeRequest)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -1038,10 +1053,10 @@ public class FireBaseManager {
 
                         switch (type) {
                             case AGREE:
-                                voteRequest.put(AGREE,  FieldValue.arrayUnion(email));
+                                voteRequest.put(AGREE, FieldValue.arrayUnion(email));
 
                                 if (((point.getAgree().size() + 1) * 2) > tripOwners) {
-                                    voteRequest.put(VOTESTATUS,AGREE);
+                                    voteRequest.put(VOTESTATUS, AGREE);
                                 }
 
                                 db.collection(TRIP)
@@ -1052,10 +1067,10 @@ public class FireBaseManager {
                                 break;
 
                             case DISAGREE:
-                                voteRequest.put(DISAGREE,  FieldValue.arrayUnion(email));
+                                voteRequest.put(DISAGREE, FieldValue.arrayUnion(email));
 
                                 if (((point.getAgree().size() + 1) * 2) > tripOwners) {
-                                    voteRequest.put(VOTESTATUS,DISAGREE);
+                                    voteRequest.put(VOTESTATUS, DISAGREE);
                                 }
 
                                 db.collection(TRIP)

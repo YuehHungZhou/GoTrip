@@ -15,9 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.internal.CallbackManagerImpl;
 import com.topdsr2.gotrip.data.object.Request;
+import com.topdsr2.gotrip.dialog.AddPointRequstDialog;
 import com.topdsr2.gotrip.dialog.AddTripDialog;
 import com.topdsr2.gotrip.dialog.AddTripOwnerDialog;
+import com.topdsr2.gotrip.dialog.DeletePointRequstDialog;
 import com.topdsr2.gotrip.dialog.HomeFilterDialog;
 import com.topdsr2.gotrip.dialog.LeaveDialog;
 import com.topdsr2.gotrip.dialog.LoginDialog;
@@ -27,6 +30,9 @@ import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends BaseActivity implements MainContract.View {
@@ -41,6 +47,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+
         setContentView(R.layout.activity_main);
 
         mMainMvpController = MainMvpController.create(this);
@@ -54,7 +62,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
+            UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
@@ -75,7 +85,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                         case R.id.navigation_home:
                             mPresenter.checkLogInState(getActivity());
                             selectedBottomNavigationViewItem(0);
-                            mPresenter.openHome();
                             return true;
                         case R.id.navigation_trip:
                             selectedBottomNavigationViewItem(1);
@@ -150,6 +159,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public void openLogoutUi() {
         LogoutDialog logoutDialog = new LogoutDialog();
         logoutDialog.setMainPresenter(mPresenter);
+
         logoutDialog.show(getSupportFragmentManager(), "");
 
     }
@@ -177,14 +187,26 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void openAddPointRequestUi() {
+        AddPointRequstDialog addPointRequstDialog = new AddPointRequstDialog();
+        addPointRequstDialog.setMainPresenter(mPresenter);
+        addPointRequstDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void openDeletePointRequestUi() {
+        DeletePointRequstDialog deletePointRequstDialog = new DeletePointRequstDialog();
+        deletePointRequstDialog.setMainPresenter(mPresenter);
+        deletePointRequstDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
     public void openAddTripOwnerUi() {
         AddTripOwnerDialog addTripOwnerDialog = new AddTripOwnerDialog();
         addTripOwnerDialog.setMainPresenter(mPresenter);
         addTripOwnerDialog.show(getSupportFragmentManager(), "");
         mPresenter.setAddTripOwnerDialog(addTripOwnerDialog);
     }
-
-
 
     @Override
     public void showToast(String message) {
@@ -241,7 +263,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPresenter.saveCollection();
+    }
 
     @Override
     public void onBackPressed() {

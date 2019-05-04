@@ -13,6 +13,8 @@ public interface HomeContract {
 
         void showHomeUi(ArrayList<Trip> trips);
 
+        void loadUserTripCollection(ArrayList<String> tripCollection);
+
 
     }
 
@@ -29,6 +31,10 @@ public interface HomeContract {
         void openFilterView();
 
         void searchData(SearchData searchData);
+
+        void getUserTripCollection();
+
+        void changeCollection(ArrayList<String> tripCollection);
 
     }
 }

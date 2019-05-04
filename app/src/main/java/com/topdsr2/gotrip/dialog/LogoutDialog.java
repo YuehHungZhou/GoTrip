@@ -2,6 +2,8 @@ package com.topdsr2.gotrip.dialog;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +29,7 @@ import com.topdsr2.gotrip.util.UserManager;
 
 import java.util.Calendar;
 
-public class LogoutDialog extends BottomSheetDialogFragment implements View.OnClickListener {
+public class LogoutDialog extends BottomSheetDialogFragment  {
 
     MainContract.Presenter mMainPresenter;
 
@@ -43,6 +45,7 @@ public class LogoutDialog extends BottomSheetDialogFragment implements View.OnCl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
 
     }
 
@@ -72,13 +75,6 @@ public class LogoutDialog extends BottomSheetDialogFragment implements View.OnCl
                 dismiss();
             }
         });
-    }
-
-
-
-    @Override
-    public void onClick(View v) {
-
     }
 
 

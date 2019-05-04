@@ -71,18 +71,14 @@ public class UserManager {
                                         String userPhoto = "https://graph.facebook.com/" + object.getLong("id") + "/picture?type=large";
 //                                        Profile profile = Profile.getCurrentProfile();
 //                                        Uri userPhoto = profile.getProfilePictureUri(300, 300);
-
-                                        addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                         writeInternal(email, (Activity) context);
-                                        loadCallback.onSuccess();
+                                        addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-
-
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -106,11 +102,12 @@ public class UserManager {
 
     }
 
-    public void readInternal(Activity activity) {
+    public void readInternal(Activity activity, LoadCallback callback) {
         FireBaseManager.getInstance().loadIntenalData(read(activity), new FireBaseManager.GetUserDataCallback() {
             @Override
             public void onCompleted(User user) {
                 mUser = user;
+                callback.onSuccess();
             }
 
             @Override
@@ -179,7 +176,7 @@ public class UserManager {
             @Override
             public void onCompleted(User user) {
                 mUser = user;
-
+                loadCallback.onSuccess();
             }
 
             @Override

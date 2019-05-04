@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@mipmap/icon_beach"
+        android:icon="@drawable/home_selected"
         android:title="" />
 
     <item
         android:id="@+id/navigation_trip"
-        android:icon="@mipmap/icon_treasure_map"
+        android:icon="@drawable/trip_selected"
         android:title="" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@mipmap/icon_moai"
+        android:icon="@drawable/profile_selected"
         android:title="" />
 
 

@@ -1,6 +1,8 @@
 package com.topdsr2.gotrip.dialog;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,6 +52,8 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_home_filter, container, false);
+
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mYesrSpinner = view.findViewById(R.id.spinner_filter_year);
         mMonthSpinner = view.findViewById(R.id.spinner_filter_month);

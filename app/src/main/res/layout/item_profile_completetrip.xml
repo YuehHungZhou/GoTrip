@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:alpha="0.8"
             android:scaleType="centerCrop"
-            android:src="@drawable/holder"></ImageView>
+            android:src="@drawable/holder"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -44,8 +44,9 @@
                 android:layout_marginBottom="8dp"
                 android:text="TextView"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                android:typeface="monospace"
                 app:layout_constraintBottom_toTopOf="@+id/image_completetrip_photo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +59,7 @@
                 android:text="TextView"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:typeface="monospace"
                 app:layout_constraintBottom_toBottomOf="@+id/image_completetrip_photo"
                 app:layout_constraintStart_toEndOf="@+id/image_completetrip_photo"
                 app:layout_constraintTop_toTopOf="@+id/image_completetrip_photo" />
@@ -80,40 +82,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text="0"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
                 android:id="@+id/image_completetrip_trip_collection"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:scaleType="fitXY"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="1dp"
+                android:scaleType="centerCrop"
                 android:tint="#F9DB49"
                 app:layout_constraintBottom_toBottomOf="@+id/text_completetrip_collection_number"
                 app:layout_constraintEnd_toStartOf="@+id/text_completetrip_collection_number"
                 app:layout_constraintTop_toTopOf="@+id/text_completetrip_collection_number"
-                app:srcCompat="@drawable/ic_star_black_24dp" />
+                app:srcCompat="@mipmap/icon_star" />
 
             <TextView
                 android:id="@+id/text_completetrip_owner_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:text="TextView"
+                android:layout_marginEnd="4dp"
+                android:text="0"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/text_completetrip_collection_number"
-                app:layout_constraintEnd_toEndOf="@+id/image_completetrip_trip_collection"
+                app:layout_constraintEnd_toStartOf="@+id/image_completetrip_trip_collection"
                 app:layout_constraintTop_toTopOf="@+id/text_completetrip_collection_number" />
 
 
             <ImageView
                 android:id="@+id/image_completetrip_owner_collection"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:paddingRight="0dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:clickable="false"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/text_completetrip_owner_number"
                 app:layout_constraintEnd_toStartOf="@+id/text_completetrip_owner_number"

@@ -81,6 +81,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
             holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
 
+            ImageManager.getInstance().setImageByUrl(((NewTripViewHolder) holder).mUserPhotoImage,
+                    mTrips.get(position).getCreaterImage());
+
         }
     }
 
@@ -145,8 +148,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
         private TextView mTitleText;
         private TextView mDescribeText;
+        private ImageView mUserPhotoImage;
         private TextView mOwnerNumberText;
-        private ImageView mBackgroundImage;
         private CardView mCardView;
         private ImageButton mDeleteButton;
 
@@ -156,9 +159,11 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mTitleText = itemView.findViewById(R.id.text_newtrip_title);
             mDescribeText = itemView.findViewById(R.id.text_newtrip_describe);
             mOwnerNumberText = itemView.findViewById(R.id.text_newtrip_owner_number);
-            mBackgroundImage = itemView.findViewById(R.id.image_newtrip);
             mCardView = itemView.findViewById(R.id.cardview_newtrip);
             mDeleteButton = itemView.findViewById(R.id.imageButton_newtrip_delete);
+            mUserPhotoImage = itemView.findViewById(R.id.image_newtrip_photo);
+
+            mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
             mCardView.setOnClickListener(this);
             mCardView.setOnLongClickListener(this);
@@ -244,7 +249,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
         private TextView mTitleText;
         private TextView mDescribeText;
-        private ImageView mCollectionTintImage;
         private ImageView mUserPhotoImage;
         private TextView mOwnerNumberText;
         private TextView mCollectionNumberText;
@@ -257,7 +261,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
             mTitleText = itemView.findViewById(R.id.text_colletiontrip_title);
             mDescribeText = itemView.findViewById(R.id.text_collectiontrip_describe);
-            mCollectionTintImage = itemView.findViewById(R.id.image_collectiontrip_collection_tint);
             mUserPhotoImage = itemView.findViewById(R.id.image_collectiontrip_photo);
             mOwnerNumberText = itemView.findViewById(R.id.text_collectiontrip_owner_number);
             mCollectionNumberText = itemView.findViewById(R.id.text_collectiontrip_collection_number);
@@ -267,7 +270,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
             mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
-            mCollectionTintImage.setOnClickListener(this);
             mCardView.setOnClickListener(this);
             mCardView.setOnLongClickListener(this);
             mDeleteButton.setOnClickListener(this);
@@ -278,8 +280,6 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
 
-                case R.id.image_collectiontrip_collection_tint:
-                    break;
                 case R.id.cardview_collectiontrip:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
                     break;

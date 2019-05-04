@@ -10,6 +10,7 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -46,6 +47,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="TextView"
+            android:textColor="#636363"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_profile_photo" />
@@ -56,18 +59,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="足跡"
+            android:textColor="#636363"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/text_profile_name"
             app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
-
-        <View
-            android:id="@+id/view4"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/orange"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_profile_mileage" />
 
         <ProgressBar
             android:id="@+id/progress_profile_mileage"
@@ -75,6 +70,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:progressTint="#ABABAB"
             app:layout_constraintBottom_toBottomOf="@+id/text_profile_mileage"
             app:layout_constraintStart_toEndOf="@+id/text_profile_mileage"
             app:layout_constraintTop_toTopOf="@+id/text_profile_mileage" />
@@ -84,14 +80,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/corner_dialog"
+            android:background="@drawable/corner_dialog_request"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="有新的邀請"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:typeface="monospace"
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/image_profile_photo"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/view3" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -99,9 +97,10 @@
         android:id="@+id/tab_profile"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        app:tabIndicatorColor="#3f3a3a"
-        app:tabSelectedTextColor="#3f3a3a"
-        app:tabTextColor="#888888"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/orange"
+        app:tabSelectedTextColor="@color/black_3f3a3a"
+        app:tabTextColor="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
@@ -126,8 +125,7 @@
         android:id="@+id/pager_profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:background="#ECECEC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

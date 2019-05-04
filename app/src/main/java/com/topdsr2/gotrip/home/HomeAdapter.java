@@ -15,11 +15,14 @@ import com.topdsr2.gotrip.util.ImageManager;
 import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class HomeAdapter extends RecyclerView.Adapter {
 
     private HomeContract.Presenter mPresenter;
     private ArrayList<Trip> mTrips;
+    private ArrayList<String> mTripCollection;
+    private boolean isCanCollete = true;
 
     public HomeAdapter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
@@ -45,6 +48,17 @@ public class HomeAdapter extends RecyclerView.Adapter {
             ((HomeViewHolder) viewHolder).mDescribe.setText(mTrips.get(position).getDescribe());
             ((HomeViewHolder) viewHolder).mOwners.setText(Integer.toString(mTrips.get(position).getOwners().size()));
             ((HomeViewHolder) viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+
+            if (mTripCollection != null) {
+                if (mTripCollection.contains(mTrips.get(position).getId())) {
+                    ((HomeViewHolder) viewHolder).mCollection.setVisibility(View.INVISIBLE);
+                    ((HomeViewHolder) viewHolder).mCollectionTint.setVisibility(View.VISIBLE);
+                } else {
+                    ((HomeViewHolder) viewHolder).mCollection.setVisibility(View.VISIBLE);
+                    ((HomeViewHolder) viewHolder).mCollectionTint.setVisibility(View.INVISIBLE);
+                }
+            }
+
         }
     }
 
@@ -93,11 +107,38 @@ public class HomeAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.image_home_collection:
-                    mCollectionTint.setVisibility(View.VISIBLE);
-                    break;
+
+                    if (isCanCollete) {
+                        isCanCollete = false;
+                        mCollection.setVisibility(View.INVISIBLE);
+                        mCollectionTint.setVisibility(View.VISIBLE);
+                        mTripCollection.add(mTrips.get(getAdapterPosition()).getId());
+                        mPresenter.changeCollection(mTripCollection);
+                        isCanCollete = true;
+                        break;
+                    }
+
                 case R.id.image_home_collection_tint:
-                    mCollectionTint.setVisibility(View.INVISIBLE);
-                    break;
+
+                    if (isCanCollete) {
+                        isCanCollete = false;
+                        mCollection.setVisibility(View.VISIBLE);
+                        mCollectionTint.setVisibility(View.INVISIBLE);
+
+                        Iterator<String> RemoveListIterator = mTripCollection.iterator();
+                        while(RemoveListIterator.hasNext()) {
+                            String e = RemoveListIterator.next();
+                            if (e.equals(mTrips.get(getAdapterPosition()).getId())) {
+                                RemoveListIterator.remove();
+                            }
+                        }
+
+                        mPresenter.changeCollection(mTripCollection);
+                        isCanCollete = true;
+
+                        break;
+                    }
+
                 case R.id.cardview_home_item:
                     mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
                     break;
@@ -109,6 +150,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     public void updateData(ArrayList<Trip> trips) {
         mTrips = trips;
+        notifyDataSetChanged();
+    }
+
+    public void loadTripCollection(ArrayList<String> tripCollection) {
+        mTripCollection = tripCollection;
         notifyDataSetChanged();
     }
 }

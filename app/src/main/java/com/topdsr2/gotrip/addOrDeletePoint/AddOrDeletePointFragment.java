@@ -2,6 +2,8 @@ package com.topdsr2.gotrip.addOrDeletePoint;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -58,6 +60,8 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_addordeletepoint, container, false);
 
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         mPlaceEditText = root.findViewById(R.id.edit_point_place);
         mNoteEditText = root.findViewById(R.id.edit_point_note);
         mCostEditText = root.findViewById(R.id.edit_point_cost);
@@ -105,7 +109,6 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
             public void onClick(View v) {
                 sendData();
                 showSuccess();
-                dismiss();
             }
         });
     }
@@ -154,16 +157,18 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     }
 
     private void showSuccess() {
-        Dialog signinDialog = new Dialog(getActivity());
+        Dialog successDialog = new Dialog(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_success, null);
-        signinDialog.setContentView(view);
-        signinDialog.show();
+        successDialog.setContentView(view);
+        successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        successDialog.setCanceledOnTouchOutside(false);
+        successDialog.show();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                signinDialog.dismiss();
+                successDialog.dismiss();
             }
         }, 2000);
         dismiss();

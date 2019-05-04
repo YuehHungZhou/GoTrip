@@ -1,6 +1,8 @@
 package com.topdsr2.gotrip.trip;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,12 +10,9 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +37,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.polyak.iconswitch.IconSwitch;
 import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
@@ -51,10 +49,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.polyak.iconswitch.IconSwitch.Checked.LEFT;
 
 public class TripFragment extends Fragment implements TripContract.View, View.OnClickListener,
-        PlaceSelectionListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+        PlaceSelectionListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener,
+        GoogleMap.OnCameraMoveStartedListener {
 
     private TripContract.Presenter mPresenter;
     private SupportMapFragment mSupportMapFragment;
@@ -78,15 +76,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private boolean mFriendStatus;
 
     private ImageView mReloadImage;
-    private ConstraintLayout mConstraintLayouAdd;
-    private ConstraintLayout mConstraintLayouDelete;
     private ConstraintLayout mConstraintLayoutSearch;
     private ConstraintLayout mConstraintLayoutVote;
     private TextView mVoteTitleText;
     private ImageButton mVoteAgreeImage;
     private ImageButton mVoteDisagreeImage;
-    private IconSwitch mIconSwitchAdd;
-    private IconSwitch mIconSwitchDelete;
     private ImageButton mFriendImageButton;
     private ImageButton mAddFriendImageButton;
     private ImageButton mTalkFriendImageButton;
@@ -113,7 +107,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mTripContentAdapter = new TripContentAdapter(mPresenter);
         mTripContentItemAdapter = new TripContentItemAdapter(mPresenter);
         placeInitialized();
-
     }
 
     @Nullable
@@ -137,7 +130,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                     recyclerView.smoothScrollToPosition(mVisibleItemPosition);
                     mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition, mPointsHolder);
                     mTripContentItemAdapter.readyChangeIcon(mVisibleItemPosition);
-                    setMaker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
+                    setMarker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
                 }
             }
         });
@@ -148,15 +141,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mIconRecyclerView.setAdapter(mTripContentItemAdapter);
 
         mReloadImage = root.findViewById(R.id.image_reload_point);
-        mConstraintLayouAdd = root.findViewById(R.id.constrant_add_question);
-        mConstraintLayouDelete = root.findViewById(R.id.constrant_delete_question);
         mConstraintLayoutSearch = root.findViewById(R.id.constraint_trip_search);
         mConstraintLayoutVote = root.findViewById(R.id.constraint_vote);
         mVoteTitleText = root.findViewById(R.id.text_trip_vote_title);
         mVoteAgreeImage = root.findViewById(R.id.image_trip_vote_agree);
         mVoteDisagreeImage = root.findViewById(R.id.image_trip_vote_disagree);
-        mIconSwitchAdd = root.findViewById(R.id.icon_switch_add);
-        mIconSwitchDelete = root.findViewById(R.id.icon_switch_delete);
 
         mFriendImageButton = root.findViewById(R.id.imageButton_trip_friend);
         mAddFriendImageButton = root.findViewById(R.id.imageButton_add_friend);
@@ -171,17 +160,18 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         super.onViewCreated(view, savedInstanceState);
 
 
-        mAutocompleteSupportFragmen.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
+        mAutocompleteSupportFragmen.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS));
         mAutocompleteSupportFragmen.setOnPlaceSelectedListener(this);
 
         mSupportMapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mMap.setTrafficEnabled(true);
+            mMap.setTrafficEnabled(false);
             mMap.clear();
 
             mMap.setOnMapClickListener(this);
             mMap.setOnMarkerClickListener(this);
+            mMap.setOnCameraMoveStartedListener(this);
         });
 
         mReloadImage.setOnClickListener(this);
@@ -192,34 +182,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mVoteAgreeImage.setOnClickListener(this);
         mVoteDisagreeImage.setOnClickListener(this);
 
-        mIconSwitchAdd.setCheckedChangeListener(current -> {
-            switch (mIconSwitchAdd.getChecked()) {
-
-                case RIGHT:
-                    mConstraintLayouAdd.setVisibility(View.INVISIBLE);
-                    mIconSwitchAdd.setChecked(LEFT);
-                    mPresenter.openAddOrDeletePoint();
-
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        mIconSwitchDelete.setCheckedChangeListener(current -> {
-            switch (mIconSwitchDelete.getChecked()) {
-
-                case RIGHT:
-                    mConstraintLayouDelete.setVisibility(View.INVISIBLE);
-                    mIconSwitchDelete.setChecked(LEFT);
-                    mPresenter.deletePoint(mTouchedIconPosition);
-                    break;
-                default:
-                    break;
-            }
-        });
-
     }
+
 
     @Override
     public void showTripUi(TripAndPoint bean) {
@@ -236,7 +200,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         parsePointData();
 
         if (mMap != null) {
-            setMaker(((ArrayList<Point>) mPointsByDay.get(0)));
+            setMarker(((ArrayList<Point>) mPointsByDay.get(0)));
         }
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
@@ -257,6 +221,12 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     @Override
+    public int getTouchedIconPosition() {
+        return mTouchedIconPosition;
+    }
+
+
+    @Override
     public Point addPointData(Point point) {
 
         point.setLatitude(mSelectedMarker.getPosition().latitude);
@@ -270,7 +240,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     public void showPointDeleteView(int position) {
         mTouchedIconPosition = position;
         if (isOwner) {
-            mConstraintLayouDelete.setVisibility(View.VISIBLE);
+            mPresenter.openDeletePointRequestView();
         }
 
     }
@@ -334,13 +304,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                     default:
                         break;
                 }
+            } else {
+                // 已投完票
             }
         }
     }
 
     @Override
     public void showToast() {
-        Toast.makeText(getContext(), "創建者無法退出此旅程，請至個人頁面刪除。", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "創建者無法退出此旅程，請至個人頁面刪除旅程。", Toast.LENGTH_LONG).show();
     }
 
 
@@ -354,7 +326,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     public void onPlaceSelected(@NonNull Place place) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 20));
         mMap.addMarker(new MarkerOptions().position(place.getLatLng())
-                .title("Name:" + place.getName() + ". Address:" + place.getAddress()));
+                .title("Name:" + place.getName() + ". Address:" + place.getAddress())).showInfoWindow();
 
     }
 
@@ -373,12 +345,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 friendAnimate();
                 break;
             case R.id.imageButton_add_friend:
+                friendAnimate();
                 mPresenter.openAddTripOwner();
                 break;
             case R.id.imageButton_talk_friend:
+                friendAnimate();
                 Toast.makeText(getContext(), "聊天系統 coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButton_exit:
+                friendAnimate();
                 mPresenter.openExit();
                 break;
             case R.id.image_trip_vote_agree:
@@ -401,8 +376,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     @Override
     public void onMapClick(LatLng latLng) {
 
-        mConstraintLayouAdd.setVisibility(View.INVISIBLE);
-        mConstraintLayouDelete.setVisibility(View.INVISIBLE);
         mConstraintLayoutVote.setVisibility(View.INVISIBLE);
 
 
@@ -435,7 +408,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
 
         if (isOwner) {
-            mConstraintLayouAdd.setVisibility(View.VISIBLE);
+            mPresenter.openAddPointRequestView();
         }
 
         mSelectedMarker = marker;
@@ -454,8 +427,13 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 3000, null);
     }
 
+    @Override
+    public void onCameraMoveStarted(int i) {
+        mConstraintLayoutVote.setVisibility(View.INVISIBLE);
+    }
 
-    private void setMaker(ArrayList<Point> points) {
+
+    private void setMarker(ArrayList<Point> points) {
 
         if (points.size() != 0) {
             mMap.clear();
@@ -463,8 +441,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
             for (int i = 0; i < points.size(); i++) {
                 LatLng latLng = new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mMap.addMarker(markerOptions);
+                mMap.addMarker(setMarkerIcon(points.get(i), latLng, 100, 100));
                 mLatLngs.add(latLng);
             }
             setPolyLine(points);
@@ -473,6 +450,23 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             mMap.clear();
         }
 
+    }
+
+    private MarkerOptions setMarkerIcon(Point point, LatLng latLng, int height, int width) {
+
+        BitmapDrawable bitmapdraw;
+
+        if (point.getVoteStatus().equals(Constants.AGREE)) {
+            bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.red_placeholder);
+        } else if (point.getVoteStatus().equals(Constants.DISAGREE)) {
+            bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.grad_placeholder);
+        } else {
+            bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.white_placeholder);
+        }
+
+        Bitmap marker = Bitmap.createScaledBitmap(bitmapdraw.getBitmap(), width, height, false);
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromBitmap(marker));
+        return markerOptions;
     }
 
     private void setPolyLine(ArrayList<Point> points) {
@@ -629,16 +623,16 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (mFriendStatus) {
             mFriendStatus = false;
             mAddFriendImageButton.animate().rotation(0).translationX(0).translationY(0);
-            mTalkFriendImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(200);
-            mExitImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(400);
+            mTalkFriendImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(100);
+            mExitImageButton.animate().rotation(0).translationX(0).translationY(0).setStartDelay(200);
 
         } else {
             mAddFriendImageButton.clearAnimation();
             mTalkFriendImageButton.clearAnimation();
             mFriendStatus = true;
             mAddFriendImageButton.animate().rotation(720).translationX(0).translationY(-250);
-            mTalkFriendImageButton.animate().rotation(720).translationX(-150).translationY(-150).setStartDelay(200);
-            mExitImageButton.animate().rotation(720).translationX(-250).translationY(-0).setStartDelay(400);
+            mTalkFriendImageButton.animate().rotation(720).translationX(-150).translationY(-150).setStartDelay(100);
+            mExitImageButton.animate().rotation(720).translationX(-250).translationY(-0).setStartDelay(200);
 
         }
     }

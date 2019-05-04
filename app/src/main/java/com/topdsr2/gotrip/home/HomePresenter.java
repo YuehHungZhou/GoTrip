@@ -1,13 +1,16 @@
 package com.topdsr2.gotrip.home;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.dialog.LoginDialog;
 import com.topdsr2.gotrip.util.FireBaseManager;
+import com.topdsr2.gotrip.util.UserManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +38,8 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onCompleted(ArrayList<Trip> trips) {
                 mHomeView.showHomeUi(trips);
+                getUserTripCollection();
+
             }
 
             @Override
@@ -90,7 +95,15 @@ public class HomePresenter implements HomeContract.Presenter {
         });
     }
 
+    @Override
+    public void getUserTripCollection() {
+        mHomeView.loadUserTripCollection(UserManager.getInstance().getUser().getTripCollection());
+    }
 
+    @Override
+    public void changeCollection(ArrayList<String> tripCollection) {
+        UserManager.getInstance().getUser().setTripCollection(tripCollection);
+    }
 
 
     private long paseStartTime(SearchData searchData) throws ParseException {

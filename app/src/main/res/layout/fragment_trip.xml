@@ -11,13 +11,11 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_trip_search"
@@ -119,95 +117,6 @@
         app:layout_constraintTop_toTopOf="@+id/constraint_trip_search"
         app:srcCompat="@mipmap/icon_refresh" />
 
-    <ImageView
-        android:id="@+id/image_trip_background"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:srcCompat="@drawable/sea" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constrant_add_question"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fragment_map">
-
-        <com.polyak.iconswitch.IconSwitch
-            android:id="@+id/icon_switch_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:isw_active_tint_icon_left="#C45259"
-            app:isw_active_tint_icon_right="#DB9870"
-            app:isw_background_color="#fff"
-            app:isw_default_selection="left"
-            app:isw_icon_right="@drawable/ic_add_black_24dp"
-            app:isw_icon_size="20dp"
-            app:isw_inactive_tint_icon_left="#43B9A7"
-            app:isw_inactive_tint_icon_right="#007D49"
-            app:isw_thumb_color_left="#fff"
-            app:isw_thumb_color_right="#fff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
-
-        </com.polyak.iconswitch.IconSwitch>
-
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constrant_delete_question"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fragment_map">
-
-        <com.polyak.iconswitch.IconSwitch
-            android:id="@+id/icon_switch_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:isw_active_tint_icon_left="#C45259"
-            app:isw_active_tint_icon_right="#DB9870"
-            app:isw_background_color="#fff"
-            app:isw_default_selection="left"
-            app:isw_icon_right="@drawable/ic_clear_black_24dp"
-            app:isw_icon_size="20dp"
-            app:isw_inactive_tint_icon_left="#43B9A7"
-            app:isw_inactive_tint_icon_right="#007D49"
-            app:isw_thumb_color_left="#fff"
-            app:isw_thumb_color_right="#fff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_vote"
@@ -260,13 +169,23 @@
     </android.support.constraint.ConstraintLayout>
 
 
+    <ImageView
+        android:id="@+id/image_trip_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:srcCompat="@drawable/holder" />
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="200dp"
         android:background="@drawable/corner_sea_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -275,10 +194,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_trip_content_icon"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@drawable/corner_white_color"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -289,11 +207,12 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_trip_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_trip_content_icon">
 
         </android.support.v7.widget.RecyclerView>
 

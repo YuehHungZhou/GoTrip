@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,8 +61,8 @@ public class RequestFriendAdapter extends RecyclerView.Adapter {
     private class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTitleText;
-        private ImageView mAgreeImageView;
-        private ImageView mDisagreeImageView;
+        private Button mAgreeImageView;
+        private Button mDisagreeImageView;
         private ImageView mPhotoImageView;
 
         public FriendViewHolder(@NonNull View itemView) {

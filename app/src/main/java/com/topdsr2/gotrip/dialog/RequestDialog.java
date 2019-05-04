@@ -1,6 +1,8 @@
 package com.topdsr2.gotrip.dialog;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,6 +51,8 @@ public class RequestDialog extends AppCompatDialogFragment implements View.OnCli
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.dialog_request, container, false);
+
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         RecyclerView friendRecyclerView = root.findViewById(R.id.recycle_friend_request);
         friendRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

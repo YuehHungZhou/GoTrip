@@ -3,7 +3,6 @@ package com.topdsr2.gotrip.trip;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,8 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mReadyPoints;
     private long mRoadTime;
-    private int mPsositionState;
+    private int mPositionState;
+    private int mIconState;
 
     public TripContentItemAdapter(TripContract.Presenter presenter) {
         mPresenter = presenter;
@@ -62,6 +62,10 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
                         break;
                 }
 
+                if (mIconState == mReadyPoints.get(position).getSorte()) {
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_orange));
+                }
+
                 long roadTime = (mReadyPoints.get(position).getArrivalTime());
                 if ((roadTime - mRoadTime) != roadTime) {
                     ((TripContentItemViewHolder) viewHolder).mRoadText.setText(paseRoadTime(roadTime - mRoadTime));
@@ -87,7 +91,6 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         private TextView mRoadText;
         private ConstraintLayout mConstraintLayout;
 
-
         public TripContentItemViewHolder(@NonNull View itemView) {
             super(itemView);
             mIconImage = itemView.findViewById(R.id.image_trip_content_icon);
@@ -101,10 +104,13 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
+
+            mIconState = mReadyPoints.get(getAdapterPosition()).getSorte();
             mPresenter.changeIconInfo(getAdapterPosition());
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
                     mReadyPoints.get(getAdapterPosition()).getLongitude());
             mPresenter.showVoteView(getAdapterPosition());
+            notifyDataSetChanged();
         }
 
         @Override
@@ -124,14 +130,16 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
         mPointsByDay = pointsByDay;
         mReadyPoints = readyPoints;
+        mIconState = 1;
         notifyDataSetChanged();
 
     }
 
     public void readyChangeIcon(int position) {
-        if (mPsositionState != position) {
-            mPsositionState = position;
+        if (mPositionState != position) {
+            mPositionState = position;
             mReadyPoints = (ArrayList<Point>) mPointsByDay.get(position);
+            mIconState = 1;
             notifyDataSetChanged();
         }
     }

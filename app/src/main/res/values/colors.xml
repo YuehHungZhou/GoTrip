@@ -6,9 +6,25 @@
     <color name="bottom_navigation_background">#ffffffff</color>
     <color name="bottom_navigation_sun">#FDFF51</color>
     <color name="white">#ffffff</color>
+    <color name="white_gray_99">#99ffffff</color>
+    <color name="white_gray_66">#66ffffff</color>
+
+    <color name="gray">#969696</color>
+    <color name="gray_99">#33969696</color>
+
     <color name="translucent_40">#66000000</color>
-    <color name="orange">#FFEDCC70</color>
-    <color name="orange_dialog">#F8E06F</color>
-    <color name="trip_delete">#99FF0000</color>
+    <color name="orange">#F6C775</color>
+    <color name="orange_99">#99F6C775</color>
+    <color name="orange_dialog">#F6C775</color>
+
+
+    <color name="trip_delete">#66FF0000</color>
+    <color name="blue">#A1C5D5</color>
+    <color name="blue_99">#99A1C5D5</color>
+
+    <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="black_66">#66000000</color>
+    <color name="white_DD">#DDEEEEEE</color>
+    <color name="star">#F9DB49</color>
 
 </resources>

@@ -71,7 +71,8 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void deletePoint(int position) {
+    public void deletePoint() {
+        int position = mTripView.getTouchedIconPosition();
         FireBaseManager.getInstance().deletePoint(mBean.getDocumentId(), position + 1,
                 position + 1, mTripView.getPointNumber(), mTripView.getToday());
     }
@@ -184,6 +185,16 @@ public class TripPresenter implements TripContract.Presenter {
 
     }
 
+    @Override
+    public void openAddPointRequestView() {
+
+    }
+
+    @Override
+    public void openDeletePointRequestView() {
+
+    }
+
 
     @Override
     public void changeIconInfo(int position) {
@@ -210,11 +221,6 @@ public class TripPresenter implements TripContract.Presenter {
         });
     }
 
-    @Override
-    public void openAddOrDeletePoint() {
-
-
-    }
 
     @Override
     public void showDeleteView(int position) {

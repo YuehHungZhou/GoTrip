@@ -2,6 +2,8 @@ package com.topdsr2.gotrip.dialog;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +30,7 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
 
     MainContract.Presenter mMainPresenter;
 
-    private TextView mTitleText;
-    private TextView mDescribeText;
-    private TextView mCountryText;
+
     private Button mStartTimeButton;
     private Button mEndTimeButton;
     private Button mSendButton;
@@ -60,9 +60,8 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_trip, container, false);
 
-        mTitleText = view.findViewById(R.id.text_add_trip_title);
-        mDescribeText = view.findViewById(R.id.text_add_trip_describe);
-        mCountryText = view.findViewById(R.id.text_add_trip_country);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         mStartTimeButton = view.findViewById(R.id.button_add_trip_starttime);
         mEndTimeButton = view.findViewById(R.id.button_add_trip_endtime);
         mSendButton = view.findViewById(R.id.button_add_trip_send);

@@ -80,6 +80,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mHomeAdapter.updateData(mTrips);
     }
 
+    @Override
+    public void loadUserTripCollection(ArrayList<String> tripCollection) {
+        mHomeAdapter.loadTripCollection(tripCollection);
+    }
 
 
 }

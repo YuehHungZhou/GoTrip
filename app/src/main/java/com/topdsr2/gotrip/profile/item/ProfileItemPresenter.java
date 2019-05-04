@@ -1,7 +1,6 @@
 package com.topdsr2.gotrip.profile.item;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Trip;
@@ -60,22 +59,22 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     public void loadCompleteTripData() {
         FireBaseManager.getInstance().getCompleteTripData(UserManager.getInstance().getUser().getEmail(),
                 new FireBaseManager.GetUserTripCallback() {
-            @Override
-            public void onCompleted(ArrayList<Trip> trips) {
-                setCompleteTripData(trips);
+                    @Override
+                    public void onCompleted(ArrayList<Trip> trips) {
+                        setCompleteTripData(trips);
 
-            }
+                    }
 
-            @Override
-            public void onFailure(ArrayList<Trip> trips) {
+                    @Override
+                    public void onFailure(ArrayList<Trip> trips) {
 
-            }
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -85,24 +84,24 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
     @Override
     public void loadCollectionTripData() {
-        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance().getUser().getEmail(),
+        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance().getUser().getTripCollection(),
                 new FireBaseManager.GetUserTripCallback() {
-            @Override
-            public void onCompleted(ArrayList<Trip> trips) {
-                setCollectionTripData(trips);
+                    @Override
+                    public void onCompleted(ArrayList<Trip> trips) {
+                        setCollectionTripData(trips);
 
-            }
+                    }
 
-            @Override
-            public void onFailure(ArrayList<Trip> trips) {
+                    @Override
+                    public void onFailure(ArrayList<Trip> trips) {
 
-            }
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override

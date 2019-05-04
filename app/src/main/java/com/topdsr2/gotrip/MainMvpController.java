@@ -57,9 +57,9 @@ public class MainMvpController {
             NEWTRIP, COMPLETETRIP, COLLECTIONTRIP
     })
     public @interface ProfileItem {}
-    public static final String NEWTRIP        = "NEWTRIP";
-    public static final String COMPLETETRIP   = "COMPLETETRIP";
-    public static final String COLLECTIONTRIP = "COLLECTIONTRIP";
+    public static final String NEWTRIP        = "新旅程";
+    public static final String COMPLETETRIP   = "已完成";
+    public static final String COLLECTIONTRIP = "收藏";
 
 
     private MainMvpController(@NonNull FragmentActivity activity) {

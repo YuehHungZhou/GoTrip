@@ -4,4 +4,6 @@
 
     <string name="facebook_app_id">2298740733671432</string>
     <string name="fb_login_protocol_scheme">fb2298740733671432</string>
+    <string name="gotrip">GoTrip</string>
+    <string name="facebook_login">FACEBOOK LOGIN</string>
 </resources>

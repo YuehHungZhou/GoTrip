@@ -51,6 +51,10 @@ public interface MainContract {
 
         void openFilterUi();
 
+        void openAddPointRequestUi();
+
+        void openDeletePointRequestUi();
+
 
     }
 
@@ -97,6 +101,12 @@ public interface MainContract {
         void checkUserData();
 
         void search(SearchData searchData);
+
+        void openAddOrDeletePoint();
+
+        void readyDeletePoint();
+
+        void saveCollection();
 
     }
 
