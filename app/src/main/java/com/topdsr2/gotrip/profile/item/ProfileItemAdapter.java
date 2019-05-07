@@ -3,6 +3,7 @@ package com.topdsr2.gotrip.profile.item;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.topdsr2.gotrip.MainMvpController.COLLECTIONTRIP;
 import static com.topdsr2.gotrip.MainMvpController.COMPLETETRIP;
@@ -84,6 +86,18 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             ImageManager.getInstance().setImageByUrl(((NewTripViewHolder) holder).mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
 
+            int Day = parseDay(mTrips.get(position).getTripStart());
+            String str;
+            if (Day > 0) {
+                str = "還有 " + Day + " 天";
+            } else if (Day <= -1) {
+                str = "未出發 " + Math.abs(Day) + " 天";
+            } else {
+                str = "準備出發";
+            }
+            holder.mDayText.setText(str);
+
+
         }
     }
 
@@ -99,7 +113,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
             ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
-
+            ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mBackgroundImage,
+                    mTrips.get(position).getMainImage());
         }
     }
 
@@ -150,6 +165,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         private TextView mDescribeText;
         private ImageView mUserPhotoImage;
         private TextView mOwnerNumberText;
+        private TextView mDayText;
         private CardView mCardView;
         private ImageButton mDeleteButton;
 
@@ -162,6 +178,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             mCardView = itemView.findViewById(R.id.cardview_newtrip);
             mDeleteButton = itemView.findViewById(R.id.imageButton_newtrip_delete);
             mUserPhotoImage = itemView.findViewById(R.id.image_newtrip_photo);
+            mDayText = itemView.findViewById(R.id.text_newtrip_day);
 
             mUserPhotoImage.setOutlineProvider(new HomeAvatarOutlineProvider());
 
@@ -295,6 +312,25 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         public boolean onLongClick(View v) {
             mDeleteButton.setVisibility(View.VISIBLE);
             return true;
+        }
+    }
+
+    private int parseDay(long startTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long now = calendar.getTimeInMillis() / 1000;
+        long lastDay = ((startTime - now) / (60 * 60 * 24));
+        int Day = (int)lastDay;
+
+        if (Day == 0) {
+            return 0;
+        } else if (Day < -1) {
+            return Day;
+        } else {
+            return Day;
         }
     }
 

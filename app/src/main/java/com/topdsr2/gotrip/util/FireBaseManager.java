@@ -48,7 +48,6 @@ public class FireBaseManager {
     private static final String COLLECTIONNUMBER = "collectionNumber";
     private static final String ADDPOINTTIMES = "addPointTimes";
 
-
     private static final String POINT = "Point";
     private static final String ARRIVALTIME = "arrivalTime";
     private static final String COST = "cost";
@@ -124,13 +123,14 @@ public class FireBaseManager {
     public void closeListener() {
         if (mRegistration != null) {
             mRegistration.remove();
+            mRegistration = null;
         }
     }
 
     public void getAllTypeTrip(GetAllTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
         db.collection(TRIP)
-                .orderBy(TRIPSTART, DESCENDING).limit(50)
+                .orderBy(TRIPSTART, DESCENDING).limit(30)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -167,44 +167,6 @@ public class FireBaseManager {
                             }
                         }
                         callback.onCompleted(trips);
-                    }
-                });
-    }
-
-    public void addUserCollection(String documentId, String email) {
-        db.collection(USER)
-                .whereEqualTo(EMAIL, email)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Map<String, Object> addRequest = new HashMap<>();
-                            addRequest.put(TRIPCOLLECTION, FieldValue.arrayUnion(documentId));
-
-                            db.collection(USER)
-                                    .document(documentSnapshot.getId())
-                                    .update(addRequest);
-                        }
-                    }
-                });
-    }
-
-    public void removeUserCollection(String documentId, String email) {
-        db.collection(USER)
-                .whereEqualTo(EMAIL, email)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Map<String, Object> addRequest = new HashMap<>();
-                            addRequest.put(TRIPCOLLECTION, FieldValue.arrayRemove(documentId));
-
-                            db.collection(USER)
-                                    .document(documentSnapshot.getId())
-                                    .update(addRequest);
-                        }
                     }
                 });
     }

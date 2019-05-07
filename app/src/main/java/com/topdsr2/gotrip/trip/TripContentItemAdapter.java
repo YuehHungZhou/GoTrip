@@ -136,12 +136,10 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     }
 
     public void readyChangeIcon(int position) {
-        if (mPositionState != position) {
             mPositionState = position;
             mReadyPoints = (ArrayList<Point>) mPointsByDay.get(position);
             mIconState = 1;
             notifyDataSetChanged();
-        }
     }
 
     private String paseTime(long time) {

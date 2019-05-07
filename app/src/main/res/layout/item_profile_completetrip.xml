@@ -60,9 +60,8 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:typeface="monospace"
-                app:layout_constraintBottom_toBottomOf="@+id/image_completetrip_photo"
-                app:layout_constraintStart_toEndOf="@+id/image_completetrip_photo"
-                app:layout_constraintTop_toTopOf="@+id/image_completetrip_photo" />
+                app:layout_constraintBottom_toTopOf="@+id/image_completetrip_owner_collection"
+                app:layout_constraintStart_toEndOf="@+id/image_completetrip_photo" />
 
 
             <ImageView

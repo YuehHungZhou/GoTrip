@@ -426,7 +426,10 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void saveCollection() {
-        FireBaseManager.getInstance().setUserCollection(UserManager.getInstance().getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
+
+        if (UserManager.getInstance().getUser() != null) {
+            FireBaseManager.getInstance().setUserCollection(UserManager.getInstance().getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
+        }
     }
 
 

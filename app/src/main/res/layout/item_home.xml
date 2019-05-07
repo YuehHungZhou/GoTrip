@@ -41,33 +41,35 @@
                     android:src="@drawable/holder"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"></ImageView>
+                    app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                 <ImageButton
                     android:id="@+id/image_home_collection"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="0dp"
                     android:scaleType="centerCrop"
+                    android:tint="@color/gray"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/icon_star_white" />
+                    app:srcCompat="@mipmap/icon_label_star" />
 
                 <ImageButton
                     android:id="@+id/image_home_collection_tint"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="0dp"
                     android:scaleType="centerCrop"
-                    android:tint="@color/star"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/icon_star" />
+                    app:srcCompat="@mipmap/icon_label_star_tint" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -94,7 +96,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="2dp"
                         android:fontFamily="monospace"
                         android:lines="1"
                         android:paddingBottom="2dp"
@@ -103,8 +105,8 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:typeface="monospace"
-                        app:layout_constraintStart_toEndOf="@+id/image_home_photo"
-                        app:layout_constraintTop_toTopOf="@+id/image_home_photo" />
+                        app:layout_constraintBottom_toTopOf="@+id/text_home_describe"
+                        app:layout_constraintStart_toEndOf="@+id/image_home_photo" />
 
                     <TextView
                         android:id="@+id/text_home_describe"
@@ -119,16 +121,17 @@
                         android:textColor="@color/gray"
                         android:textSize="14sp"
                         android:typeface="monospace"
-                        app:layout_constraintBottom_toBottomOf="@+id/image_home_photo"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_home_owner_collection"
                         app:layout_constraintEnd_toStartOf="@+id/image_home_owner_collection"
-                        app:layout_constraintStart_toEndOf="@+id/image_home_photo" />
+                        app:layout_constraintStart_toEndOf="@+id/image_home_photo"
+                        app:layout_constraintTop_toTopOf="@+id/image_home_owner_collection" />
 
                     <TextView
                         android:id="@+id/text_home_collection_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="4dp"
                         android:text="0"
                         android:textColor="@color/gray"
                         android:typeface="monospace"

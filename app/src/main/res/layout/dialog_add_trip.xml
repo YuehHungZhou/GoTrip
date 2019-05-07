@@ -9,7 +9,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout4"
         android:layout_width="300dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -20,8 +20,8 @@
 
         <EditText
             android:id="@+id/editText_add_trip_title"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -44,7 +44,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout5"
         android:layout_width="300dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -56,8 +56,8 @@
 
         <EditText
             android:id="@+id/editText_add_trip_describe"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -80,7 +80,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout6"
         android:layout_width="300dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -94,25 +94,31 @@
             android:id="@+id/spinner_add_trip"
             style="@style/mySpinnerItemStyle"
             android:layout_width="0dp"
-            android:layout_height="22dp"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/spinner_background"
+            android:popupBackground="@android:color/white"
+            android:popupElevation="3dp"
+            android:textAlignment="center"
             android:entries="@array/add_trip_country_list"
-            android:gravity="center"
             android:spinnerMode="dropdown"
-            android:theme="@style/Spinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/button_add_trip_starttime"
         android:layout_width="140dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/corner_dialog_background"
         android:hint="選擇出發日期"
@@ -124,7 +130,7 @@
     <Button
         android:id="@+id/button_add_trip_endtime"
         android:layout_width="140dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/corner_dialog_background"
         android:hint="選擇結束日期"
@@ -136,7 +142,7 @@
     <Button
         android:id="@+id/button_add_trip_send"
         android:layout_width="100dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"

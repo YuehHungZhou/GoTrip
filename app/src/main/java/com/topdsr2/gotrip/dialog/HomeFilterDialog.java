@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -71,6 +72,22 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+        String[] data1 = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+        String[] data2 = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mYesrSpinner.setAdapter(adapter);
+
+        ArrayAdapter adapter2 = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data1);
+        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mMonthSpinner.setAdapter(adapter2);
+
+        ArrayAdapter adapter3 = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data2);
+        adapter3.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mCountrySpinner.setAdapter(adapter3);
 
         mDaySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

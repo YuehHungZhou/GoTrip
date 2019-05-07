@@ -10,9 +10,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,9 +81,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private ImageView mReloadImage;
     private ConstraintLayout mConstraintLayoutSearch;
     private ConstraintLayout mConstraintLayoutVote;
+    private TextView mVotedAgreeText;
+    private TextView mVotedDisagreeText;
     private TextView mVoteTitleText;
-    private ImageButton mVoteAgreeImage;
-    private ImageButton mVoteDisagreeImage;
+    private Button mVoteAgreeButton;
+    private Button mVoteDisagreeButton;
     private ImageButton mFriendImageButton;
     private ImageButton mAddFriendImageButton;
     private ImageButton mTalkFriendImageButton;
@@ -107,6 +112,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mTripContentAdapter = new TripContentAdapter(mPresenter);
         mTripContentItemAdapter = new TripContentItemAdapter(mPresenter);
         placeInitialized();
+        mVisibleItemPosition = 0;
     }
 
     @Nullable
@@ -116,6 +122,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_map);
         mAutocompleteSupportFragmen = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.place_autocomplete);
+        mAutocompleteSupportFragmen.a.setHint("搜尋...");
+        mAutocompleteSupportFragmen.a.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.text));
 
         mInfoRecyclerView = root.findViewById(R.id.recycle_trip_content);
         mInfoRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -143,9 +151,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mReloadImage = root.findViewById(R.id.image_reload_point);
         mConstraintLayoutSearch = root.findViewById(R.id.constraint_trip_search);
         mConstraintLayoutVote = root.findViewById(R.id.constraint_vote);
+        mVotedAgreeText = root.findViewById(R.id.text_trip_vote_agree);
+        mVotedDisagreeText = root.findViewById(R.id.text_trip_vote_disagree);
         mVoteTitleText = root.findViewById(R.id.text_trip_vote_title);
-        mVoteAgreeImage = root.findViewById(R.id.image_trip_vote_agree);
-        mVoteDisagreeImage = root.findViewById(R.id.image_trip_vote_disagree);
+        mVoteAgreeButton = root.findViewById(R.id.button_trip_agree);
+        mVoteDisagreeButton = root.findViewById(R.id.button_trip_disagree);
 
         mFriendImageButton = root.findViewById(R.id.imageButton_trip_friend);
         mAddFriendImageButton = root.findViewById(R.id.imageButton_add_friend);
@@ -179,14 +189,19 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mAddFriendImageButton.setOnClickListener(this);
         mTalkFriendImageButton.setOnClickListener(this);
         mExitImageButton.setOnClickListener(this);
-        mVoteAgreeImage.setOnClickListener(this);
-        mVoteDisagreeImage.setOnClickListener(this);
+        mVoteAgreeButton.setOnClickListener(this);
+        mVoteDisagreeButton.setOnClickListener(this);
 
     }
 
 
     @Override
     public void showTripUi(TripAndPoint bean) {
+        if (mBean != null) {
+            if (!mBean.getTrip().getId().equals(bean.getTrip().getId())) {
+                mVisibleItemPosition = 0;
+            }
+        }
         mBean = bean;
 
         mPresenter.checkIsOwner();
@@ -196,17 +211,27 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mReadyPoints = new ArrayList<>();
         mTripDay = mBean.getTrip().getTripDay();
 
-
         parsePointData();
-
-        if (mMap != null) {
-            setMarker(((ArrayList<Point>) mPointsByDay.get(0)));
-        }
 
         mTripContentAdapter.updateData(mPointsByDay, mPointsHolder, mTripDay);
         mTripContentItemAdapter.updateData(mPointsByDay, mReadyPoints);
 
-        mInfoRecyclerView.smoothScrollToPosition(0);
+        if (mMap != null) {
+
+            setMarker(((ArrayList<Point>) mPointsByDay.get(0)));
+
+            if (mVisibleItemPosition > 0) {
+                mTripContentAdapter.scrollChangeIconInfo(mVisibleItemPosition, mPointsHolder);
+                mTripContentItemAdapter.readyChangeIcon(mVisibleItemPosition);
+                setMarker(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)));
+            } else {
+                mInfoRecyclerView.smoothScrollToPosition(0);
+            }
+
+            if (((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).size() != 0) {
+                moveCamera();
+            }
+        }
     }
 
 
@@ -278,34 +303,38 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     public void showVoteViewUi(int position) {
         mTouchedIconPosition = position;
         if (isOwner) {
-            if (checkCanVote(mVisibleItemPosition, mTouchedIconPosition)) {
+            if (checkCanVote()) {
+                setVoteNumber();
                 mConstraintLayoutVote.setVisibility(View.VISIBLE);
 
                 switch (checkIsVoted(mVisibleItemPosition, mTouchedIconPosition)) {
                     case Constants.AGREE:
-                        mVoteTitleText.setText("已贊成");
-                        mVoteAgreeImage.setVisibility(View.VISIBLE);
-                        mVoteDisagreeImage.setVisibility(View.INVISIBLE);
-                        mVoteAgreeImage.setClickable(false);
+                        mVoteTitleText.setText("已選同意");
+                        mVoteDisagreeButton.setVisibility(View.INVISIBLE);
+                        mVoteAgreeButton.setVisibility(View.VISIBLE);
+                        mVoteAgreeButton.setClickable(false);
+                        voteAgreeAnimation();
                         break;
                     case Constants.DISAGREE:
-                        mVoteTitleText.setText("已不贊成");
-                        mVoteAgreeImage.setVisibility(View.INVISIBLE);
-                        mVoteDisagreeImage.setVisibility(View.VISIBLE);
-                        mVoteDisagreeImage.setClickable(false);
+                        mVoteTitleText.setText("已選不同意");
+                        mVoteAgreeButton.setVisibility(View.INVISIBLE);
+                        mVoteDisagreeButton.setVisibility(View.VISIBLE);
+                        mVoteDisagreeButton.setClickable(false);
+                        voteDisagreeAnimation();
                         break;
                     case Constants.NOTVOTE:
-                        mVoteTitleText.setText("加入旅程");
-                        mVoteAgreeImage.setVisibility(View.VISIBLE);
-                        mVoteDisagreeImage.setVisibility(View.VISIBLE);
-                        mVoteAgreeImage.setClickable(true);
-                        mVoteDisagreeImage.setClickable(true);
+                        voteBackAnimation();
+                        mVoteTitleText.setText("是否同意加入行程");
+                        mVoteAgreeButton.setVisibility(View.VISIBLE);
+                        mVoteDisagreeButton.setVisibility(View.VISIBLE);
+                        mVoteAgreeButton.setClickable(true);
+                        mVoteDisagreeButton.setClickable(true);
                         break;
                     default:
                         break;
                 }
             } else {
-                // 已投完票
+                mConstraintLayoutVote.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -350,21 +379,19 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 break;
             case R.id.imageButton_talk_friend:
                 friendAnimate();
-                Toast.makeText(getContext(), "聊天系統 coming soon", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "聊天系統 Coming Soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.imageButton_exit:
                 friendAnimate();
                 mPresenter.openExit();
                 break;
-            case R.id.image_trip_vote_agree:
-                mPresenter.vote(
-                        ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getId(),
-                        Constants.AGREE);
+            case R.id.button_trip_agree:
+                mPresenter.vote(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
+                                .get(mTouchedIconPosition).getId(), Constants.AGREE);
                 break;
-            case R.id.image_trip_vote_disagree:
-                mPresenter.vote(
-                        ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getId(),
-                        Constants.DISAGREE);
+            case R.id.button_trip_disagree:
+                mPresenter.vote(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
+                                .get(mTouchedIconPosition).getId(), Constants.DISAGREE);
                 break;
             default:
                 break;
@@ -377,7 +404,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     public void onMapClick(LatLng latLng) {
 
         mConstraintLayoutVote.setVisibility(View.INVISIBLE);
-
 
         if (mMarker != null) {
             mMarker.remove();
@@ -399,6 +425,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+        mConstraintLayoutVote.setVisibility(View.INVISIBLE);
+
         if (mMarker != null) {
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         } else {
@@ -416,21 +444,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         return true;
     }
 
-    @Override
-    public void moveCameraToMarker(Double latitude, Double longitude) {
-        CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(latitude, longitude))
-                .zoom(13)
-                .bearing(0)
-                .tilt(45)
-                .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 3000, null);
-    }
 
-    @Override
-    public void onCameraMoveStarted(int i) {
-        mConstraintLayoutVote.setVisibility(View.INVISIBLE);
-    }
 
 
     private void setMarker(ArrayList<Point> points) {
@@ -445,7 +459,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 mLatLngs.add(latLng);
             }
             setPolyLine(points);
-            moveCamera();
         } else {
             mMap.clear();
         }
@@ -476,18 +489,23 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 if (points.get(i).getVoteStatus().equals(Constants.AGREE)
                         && points.get(i + 1).getVoteStatus().equals(Constants.AGREE)) {
                     LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
-                    PolylineOptions agreePolyline = new PolylineOptions().add(latLngs).color(Color.parseColor("#FF0000"));
+                    PolylineOptions agreePolyline = new PolylineOptions().add(latLngs).color(Color.parseColor("#EE5873"));
                     Polyline polyline = mMap.addPolyline(agreePolyline);
                     polyline.setWidth(10);
 
                 } else {
                     LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
-                    PolylineOptions dashPolyline = new PolylineOptions().add(latLngs).pattern(setDash()).color(Color.parseColor("#FFEDCC70"));
+                    PolylineOptions dashPolyline = new PolylineOptions().add(latLngs).pattern(setDash()).color(Color.parseColor("#6B374D"));
                     Polyline polyline = mMap.addPolyline(dashPolyline);
                     polyline.setWidth(10);
                 }
             }
         }
+    }
+
+    @Override
+    public void onCameraMoveStarted(int i) {
+        mConstraintLayoutVote.setVisibility(View.INVISIBLE);
     }
 
     private void moveCamera() {
@@ -497,17 +515,18 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 .bearing(0)
                 .tilt(45)
                 .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, new GoogleMap.CancelableCallback() {
-            @Override
-            public void onFinish() {
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
+    }
 
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
+    @Override
+    public void moveCameraToMarker(Double latitude, Double longitude) {
+        CameraPosition googlePlex = CameraPosition.builder()
+                .target(new LatLng(latitude, longitude))
+                .zoom(14)
+                .bearing(0)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null);
     }
 
     private List<PatternItem> setDash() {
@@ -524,6 +543,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         }
     }
+
 
     private void parsePointData() {
 
@@ -611,12 +631,20 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         }
     }
 
-    private boolean checkCanVote(int visibleItemPosition, int touchedIconPosition) {
-        String voteStatus = ((ArrayList<Point>) mPointsByDay.get(visibleItemPosition)).get(touchedIconPosition).getVoteStatus();
+    private boolean checkCanVote() {
+        String voteStatus = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getVoteStatus();
         if (voteStatus.equals(Constants.AGREE) || voteStatus.equals(Constants.DISAGREE)) {
             return false;
         }
         return true;
+    }
+
+    private void setVoteNumber() {
+        int agree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getAgree().size();
+        int disagree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getDisagree().size();
+
+        mVotedAgreeText.setText("同意: " + agree + " 人");
+        mVotedDisagreeText.setText("不同意: " + disagree + " 人");
     }
 
     private void friendAnimate() {
@@ -630,11 +658,29 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             mAddFriendImageButton.clearAnimation();
             mTalkFriendImageButton.clearAnimation();
             mFriendStatus = true;
+
             mAddFriendImageButton.animate().rotation(720).translationX(0).translationY(-250);
             mTalkFriendImageButton.animate().rotation(720).translationX(-150).translationY(-150).setStartDelay(100);
             mExitImageButton.animate().rotation(720).translationX(-250).translationY(-0).setStartDelay(200);
 
         }
+    }
+
+    private void voteAgreeAnimation() {
+        mVoteAgreeButton.clearAnimation();
+        mVoteDisagreeButton.animate().translationX(0).translationY(0);
+        mVoteAgreeButton.animate().translationX(-170).translationY(0);
+    }
+
+    private void voteDisagreeAnimation() {
+        mVoteDisagreeButton.clearAnimation();
+        mVoteAgreeButton.animate().translationX(0).translationY(0);
+        mVoteDisagreeButton.animate().translationX(170).translationY(0);
+    }
+
+    private void voteBackAnimation() {
+        mVoteAgreeButton.animate().translationX(0).translationY(0);
+        mVoteDisagreeButton.animate().translationX(0).translationY(0);
     }
 
 

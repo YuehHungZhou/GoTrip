@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <fragment
         android:id="@+id/fragment_map"
@@ -15,7 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_trip_search"
@@ -50,16 +57,38 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
 
+    <ImageView
+        android:id="@+id/image_reload_point"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/icon_circle"
+        android:elevation="12dp"
+        android:padding="9dp"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/constraint_trip_search"
+        app:layout_constraintStart_toEndOf="@+id/constraint_trip_search"
+        app:layout_constraintTop_toTopOf="@+id/constraint_trip_search"
+        app:srcCompat="@mipmap/icon_refresh" />
+
     <ImageButton
         android:id="@+id/imageButton_exit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:elevation="12dp"
+        android:scaleType="centerCrop"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,11 +96,14 @@
 
     <ImageButton
         android:id="@+id/imageButton_talk_friend"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
+        android:padding="10dp"
+        android:elevation="12dp"
+        android:scaleType="centerCrop"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,11 +111,17 @@
 
     <ImageButton
         android:id="@+id/imageButton_add_friend"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
+        android:paddingStart="11dp"
+        android:paddingTop="9dp"
+        android:paddingEnd="9dp"
+        android:paddingBottom="9dp"
+        android:elevation="12dp"
+        android:scaleType="centerCrop"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,80 +129,135 @@
 
     <ImageButton
         android:id="@+id/imageButton_trip_friend"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
+        android:padding="8dp"
+        android:elevation="12dp"
+        android:scaleType="centerCrop"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_map"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@mipmap/icon_high_five" />
 
-    <ImageView
-        android:id="@+id/image_reload_point"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/icon_circle"
-        android:visibility="invisible"
-        android:paddingLeft="10dp"
-        android:paddingTop="8dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/constraint_trip_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraint_trip_search"
-        app:srcCompat="@mipmap/icon_refresh" />
-
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_vote"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/icon_circle"
+        android:background="@drawable/icon_circle_vote"
         android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fragment_map">
+        app:layout_constraintTop_toTopOf="@+id/guideline5">
+
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <TextView
+            android:id="@+id/text_trip_vote_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:typeface="monospace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_trip_vote_disagree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:typeface="monospace"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_agree" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white_gray_99"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_disagree" />
 
         <TextView
             android:id="@+id/text_trip_vote_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="加入行程"
+            android:layout_marginTop="8dp"
+            android:text="是否同意加入行程"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
 
-        <ImageButton
-            android:id="@+id/image_trip_vote_agree"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="4dp"
-            android:background="@color/white"
+        <Button
+            android:id="@+id/button_trip_agree"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corner_dialog"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:text="同意"
+            android:textColor="@color/white_gray_99"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@mipmap/icon_checked" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_title" />
 
-        <ImageButton
-            android:id="@+id/image_trip_vote_disagree"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="4dp"
-            android:background="@color/white"
+        <Button
+            android:id="@+id/button_trip_disagree"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/corner_dialog_background"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:text="不同意"
+            android:textColor="@color/white_gray_99"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/icon_cancel" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_title" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -173,8 +266,8 @@
         android:id="@+id/image_trip_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
         android:alpha="0.3"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="@+id/constraintLayout"

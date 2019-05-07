@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -76,6 +77,12 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mTypeSpinner.setAdapter(adapter);
+
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +102,11 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
                                 + mBean.getTrip().getTripStart()
                                 + ((long) (mToday - 1) * 60 * 60 * 24);
 
-                        mTimeButton.setText(hourOfDay + ":" + minute);
+                        if (minute < 10) {
+                            mTimeButton.setText(hourOfDay + ":" + "0" + minute);
+                        } else {
+                            mTimeButton.setText(hourOfDay + ":" + minute);
+                        }
 
                     }
                 }, hour, minute, false).show();

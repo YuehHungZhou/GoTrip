@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,7 +55,6 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
 
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,9 +80,13 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mSpinner.setAdapter(adapter);
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -99,8 +103,6 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
                 mTrevalDay = ((int)((mEndTime - mStartTime) / (60 * 60 * 24))) + 1;
 
                 Trip trip = new Trip();
-
-
 
                 trip.setTripStart(mStartTime);
                 trip.setTripEnd(mEndTime);

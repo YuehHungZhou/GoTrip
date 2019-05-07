@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="足跡"
+            android:text="旅行距離"
             android:textColor="#636363"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/text_profile_name"
@@ -67,10 +67,10 @@
         <ProgressBar
             android:id="@+id/progress_profile_mileage"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:progressTint="#ABABAB"
+            android:progressTint="@color/gray"
             app:layout_constraintBottom_toBottomOf="@+id/text_profile_mileage"
             app:layout_constraintStart_toEndOf="@+id/text_profile_mileage"
             app:layout_constraintTop_toTopOf="@+id/text_profile_mileage" />
