@@ -92,14 +92,12 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void checkLogInState(Activity activity) {
+    public void checkLogIn(Activity activity) {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = (accessToken != null);
 
-        if (!isLoggedIn) {
-            mMainView.openLoginUi();
-        } else {
-            UserManager.getInstance().readInternal(activity, new UserManager.LoadCallback() {
+        if (isLoggedIn) {
+            UserManager.getInstance().readInternalStg(activity, new UserManager.LoadCallback() {
                 @Override
                 public void onSuccess() {
                     mMainView.openHomeUi();
@@ -115,6 +113,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
                 }
             });
+        } else {
+            mMainView.openLoginUi();
         }
     }
 
@@ -144,31 +144,30 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setOrignalListener() {
-        mTripPresenter.reSetTripListener();
+    public void setOriginalListener() {
+        mTripPresenter.resetTripListener();
     }
 
     @Override
     public void notSignin() {
-        mMainView.notSignin();
+        mMainView.back();
     }
 
     @Override
     public void checkOnTrip() {
-//        if (mTripPresenter == null) {
+
         FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
                 new FireBaseManager.GetUserOnTripCallback() {
                     @Override
                     public void onCompleted(String tripId) {
                         mMainView.openTripUi();
-                        mMainView.hideBottomNavigationUi();
+                        mMainView.hideBtmNaviUi();
                         mTripPresenter.loadTripData(tripId);
                     }
 
                     @Override
                     public void onFailure() {
                         mMainView.showToast("沒有正在旅行的行程，請到個人頁面安排新旅程");
-                        // 轉到profile
                     }
 
                     @Override
@@ -176,28 +175,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
                     }
                 });
-
-//        } else {
-//            mTripPresenter.checkTripStatus(new TripContract.GetOnTripStatusCallback() {
-//                @Override
-//                public void onCompleted(String tripId) {
-//                    mMainView.openTripUi();
-//                    mMainView.hideBottomNavigationUi();
-//                    mTripPresenter.loadTripData(tripId);
-//                }
-//
-//                @Override
-//                public void onFailure() {
-//                    // 轉到profile
-//                }
-//
-//                @Override
-//                public void onError(String errorMessage) {
-//
-//                }
-//            });
-//        }
-
     }
 
     @Override
@@ -224,7 +201,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void logout() {
-        mMainView.selectHome();
+        mMainView.selectedHomePage();
     }
 
     @Override
@@ -355,7 +332,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void loadTrip(String tripId) {
         mMainView.openTripUi();
-        mMainView.hideBottomNavigationUi();
+        mMainView.hideBtmNaviUi();
         mTripPresenter.loadTripData(tripId);
     }
 
@@ -391,7 +368,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void hideBottomNavigation() {
-        mMainView.hideBottomNavigationUi();
+        mMainView.hideBtmNaviUi();
     }
 
     @Override
@@ -443,7 +420,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void reSetTripListener() {
+    public void resetTripListener() {
 
     }
 

@@ -267,7 +267,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (isOwner) {
             mPresenter.openDeletePointRequestView();
         }
-
     }
 
     @Override

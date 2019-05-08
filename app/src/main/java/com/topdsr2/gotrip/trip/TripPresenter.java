@@ -78,7 +78,7 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void reSetTripListener() {
+    public void resetTripListener() {
         mTripView.reSetTripListener();
     }
 

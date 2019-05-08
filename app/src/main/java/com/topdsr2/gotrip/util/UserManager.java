@@ -71,7 +71,7 @@ public class UserManager {
                                         String userPhoto = "https://graph.facebook.com/" + object.getLong("id") + "/picture?type=large";
 //                                        Profile profile = Profile.getCurrentProfile();
 //                                        Uri userPhoto = profile.getProfilePictureUri(300, 300);
-                                        writeInternal(email, (Activity) context);
+                                        writeInternalStg(email, (Activity) context);
                                         addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                     }
                                 } catch (JSONException e) {
@@ -102,7 +102,7 @@ public class UserManager {
 
     }
 
-    public void readInternal(Activity activity, LoadCallback callback) {
+    public void readInternalStg(Activity activity, LoadCallback callback) {
         FireBaseManager.getInstance().loadIntenalData(read(activity), new FireBaseManager.GetUserDataCallback() {
             @Override
             public void onCompleted(User user) {
@@ -117,7 +117,7 @@ public class UserManager {
         });
     }
 
-    public void writeInternal(String email, Activity activity) {
+    public void writeInternalStg(String email, Activity activity) {
         write(email, activity);
     }
 

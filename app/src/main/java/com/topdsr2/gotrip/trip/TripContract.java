@@ -60,7 +60,7 @@ public interface TripContract {
 
         void deletePoint();
 
-        void reSetTripListener();
+        void resetTripListener();
 
         void addFriendRequest(String email);
 

@@ -38,7 +38,7 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends BaseActivity implements MainContract.View {
 
     private BottomNavigationView mBottomNavigation;
-    private boolean isBottomBavigationVisibale = true;
+    private boolean isBtmNaviVisibale = true;
     private MainMvpController mMainMvpController;
     private MainContract.Presenter mPresenter;
     private View mBadge;
@@ -50,48 +50,51 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_main);
-
         mMainMvpController = MainMvpController.create(this);
-
         setBottomNavigation();
         selectedHomePage();
-
     }
 
+    @Override
+    public void setPresenter(MainContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
             UserManager.getInstance().getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
         }
+    }
 
+    private Activity getActivity() {
+        return this;
     }
 
     private void setBottomNavigation() {
         mBottomNavigation = findViewById(R.id.bottom_navigation);
-        mBottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mBottomNavigation.setOnNavigationItemSelectedListener(onNaviItemSelectedListener);
         mBottomNavigation.setItemIconTintList(null);
-
-
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+    private BottomNavigationView.OnNavigationItemSelectedListener onNaviItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
 
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
-                            mPresenter.checkLogInState(getActivity());
-                            selectedBottomNavigationViewItem(0);
+                            mPresenter.checkLogIn(getActivity());
+                            selectedBtmNavitItem(0);
                             return true;
                         case R.id.navigation_trip:
-                            selectedBottomNavigationViewItem(1);
+                            selectedBtmNavitItem(1);
                             mPresenter.checkOnTrip();
                             return true;
                         case R.id.navigation_profile:
-                            selectedBottomNavigationViewItem(2);
+                            selectedBtmNavitItem(2);
                             mPresenter.openProfile();
                             mPresenter.checkUserData();
                             mPresenter.loadRequestData();
@@ -102,13 +105,13 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 }
             };
 
-    private void selectedHomePage() {
+    @Override
+    public void selectedHomePage() {
         ((BottomNavigationView) findViewById(R.id.bottom_navigation)).setSelectedItemId(R.id.navigation_home);
     }
 
-    private void selectedBottomNavigationViewItem(int itemNumber) {
-        BottomNavigationMenuView menuView =
-                (BottomNavigationMenuView) mBottomNavigation.getChildAt(0);
+    private void selectedBtmNavitItem(int itemNumber) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) mBottomNavigation.getChildAt(0);
 
         for (int i = 0; i < 3; i++) {
             if (i == itemNumber) {
@@ -122,8 +125,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void setPresenter(MainContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+    public void hideBtmNaviUi() {
+        mBottomNavigation.setVisibility(View.GONE);
+        isBtmNaviVisibale = false;
     }
 
     @Override
@@ -159,9 +163,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public void openLogoutUi() {
         LogoutDialog logoutDialog = new LogoutDialog();
         logoutDialog.setMainPresenter(mPresenter);
-
         logoutDialog.show(getSupportFragmentManager(), "");
-
     }
 
     @Override
@@ -209,41 +211,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void showToast(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void back() {
-        onBackPressed();
-    }
-
-    @Override
-    public void selectHome() {
-        selectedHomePage();
-    }
-
-    @Override
-    public void hideBottomNavigationUi() {
-        mBottomNavigation.setVisibility(View.GONE);
-        isBottomBavigationVisibale = false;
-    }
-
-    @Override
     public void openAddOrDeletePointUi() {
         mMainMvpController.createAddOrDeletePointView(getSupportFragmentManager());
-    }
-
-    @Override
-    public void checkListener() {
-        if (mMainMvpController.checkTripAdded()) {
-            mPresenter.setOrignalListener();
-        }
-    }
-
-    @Override
-    public void notSignin() {
-        onBackPressed();
     }
 
     @Override
@@ -264,26 +233,38 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void checkListener() {
+        if (mMainMvpController.checkTripFragmentAdded()) {
+            mPresenter.setOriginalListener();
+        }
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         mPresenter.saveCollection();
     }
 
     @Override
+    public void back() {
+        onBackPressed();
+    }
+
+    @Override
     public void onBackPressed() {
 
-        if (isBottomBavigationVisibale) {
+        if (isBtmNaviVisibale) {
             super.onBackPressed();
         } else {
             mPresenter.detachListener();
             mBottomNavigation.setVisibility(View.VISIBLE);
-            isBottomBavigationVisibale = true;
+            isBtmNaviVisibale = true;
             selectedHomePage();
         }
     }
-
-    private Activity getActivity() {
-        return this;
-    }
-
 }

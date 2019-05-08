@@ -19,35 +19,15 @@ public interface MainContract {
 
         void openLoginUi();
 
-        void hideBottomNavigationUi();
-
-        void openAddOrDeletePointUi();
-
-        void checkListener();
-
-        void notSignin();
-
-        ProfileItemFragment findNewTripView();
-
-        ProfileItemFragment findCompleteTripView();
-
-        ProfileItemFragment findCollectionTripView();
-
         void openAddTripDialogView();
 
         void openLogoutUi();
 
         void openRequestUi(Request request);
 
-        void selectHome();
-
         void openExitUi();
 
-        void back();
-
         void openAddTripOwnerUi();
-
-        void showToast(String message);
 
         void openFilterUi();
 
@@ -55,12 +35,29 @@ public interface MainContract {
 
         void openDeletePointRequestUi();
 
+        void openAddOrDeletePointUi();
+
+        ProfileItemFragment findNewTripView();
+
+        ProfileItemFragment findCompleteTripView();
+
+        ProfileItemFragment findCollectionTripView();
+
+        void hideBtmNaviUi();
+
+        void selectedHomePage();
+
+        void checkListener();
+
+        void showToast(String message);
+
+        void back();
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void checkLogInState(Activity activity);
+        void checkLogIn(Activity activity);
 
         void openHome();
 
@@ -72,7 +69,7 @@ public interface MainContract {
 
         void checkGoBack();
 
-        void setOrignalListener();
+        void setOriginalListener();
 
         void notSignin();
 

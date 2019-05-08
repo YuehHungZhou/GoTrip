@@ -89,6 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:lines="1"
                     android:paddingBottom="2dp"
                     android:text="台北大空襲"
@@ -97,7 +98,8 @@
                     android:textStyle="bold"
                     android:typeface="sans"
                     app:layout_constraintBottom_toTopOf="@+id/text_home_describe"
-                    app:layout_constraintStart_toEndOf="@+id/image_home_photo" />
+                    app:layout_constraintStart_toEndOf="@+id/image_home_photo"
+                    app:layout_constraintTop_toTopOf="@+id/image_home_photo" />
 
                 <TextView
                     android:id="@+id/text_home_describe"
