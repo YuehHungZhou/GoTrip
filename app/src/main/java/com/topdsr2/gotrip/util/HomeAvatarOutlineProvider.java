@@ -12,7 +12,7 @@ public class HomeAvatarOutlineProvider extends ViewOutlineProvider {
     @Override
     public void getOutline(View view, Outline outline) {
         view.setClipToOutline(true);
-        int radius = GoTrip.getmContext().getResources().getDimensionPixelSize(R.dimen.radius_home_avatar);
+        int radius = GoTrip.getContext().getResources().getDimensionPixelSize(R.dimen.radius_home_avatar);
         outline.setOval(0, 0, radius, radius);
     }
 }

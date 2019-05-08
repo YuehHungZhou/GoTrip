@@ -16,7 +16,7 @@ public class GoTrip extends Application {
         mContext = this;
     }
 
-    public static Context getmContext() {
+    public static Context getContext() {
         return mContext;
     }
 }

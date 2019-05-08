@@ -67,7 +67,7 @@ public class LogoutDialog extends BottomSheetDialogFragment  {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FacebookSdk.sdkInitialize(GoTrip.getmContext());
+                FacebookSdk.sdkInitialize(GoTrip.getContext());
                 LoginManager.getInstance().logOut();
 
                 mMainPresenter.logout();

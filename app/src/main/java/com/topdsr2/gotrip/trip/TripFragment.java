@@ -537,7 +537,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     private void placeInitialized() {
         if (!Places.isInitialized()) {
-            Places.initialize(GoTrip.getmContext(), "AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0");
+            Places.initialize(GoTrip.getContext(), "AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0");
             PlacesClient placesClient = Places.createClient(getContext());
 
         }
