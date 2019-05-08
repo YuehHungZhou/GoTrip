@@ -29,7 +29,7 @@ public interface MainContract {
 
         void openAddTripOwnerUi();
 
-        void openFilterUi();
+        void openHomeFilterUi();
 
         void openAddPointRequestUi();
 
@@ -47,8 +47,6 @@ public interface MainContract {
 
         void selectedHomePage();
 
-        void checkListener();
-
         void showToast(String message);
 
         void back();
@@ -65,11 +63,9 @@ public interface MainContract {
 
         void openProfile();
 
+        void openAddOrDeletePoint();
+
         void detachListener();
-
-        void checkGoBack();
-
-        void setOriginalListener();
 
         void notSignin();
 
@@ -99,20 +95,11 @@ public interface MainContract {
 
         void search(SearchData searchData);
 
-        void openAddOrDeletePoint();
 
         void readyDeletePoint();
 
         void saveCollection();
 
     }
-
-    public interface GetAllRequestCallback {
-
-        void onCompleted(Request request);
-
-        void onError(String errorMessage);
-    }
-
 
 }

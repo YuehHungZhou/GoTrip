@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void openFilterUi() {
+    public void openHomeFilterUi() {
         HomeFilterDialog filterDialog = new HomeFilterDialog();
         filterDialog.setMainPresenter(mPresenter);
         filterDialog.show(getSupportFragmentManager(), "");
@@ -230,13 +230,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public ProfileItemFragment findCollectionTripView() {
         return mMainMvpController.findOrCreateCollectionTripView();
 
-    }
-
-    @Override
-    public void checkListener() {
-        if (mMainMvpController.checkTripFragmentAdded()) {
-            mPresenter.setOriginalListener();
-        }
     }
 
     @Override

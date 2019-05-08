@@ -139,16 +139,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void checkGoBack() {
-        mMainView.checkListener();
-    }
-
-    @Override
-    public void setOriginalListener() {
-        mTripPresenter.resetTripListener();
-    }
-
-    @Override
     public void notSignin() {
         mMainView.back();
     }
@@ -337,8 +327,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void openFilterView() {
-        mMainView.openFilterUi();
+    public void openHomeFilterView() {
+        mMainView.openHomeFilterUi();
     }
 
     @Override
@@ -417,11 +407,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void deletePoint() {
-    }
-
-    @Override
-    public void resetTripListener() {
-
     }
 
     @Override

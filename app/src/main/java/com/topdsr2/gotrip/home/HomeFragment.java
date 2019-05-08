@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.openFilterView();
+                mPresenter.openHomeFilterView();
             }
         });
     }

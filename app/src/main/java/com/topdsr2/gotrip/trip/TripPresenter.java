@@ -78,11 +78,6 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void resetTripListener() {
-        mTripView.reSetTripListener();
-    }
-
-    @Override
     public void addFriendRequest(String email) {
         FireBaseManager.getInstance().addFriendRequest(email, UserManager.getInstance().getUser().getEmail(),
                 new FireBaseManager.AddFriendCallback() {

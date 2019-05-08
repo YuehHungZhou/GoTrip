@@ -270,11 +270,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     @Override
-    public void reSetTripListener() {
-        mPresenter.setTripListener(mBean.getDocumentId());
-    }
-
-    @Override
     public void closeFunction(boolean ownerStatus) {
         isOwner = ownerStatus;
         mReloadImage.setVisibility(View.INVISIBLE);

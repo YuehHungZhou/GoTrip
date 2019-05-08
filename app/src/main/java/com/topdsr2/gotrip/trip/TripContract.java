@@ -26,8 +26,6 @@ public interface TripContract {
 
         void showPointDeleteView(int position);
 
-        void reSetTripListener();
-
         void closeFunction(boolean isOwner);
 
         void openFunction(boolean isOwner);
@@ -59,8 +57,6 @@ public interface TripContract {
         void showDeleteView(int position);
 
         void deletePoint();
-
-        void resetTripListener();
 
         void addFriendRequest(String email);
 
