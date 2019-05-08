@@ -21,16 +21,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="150dp">
 
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout14"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/image_home_backgroud"
@@ -47,12 +39,12 @@
                 <ImageButton
                     android:id="@+id/image_home_collection"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
                     android:padding="0dp"
                     android:scaleType="centerCrop"
-                    android:tint="@color/gray"
+                    android:tint="@color/gray_99"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -61,8 +53,8 @@
                 <ImageButton
                     android:id="@+id/image_home_collection_tint"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
                     android:padding="0dp"
                     android:scaleType="centerCrop"
@@ -71,110 +63,107 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@mipmap/icon_label_star_tint" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:background="@drawable/backgorund_home_card"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout14"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/backgorund_home_card"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_home_photo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@mipmap/icon_moai" />
 
-                    <ImageView
-                        android:id="@+id/image_home_photo"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:srcCompat="@mipmap/icon_moai" />
+                <TextView
+                    android:id="@+id/text_home_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:lines="1"
+                    android:paddingBottom="2dp"
+                    android:text="台北大空襲"
+                    android:textColor="@color/gray_deep"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:typeface="sans"
+                    app:layout_constraintBottom_toTopOf="@+id/text_home_describe"
+                    app:layout_constraintStart_toEndOf="@+id/image_home_photo" />
 
-                    <TextView
-                        android:id="@+id/text_home_title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginBottom="2dp"
-                        android:fontFamily="monospace"
-                        android:lines="1"
-                        android:paddingBottom="2dp"
-                        android:text="台北大空襲"
-                        android:textColor="#606060"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:typeface="monospace"
-                        app:layout_constraintBottom_toTopOf="@+id/text_home_describe"
-                        app:layout_constraintStart_toEndOf="@+id/image_home_photo" />
+                <TextView
+                    android:id="@+id/text_home_describe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="台北大空襲"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    android:typeface="sans"
+                    app:layout_constraintBottom_toBottomOf="@+id/image_home_owner_collection"
+                    app:layout_constraintEnd_toStartOf="@+id/image_home_owner_collection"
+                    app:layout_constraintStart_toEndOf="@+id/image_home_photo"
+                    app:layout_constraintTop_toTopOf="@+id/image_home_owner_collection" />
 
-                    <TextView
-                        android:id="@+id/text_home_describe"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:fontFamily="monospace"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:text="台北大空襲"
-                        android:textColor="@color/gray"
-                        android:textSize="14sp"
-                        android:typeface="monospace"
-                        app:layout_constraintBottom_toBottomOf="@+id/image_home_owner_collection"
-                        app:layout_constraintEnd_toStartOf="@+id/image_home_owner_collection"
-                        app:layout_constraintStart_toEndOf="@+id/image_home_photo"
-                        app:layout_constraintTop_toTopOf="@+id/image_home_owner_collection" />
+                <TextView
+                    android:id="@+id/text_home_collection_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="0"
+                    android:textColor="@color/gray_99"
+                    android:typeface="sans"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
-                        android:id="@+id/text_home_collection_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:text="0"
-                        android:textColor="@color/gray"
-                        android:typeface="monospace"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/image_home_trip_collection"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:paddingTop="2dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
+                    app:layout_constraintEnd_toStartOf="@+id/text_home_collection_number"
+                    app:layout_constraintTop_toTopOf="@+id/text_home_collection_number"
+                    app:srcCompat="@mipmap/icon_label_star_tint" />
 
-                    <ImageView
-                        android:id="@+id/image_home_trip_collection"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="3dp"
-                        android:layout_marginBottom="1dp"
-                        android:scaleType="fitXY"
-                        android:tint="@color/star"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
-                        app:layout_constraintEnd_toStartOf="@+id/text_home_collection_number"
-                        app:layout_constraintTop_toTopOf="@+id/text_home_collection_number"
-                        app:srcCompat="@mipmap/icon_star" />
+                <TextView
+                    android:id="@+id/text_home_owner_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="0"
+                    android:textColor="@color/gray_99"
+                    android:typeface="sans"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
+                    app:layout_constraintEnd_toStartOf="@+id/image_home_trip_collection"
+                    app:layout_constraintTop_toTopOf="@+id/text_home_collection_number" />
 
-                    <TextView
-                        android:id="@+id/text_home_owner_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:text="0"
-                        android:textColor="@color/gray"
-                        android:typeface="monospace"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
-                        app:layout_constraintEnd_toStartOf="@+id/image_home_trip_collection"
-                        app:layout_constraintTop_toTopOf="@+id/text_home_collection_number" />
+                <ImageView
+                    android:id="@+id/image_home_owner_collection"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="3dp"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:tint="@color/white_DD"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
+                    app:layout_constraintEnd_toStartOf="@+id/text_home_owner_number"
+                    app:layout_constraintTop_toTopOf="@+id/text_home_collection_number"
+                    app:srcCompat="@mipmap/icon_group" />
 
-                    <ImageView
-                        android:id="@+id/image_home_owner_collection"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:clickable="false"
-                        android:scaleType="centerCrop"
-                        android:tint="@color/white_DD"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
-                        app:layout_constraintEnd_toStartOf="@+id/text_home_owner_number"
-                        app:layout_constraintTop_toTopOf="@+id/text_home_collection_number"
-                        app:srcCompat="@drawable/ic_person_outline_black_24dp" />
-                </android.support.constraint.ConstraintLayout>
             </android.support.constraint.ConstraintLayout>
 
 

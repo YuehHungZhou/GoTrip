@@ -63,30 +63,32 @@
 
     <ImageView
         android:id="@+id/image_reload_point"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/icon_circle"
         android:elevation="12dp"
         android:padding="9dp"
         android:scaleType="centerCrop"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/constraint_trip_search"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraint_trip_search"
         app:layout_constraintTop_toTopOf="@+id/constraint_trip_search"
         app:srcCompat="@mipmap/icon_refresh" />
 
     <ImageButton
         android:id="@+id/imageButton_exit"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
-        android:paddingStart="12dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
+        android:paddingStart="10dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
         android:elevation="12dp"
         android:scaleType="centerCrop"
         android:visibility="invisible"
@@ -96,12 +98,12 @@
 
     <ImageButton
         android:id="@+id/imageButton_talk_friend"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
-        android:padding="10dp"
+        android:padding="8dp"
         android:elevation="12dp"
         android:scaleType="centerCrop"
         android:visibility="invisible"
@@ -111,15 +113,15 @@
 
     <ImageButton
         android:id="@+id/imageButton_add_friend"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
-        android:paddingStart="11dp"
-        android:paddingTop="9dp"
-        android:paddingEnd="9dp"
-        android:paddingBottom="9dp"
+        android:paddingStart="8dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="7dp"
+        android:paddingBottom="7dp"
         android:elevation="12dp"
         android:scaleType="centerCrop"
         android:visibility="invisible"
@@ -129,12 +131,12 @@
 
     <ImageButton
         android:id="@+id/imageButton_trip_friend"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/icon_circle"
-        android:padding="8dp"
+        android:padding="6dp"
         android:elevation="12dp"
         android:scaleType="centerCrop"
         android:visibility="invisible"
@@ -145,7 +147,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_vote"
-        android:layout_width="230dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -176,16 +178,17 @@
             android:id="@+id/text_trip_vote_agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:typeface="monospace"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:typeface="sans"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
 
         <TextView
             android:id="@+id/text_trip_vote_disagree"
@@ -194,24 +197,25 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:typeface="monospace"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_agree" />
+            android:typeface="sans"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
 
         <View
             android:id="@+id/view10"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/white_gray_99"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_disagree" />
+            app:layout_constraintTop_toBottomOf="@+id/button_trip_disagree" />
 
         <TextView
             android:id="@+id/text_trip_vote_title"
@@ -221,22 +225,22 @@
             android:text="是否同意加入行程"
             android:textColor="@color/white"
             android:textSize="12sp"
+            android:typeface="sans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view10" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_trip_agree"
             android:layout_width="60dp"
             android:layout_height="25dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/corner_dialog"
             android:elevation="6dp"
             android:gravity="center"
             android:text="同意"
-            android:textColor="@color/white_gray_99"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_title" />
@@ -248,13 +252,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/corner_dialog_background"
             android:elevation="6dp"
             android:gravity="center"
             android:text="不同意"
             android:textColor="@color/white_gray_99"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/text_trip_vote_title" />
@@ -277,7 +280,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:background="@drawable/corner_sea_color"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -285,13 +288,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_trip_content_icon"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
+            android:id="@+id/recycle_trip_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -299,13 +299,17 @@
         </android.support.v7.widget.RecyclerView>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_trip_content"
+            android:id="@+id/recycler_trip_content_icon"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_trip_content_icon">
+            app:layout_constraintTop_toTopOf="parent">
 
         </android.support.v7.widget.RecyclerView>
 

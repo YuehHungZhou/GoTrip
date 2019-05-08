@@ -73,21 +73,17 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
-        String[] data1 = {"Java", "Python", "C++", "C#", "Angular", "Go"};
-        String[] data2 = {"Java", "Python", "C++", "C#", "Angular", "Go"};
+        ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_year, R.layout.spinner_text);
+        yearAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mYesrSpinner.setAdapter(yearAdapter);
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
-        mYesrSpinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_month, R.layout.spinner_text);
+        monthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mMonthSpinner.setAdapter(monthAdapter);
 
-        ArrayAdapter adapter2 = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data1);
-        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_text);
-        mMonthSpinner.setAdapter(adapter2);
-
-        ArrayAdapter adapter3 = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data2);
-        adapter3.setDropDownViewResource(R.layout.spinner_dropdown_text);
-        mCountrySpinner.setAdapter(adapter3);
+        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_country_list, R.layout.spinner_text);
+        countryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mCountrySpinner.setAdapter(countryAdapter);
 
         mDaySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

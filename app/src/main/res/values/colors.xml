@@ -13,6 +13,7 @@
     <color name="gray">#969696</color>
     <color name="gray_33">#33969696</color>
     <color name="gray_99">#99969696</color>
+    <color name="gray_deep">#AA6B6B6B</color>
 
 
     <color name="translucent_40">#66000000</color>
@@ -20,11 +21,10 @@
     <color name="orange_99">#99F6C775</color>
     <color name="orange_dialog">#F6C775</color>
 
-    A4BFC8
     <color name="trip_delete">#66FF0000</color>
     <color name="blue">#A1C5D5</color>
     <color name="blue_99">#99A1C5D5</color>
-    <color name="blue_sipnner">#A8C2CD</color>
+    <color name="blue_sipnner">#BDE3F3</color>
 
     <color name="black_3f3a3a">#3f3a3a</color>
     <color name="black_66">#66000000</color>

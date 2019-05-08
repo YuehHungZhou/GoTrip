@@ -22,20 +22,19 @@
         android:id="@+id/text_trip_icon_pointime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="2dp"
         android:textColor="@color/gray"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toTopOf="@+id/constraint_icon"
         app:layout_constraintEnd_toEndOf="@+id/constraint_icon"
-        app:layout_constraintStart_toStartOf="@+id/constraint_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/constraint_icon" />
 
     <View
         android:id="@+id/view"
         android:layout_width="30dp"
         android:layout_height="1dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/trip_delete"
@@ -45,11 +44,11 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraint_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/corner_icon"
         app:layout_constraintBottom_toBottomOf="parent"

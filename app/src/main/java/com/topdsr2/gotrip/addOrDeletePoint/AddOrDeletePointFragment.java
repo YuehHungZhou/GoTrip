@@ -77,11 +77,9 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] data = {"Java", "Python", "C++", "C#", "Angular", "Go"};
-
-        ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, data);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
-        mTypeSpinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> placeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.icon_type_list, R.layout.spinner_text);
+        placeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        mTypeSpinner.setAdapter(placeAdapter);
 
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +101,9 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
                                 + ((long) (mToday - 1) * 60 * 60 * 24);
 
                         if (minute < 10) {
-                            mTimeButton.setText(hourOfDay + ":" + "0" + minute);
+                            mTimeButton.setText(hourOfDay + " : " + "0" + minute);
                         } else {
-                            mTimeButton.setText(hourOfDay + ":" + minute);
+                            mTimeButton.setText(hourOfDay + " : " + minute);
                         }
 
                     }

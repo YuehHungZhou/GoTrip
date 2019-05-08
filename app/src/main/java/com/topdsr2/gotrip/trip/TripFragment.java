@@ -643,8 +643,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         int agree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getAgree().size();
         int disagree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).get(mTouchedIconPosition).getDisagree().size();
 
-        mVotedAgreeText.setText("同意: " + agree + " 人");
-        mVotedDisagreeText.setText("不同意: " + disagree + " 人");
+        mVotedAgreeText.setText("同意：" + agree + " 人");
+        mVotedDisagreeText.setText("不同意：" + disagree + " 人");
     }
 
     private void friendAnimate() {
