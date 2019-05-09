@@ -180,6 +180,11 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void hideBtmNavi() {
+        mMainView.hideBtmNaviUi();
+    }
+
+    @Override
     public void checkLogIn(Activity activity) {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = (accessToken != null);
@@ -218,7 +223,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void logout() {
-        
+
         mMainView.selectedHomePage();
     }
 
@@ -254,7 +259,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
                         mMainView.showToast(GoTrip.getContext().getResources()
                                 .getString(R.string.no_ontrip));
                     }
-                    
+
                     @Override
                     public void onError(String errorMessage) {
 
@@ -473,13 +478,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void loadTripData(String tripId) {
-        mTripPresenter.loadTripData(tripId);
-    }
-
-    @Override
-    public void loadTrip(String tripId) {
-        mMainView.openTripUi();
-        mMainView.hideBtmNaviUi();
         mTripPresenter.loadTripData(tripId);
     }
 

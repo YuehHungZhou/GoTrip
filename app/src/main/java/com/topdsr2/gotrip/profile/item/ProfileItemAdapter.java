@@ -193,7 +193,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             switch (v.getId()) {
 
                 case R.id.cardview_newtrip:
-                    mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
+                    mPresenter.openTrip();
+                    mPresenter.hideBtmNavi();
+                    mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_newtrip_delete:
                     mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_NEWTRIP);
@@ -245,7 +247,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             switch (v.getId()) {
 
                 case R.id.cardview_completetrip:
-                    mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
+                    mPresenter.openTrip();
+                    mPresenter.hideBtmNavi();
+                    mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_completetrip_delete:
                     mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COMPLETETRIP);
@@ -298,7 +302,9 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
             switch (v.getId()) {
 
                 case R.id.cardview_collectiontrip:
-                    mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
+                    mPresenter.openTrip();
+                    mPresenter.hideBtmNavi();
+                    mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_collectiontrip_delete:
                     mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COLLECTIONTRIP);

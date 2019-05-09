@@ -30,7 +30,11 @@ public interface ProfileItemContract {
 
         void setCollectionTripData(ArrayList<Trip> trips);
 
-        void loadTrip(String tripId);
+        void openTrip();
+
+        void hideBtmNavi();
+
+        void loadTripData(String tripId);
 
         void openAddTripDialog();
 

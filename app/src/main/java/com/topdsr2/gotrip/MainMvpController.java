@@ -56,9 +56,11 @@ public class MainMvpController {
     @StringDef({
             NEWTRIP, COMPLETETRIP, COLLECTIONTRIP
     })
-    public @interface ProfileItem {}
-    public static final String NEWTRIP        = "新旅程";
-    public static final String COMPLETETRIP   = "已完成";
+    public @interface ProfileItem {
+    }
+
+    public static final String NEWTRIP = "新旅程";
+    public static final String COMPLETETRIP = "已完成";
     public static final String COLLECTIONTRIP = "收藏";
 
 

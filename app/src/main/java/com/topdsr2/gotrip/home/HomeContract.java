@@ -24,9 +24,11 @@ public interface HomeContract {
 
         void setHomeData();
 
-        void openTripMap();
+        void openTrip();
 
-        void loadTrip(String tripId);
+        void hideBtmNavi();
+
+        void loadTripData(String tripId);
 
         void openHomeFilterDialog();
 

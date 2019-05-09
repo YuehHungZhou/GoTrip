@@ -8,13 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.internal.CallbackManagerImpl;
 import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.dialog.AddPointRequstDialog;
@@ -29,10 +28,9 @@ import com.topdsr2.gotrip.dialog.RequestDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
 import com.topdsr2.gotrip.util.UserManager;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class MainActivity extends BaseActivity implements MainContract.View {

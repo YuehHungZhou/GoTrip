@@ -140,7 +140,9 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     }
 
                 case R.id.cardview_home_item:
-                    mPresenter.loadTrip(mTrips.get(getAdapterPosition()).getId());
+                    mPresenter.openTrip();
+                    mPresenter.hideBtmNavi();
+                    mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 default:
                     break;

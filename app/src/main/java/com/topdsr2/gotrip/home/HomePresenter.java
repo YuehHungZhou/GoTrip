@@ -55,12 +55,17 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void openTripMap() {
+    public void openTrip() {
 
     }
 
     @Override
-    public void loadTrip(String tripId) {
+    public void hideBtmNavi() {
+
+    }
+
+    @Override
+    public void loadTripData(String tripId) {
 
     }
 
