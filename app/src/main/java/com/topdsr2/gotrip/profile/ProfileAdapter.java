@@ -32,8 +32,9 @@ public class ProfileAdapter extends FragmentPagerAdapter {
             case COMPLETETRIP:
                 return mPresenter.findCompleteTrip();
             case COLLECTIONTRIP:
-            default:
                 return mPresenter.findCollectionTrip();
+            default:
+                return mPresenter.findNewTrip();
         }
     }
 

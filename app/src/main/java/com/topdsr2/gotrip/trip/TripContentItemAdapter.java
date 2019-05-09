@@ -119,7 +119,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             mPresenter.moveMapToIcon(mReadyPoints.get(getAdapterPosition()).getLatitude(),
                     mReadyPoints.get(getAdapterPosition()).getLongitude());
             mPresenter.changeIconInfo(getAdapterPosition());
-            mPresenter.showDeleteView(getAdapterPosition());
+            mPresenter.showPointDeleteView(getAdapterPosition());
 
             return true;
         }

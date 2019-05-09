@@ -56,12 +56,12 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void openLogoutView() {
+    public void openLogoutDialog() {
 
     }
 
     @Override
-    public void openRequestView() {
+    public void openRequestDialog() {
 
     }
 

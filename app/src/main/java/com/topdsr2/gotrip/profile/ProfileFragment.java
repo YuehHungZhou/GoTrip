@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mPhotoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.openRequestView();
+                mPresenter.openRequestDialog();
 
             }
         });
@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
         mPhotoImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mPresenter.openLogoutView();
+                mPresenter.openLogoutDialog();
                 return true;
             }
         });

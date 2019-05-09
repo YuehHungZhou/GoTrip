@@ -65,7 +65,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void openHomeFilterView() {
+    public void openHomeFilterDialog() {
 
     }
 

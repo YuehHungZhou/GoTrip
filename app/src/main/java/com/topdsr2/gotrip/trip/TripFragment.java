@@ -203,7 +203,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             }
         }
         mBean = bean;
-
         mPresenter.checkIsOwner();
 
         mPointsByDay = new ArrayList<>();
@@ -261,13 +260,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         return point;
     }
 
-    @Override
-    public void showPointDeleteView(int position) {
-        mTouchedIconPosition = position;
-        if (isOwner) {
-            mPresenter.openDeletePointRequestView();
-        }
-    }
+
 
     @Override
     public void closeFunction(boolean ownerStatus) {
@@ -294,7 +287,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     @Override
-    public void showVoteViewUi(int position) {
+    public void showPointDeleteView(int position) {
+        mTouchedIconPosition = position;
+        if (isOwner) {
+            mPresenter.openDeletePointRequestDialog();
+        }
+    }
+
+    @Override
+    public void showVoteViewView(int position) {
         mTouchedIconPosition = position;
         if (isOwner) {
             if (checkCanVote()) {
@@ -369,7 +370,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 break;
             case R.id.imageButton_add_friend:
                 friendAnimate();
-                mPresenter.openAddTripOwner();
+                mPresenter.openAddTripOwnerDialog();
                 break;
             case R.id.imageButton_talk_friend:
                 friendAnimate();
@@ -377,7 +378,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 break;
             case R.id.imageButton_exit:
                 friendAnimate();
-                mPresenter.openExit();
+                mPresenter.openExitDialog();
                 break;
             case R.id.button_trip_agree:
                 mPresenter.vote(((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
@@ -430,7 +431,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 20));
 
         if (isOwner) {
-            mPresenter.openAddPointRequestView();
+            mPresenter.openAddPointRequestDialog();
         }
 
         mSelectedMarker = marker;

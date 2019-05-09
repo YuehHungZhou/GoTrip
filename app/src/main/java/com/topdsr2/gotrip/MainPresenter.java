@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -45,7 +47,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     private ProfileItemPresenter mProfileCollectionTripPresenter;
 
     private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
-
     private AddTripOwnerDialog mAddTripOwnerDialog;
 
 
@@ -85,10 +86,99 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mAddOrDeletePointPresenter = checkNotNull(addOrDeletePointPresenter);
     }
 
-
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void openHome() {
+        mMainView.openHomeUi();
+    }
+
+    @Override
+    public void openTrip() {
+        mMainView.openTripUi();
+    }
+
+    @Override
+    public void openProfile() {
+        mMainView.openProfileUi();
+    }
+
+    @Override
+    public ProfileItemFragment findNewTrip() {
+        return mMainView.findNewTripView();
+    }
+
+    @Override
+    public ProfileItemFragment findCompleteTrip() {
+        return mMainView.findCompleteTripView();
+    }
+
+    @Override
+    public ProfileItemFragment findCollectionTrip() {
+        return mMainView.findCollectionTripView();
+    }
+
+    @Override
+    public void openHomeFilterDialog() {
+        mMainView.openHomeFilterUi();
+    }
+
+    @Override
+    public void openAddTripDialog() {
+        mMainView.openAddTripDialogUi();
+    }
+
+    @Override
+    public void openAddOrDeletePoint() {
+        mMainView.openAddOrDeletePointUi();
+    }
+
+    @Override
+    public void openExitDialog() {
+        mMainView.openExitUi();
+    }
+
+    @Override
+    public void openLogoutDialog() {
+        mMainView.openLogoutUi();
+    }
+
+    @Override
+    public void openRequestDialog() {
+        mMainView.openRequestUi(mProfilePresenter.getRequestData());
+    }
+
+    @Override
+    public void openAddTripOwnerDialog() {
+        mMainView.openAddTripOwnerUi();
+    }
+
+    @Override
+    public void openAddPointRequestDialog() {
+        mMainView.openAddPointRequestUi();
+    }
+
+    @Override
+    public void openDeletePointRequestDialog() {
+        mMainView.openDeletePointRequestUi();
+    }
+
+    @Override
+    public void showPointDeleteView(int position) {
+        mTripPresenter.showPointDeleteView(position);
+    }
+
+    @Override
+    public void showVoteView(int position) {
+        mTripPresenter.showVoteView(position);
+    }
+
+    @Override
+    public void setAddTripOwnerDialog(AddTripOwnerDialog addTripOwnerDialog) {
+        mAddTripOwnerDialog = addTripOwnerDialog;
     }
 
     @Override
@@ -119,29 +209,36 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void openHome() {
-        mMainView.openHomeUi();
-    }
-
-    @Override
-    public void openTrip() {
-        mMainView.openTripUi();
-    }
-
-    @Override
-    public void openProfile() {
-        mMainView.openProfileUi();
-    }
-
-    @Override
-    public void detachListener() {
-        FireBaseManager.getInstance().closeListener();
+    public void checkIsOwner() {
+        mTripPresenter.checkIsOwner();
     }
 
     @Override
     public void notSignin() {
         mMainView.back();
     }
+
+    @Override
+    public void logout() {
+        FacebookSdk.sdkInitialize(GoTrip.getContext());
+        LoginManager.getInstance().logOut();
+        mMainView.selectedHomePage();
+    }
+
+    @Override
+    public void checkUser() {
+    }
+
+    @Override
+    public void checkUserData() {
+        mProfilePresenter.checkUser();
+    }
+
+    @Override
+    public void loadUserData() {
+        mProfilePresenter.loadUserData();
+    }
+
 
     @Override
     public void checkOnTrip() {
@@ -190,8 +287,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void logout() {
-        mMainView.selectedHomePage();
+    public void deleteTrip(Trip trip, int type) {
+        mProfileNewTripPresenter.deleteTrip(trip, type);
     }
 
     @Override
@@ -216,45 +313,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void loadRequestData() {
-        FireBaseManager.getInstance().getRequest(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
-            @Override
-            public void onCompleted(Request request) {
-                mProfilePresenter.setRequestData(request);
-            }
+    public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
 
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
-    }
-
-    @Override
-    public void agreeTripRequest(String documentId) {
-        FireBaseManager.getInstance().agreeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
-    }
-
-    @Override
-    public void disagreeTripRequest(String documentId) {
-        FireBaseManager.getInstance().removeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
-    }
-
-    @Override
-    public void agreeFriendRequest(String email) {
-        FireBaseManager.getInstance().agreeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
-
-    }
-
-    @Override
-    public void disagreeFriendRequest(String email) {
-        FireBaseManager.getInstance().removeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
-
-    }
-
-    @Override
-    public void setAddTripOwnerDialog(AddTripOwnerDialog addTripOwnerDialog) {
-        mAddTripOwnerDialog = addTripOwnerDialog;
     }
 
     @Override
@@ -279,92 +339,30 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void checkUserData() {
-        mProfilePresenter.checkUser();
-    }
-
-    @Override
-    public void search(SearchData searchData) {
-        mHomePresenter.searchData(searchData);
-    }
-
-
-    /**
-     * Home
-     */
-
-    @Override
-    public void loadHomeData() {
-        mHomePresenter.loadHomeData();
-    }
-
-    @Override
-    public void setHomeData() {
-
-    }
-
-
-    @Override
-    public void loadTripData(String tripId) {
-        mTripPresenter.loadTripData(tripId);
-    }
-
-    @Override
-    public void setTripData() {
-        mTripPresenter.setTripData();
-    }
-
-    @Override
     public void openTripMap() {
 
-    }
-
-    @Override
-    public void loadTrip(String tripId) {
-        mMainView.openTripUi();
-        mMainView.hideBtmNaviUi();
-        mTripPresenter.loadTripData(tripId);
-    }
-
-    @Override
-    public void openHomeFilterView() {
-        mMainView.openHomeFilterUi();
-    }
-
-    @Override
-    public void searchData(SearchData searchData) {
-
-    }
-
-    @Override
-    public void getUserTripCollection() {
-
-    }
-
-    @Override
-    public void changeCollection(ArrayList<String> tripCollection) {
-        mHomePresenter.changeCollection(tripCollection);
-    }
-
-    @Override
-    public void openAddTripDialog() {
-        mMainView.openAddTripDialogView();
-    }
-
-    @Override
-    public void deleteTrip(Trip trip, int type) {
-        mProfileNewTripPresenter.deleteTrip(trip, type);
-    }
-
-    @Override
-    public void hideBottomNavigation() {
-        mMainView.hideBtmNaviUi();
     }
 
     @Override
     public void addPoint(Point point) {
         mTripPresenter.addPoint(point);
     }
+
+    @Override
+    public void sendNewPoint(Point point) {
+        mTripPresenter.addPoint(point);
+    }
+
+
+    @Override
+    public void deletePoint() {
+    }
+
+    @Override
+    public void readyDeletePoint() {
+        mTripPresenter.deletePoint();
+    }
+
 
     @Override
     public void changeIconInfo(int position) {
@@ -377,111 +375,31 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setTripListener(String documentId) {
-        mTripPresenter.setTripListener(documentId);
-    }
-
-    @Override
-    public void openAddOrDeletePoint() {
-        mMainView.openAddOrDeletePointUi();
-    }
-
-    @Override
-    public void readyDeletePoint() {
-        mTripPresenter.deletePoint();
-    }
-
-    @Override
-    public void saveCollection() {
-
-        if (UserManager.getInstance().getUser() != null) {
-            FireBaseManager.getInstance().setUserCollection(UserManager.getInstance().getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
-        }
-    }
-
-
-    @Override
-    public void showDeleteView(int position) {
-        mTripPresenter.showDeleteView(position);
-    }
-
-    @Override
-    public void deletePoint() {
-    }
-
-    @Override
-    public void addFriendRequest(String email) {
-        mTripPresenter.addFriendRequest(email);
-    }
-
-    @Override
-    public void addTripRequest(String email, TripContract.AddTripOwnerOrNotCallback callback) {
-
-    }
-
-    @Override
-    public void checkIsOwner() {
-        mTripPresenter.checkIsOwner();
-    }
-
-    @Override
-    public void checkTripStatus(TripContract.GetOnTripStatusCallback callback) {
-
-    }
-
-    @Override
-    public void getAddPointData(TripContract.GetAddPointDataCallback callback) {
-
-    }
-
-    @Override
-    public void showVoteView(int position) {
-        mTripPresenter.showVoteView(position);
-    }
-
-    @Override
     public void vote(String pointId, String type) {
         mTripPresenter.vote(pointId, type);
     }
 
     @Override
-    public void openExit() {
-        mMainView.openExitUi();
+    public void setTripListener(String documentId) {
+        mTripPresenter.setTripListener(documentId);
     }
 
     @Override
-    public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
-
+    public void detachListener() {
+        FireBaseManager.getInstance().closeListener();
     }
 
     @Override
-    public void openAddTripOwner() {
-        mMainView.openAddTripOwnerUi();
+    public Request getRequestData() {
+        return null;
     }
 
     @Override
-    public void openAddPointRequestView() {
-        mMainView.openAddPointRequestUi();
-    }
-
-
-    @Override
-    public void openDeletePointRequestView() {
-        mMainView.openDeletePointRequestUi();
-    }
-
-    @Override
-    public void loadPointData() {
-        mTripPresenter.getAddPointData(new TripContract.GetAddPointDataCallback() {
+    public void loadRequestData() {
+        FireBaseManager.getInstance().getRequest(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
             @Override
-            public void onCompleted(TripAndPoint bean, int today) {
-
-                mAddOrDeletePointPresenter.setPointData(bean, today);
-            }
-
-            @Override
-            public void onFailure() {
-
+            public void onCompleted(Request request) {
+                mProfilePresenter.setRequestData(request);
             }
 
             @Override
@@ -492,57 +410,78 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setPointData(TripAndPoint bean, int today) {
-    }
-
-    @Override
-    public void sendNewPoint(Point point) {
-        mTripPresenter.addPoint(point);
-    }
-
-    @Override
-    public void loadUserData() {
-        mProfilePresenter.loadUserData();
-    }
-
-    @Override
-    public ProfileItemFragment findNewTrip() {
-        return mMainView.findNewTripView();
-    }
-
-    @Override
-    public ProfileItemFragment findCompleteTrip() {
-        return mMainView.findCompleteTripView();
-    }
-
-    @Override
-    public ProfileItemFragment findCollectionTrip() {
-        return mMainView.findCollectionTripView();
-    }
-
-    @Override
-    public void openLogoutView() {
-        mMainView.openLogoutUi();
-    }
-
-    @Override
-    public void openRequestView() {
-        mMainView.openRequestUi(mProfilePresenter.getRequestData());
-    }
-
-    @Override
     public void setRequestData(Request request) {
+    }
+
+    @Override
+    public void addTripRequest(String email, TripContract.AddTripOwnerOrNotCallback callback) {
 
     }
 
     @Override
-    public Request getRequestData() {
-        return null;
+    public void addFriendRequest(String email) {
+        mTripPresenter.addFriendRequest(email);
+    }
+
+
+    @Override
+    public void agreeTripRequest(String documentId) {
+        FireBaseManager.getInstance().agreeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
     }
 
     @Override
-    public void checkUser() {
+    public void disagreeTripRequest(String documentId) {
+        FireBaseManager.getInstance().removeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
+    }
 
+    @Override
+    public void agreeFriendRequest(String email) {
+        FireBaseManager.getInstance().agreeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
+
+    }
+
+    @Override
+    public void disagreeFriendRequest(String email) {
+        FireBaseManager.getInstance().removeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
+
+    }
+
+
+    @Override
+    public void search(SearchData searchData) {
+        mHomePresenter.searchData(searchData);
+    }
+
+    @Override
+    public void searchData(SearchData searchData) {
+
+    }
+
+    @Override
+    public void loadHomeData() {
+        mHomePresenter.loadHomeData();
+    }
+
+    @Override
+    public void setHomeData() {
+
+    }
+
+    @Override
+    public void loadTripData(String tripId) {
+        mTripPresenter.loadTripData(tripId);
+    }
+
+    @Override
+    public void loadTrip(String tripId) {
+        mMainView.openTripUi();
+        mMainView.hideBtmNaviUi();
+        mTripPresenter.loadTripData(tripId);
+    }
+
+    @Override
+    public void setTripData() {
+        mTripPresenter.setTripData();
     }
 
     @Override
@@ -575,5 +514,52 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mProfileCollectionTripPresenter.setCollectionTripData(trips);
     }
 
+    @Override
+    public void getAddPointData(TripContract.GetAddPointDataCallback callback) {
+
+    }
+
+    @Override
+    public void loadPointData() {
+        mTripPresenter.getAddPointData(new TripContract.GetAddPointDataCallback() {
+            @Override
+            public void onCompleted(TripAndPoint bean, int today) {
+
+                mAddOrDeletePointPresenter.setPointData(bean, today);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setPointData(TripAndPoint bean, int today) {
+    }
+
+    @Override
+    public void getUserTripCollection() {
+
+    }
+
+    @Override
+    public void saveCollection() {
+
+        if (UserManager.getInstance().getUser() != null) {
+            FireBaseManager.getInstance().setUserCollection(UserManager.getInstance().getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
+        }
+    }
+
+    @Override
+    public void changeCollection(ArrayList<String> tripCollection) {
+        mHomePresenter.changeCollection(tripCollection);
+    }
 
 }

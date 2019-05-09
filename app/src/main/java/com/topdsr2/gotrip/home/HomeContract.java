@@ -28,7 +28,7 @@ public interface HomeContract {
 
         void loadTrip(String tripId);
 
-        void openHomeFilterView();
+        void openHomeFilterDialog();
 
         void searchData(SearchData searchData);
 

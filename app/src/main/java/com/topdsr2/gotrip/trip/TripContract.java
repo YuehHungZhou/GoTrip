@@ -30,7 +30,7 @@ public interface TripContract {
 
         void openFunction(boolean isOwner);
 
-        void showVoteViewUi(int position);
+        void showVoteViewView(int position);
 
         void showToast();
 
@@ -44,8 +44,6 @@ public interface TripContract {
 
         void openTripMap();
 
-        void hideBottomNavigation();
-
         void addPoint(Point point);
 
         void changeIconInfo(int position);
@@ -54,7 +52,7 @@ public interface TripContract {
 
         void setTripListener(String documentId);
 
-        void showDeleteView(int position);
+        void showPointDeleteView(int position);
 
         void deletePoint();
 
@@ -64,33 +62,22 @@ public interface TripContract {
 
         void checkIsOwner();
 
-        void checkTripStatus(GetOnTripStatusCallback callback);
-
         void getAddPointData(GetAddPointDataCallback callback);
 
         void showVoteView(int position);
 
         void vote(String pointId, String type);
 
-        void openExit();
+        void openExitDialog();
 
         void leaveThisTrip(LeaveOrNotCallback callback);
 
-        void openAddTripOwner();
+        void openAddTripOwnerDialog();
 
-        void openAddPointRequestView();
+        void openAddPointRequestDialog();
 
-        void openDeletePointRequestView();
+        void openDeletePointRequestDialog();
 
-    }
-
-    interface GetOnTripStatusCallback {
-
-        void onCompleted(String tripId);
-
-        void onFailure();
-
-        void onError(String errorMessage);
     }
 
     interface GetAddPointDataCallback {

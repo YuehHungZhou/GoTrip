@@ -131,6 +131,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void showBtmNaviUi() {
+        mBottomNavigation.setVisibility(View.VISIBLE);
+        isBtmNaviVisibale = true;
+    }
+
+    @Override
     public void openHomeUi() {
         mMainMvpController.findOrCreateHomeView();
     }
@@ -153,7 +159,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void openAddTripDialogView() {
+    public void openAddTripDialogUi() {
         AddTripDialog addTripDialog = new AddTripDialog();
         addTripDialog.setMainPresenter(mPresenter);
         addTripDialog.show(getSupportFragmentManager(), "");
@@ -255,8 +261,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             super.onBackPressed();
         } else {
             mPresenter.detachListener();
-            mBottomNavigation.setVisibility(View.VISIBLE);
-            isBtmNaviVisibale = true;
+            showBtmNaviUi();
             selectedHomePage();
         }
     }

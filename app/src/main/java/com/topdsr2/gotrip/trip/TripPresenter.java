@@ -58,11 +58,6 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void hideBottomNavigation() {
-
-    }
-
-    @Override
     public void addPoint(Point point) {
 
         FireBaseManager.getInstance().updatePointToFireBase(mBean.getDocumentId(),
@@ -124,19 +119,10 @@ public class TripPresenter implements TripContract.Presenter {
     public void checkIsOwner() {
 
         if (isOwner()) {
-            mTripView.openFunction(isOwner());
+            mTripView.openFunction(Constants.TRUE);
             setTripListener(mBean.getDocumentId());
         } else {
-            mTripView.closeFunction(isOwner());
-        }
-    }
-
-    @Override
-    public void checkTripStatus(TripContract.GetOnTripStatusCallback callback) {
-        if (isOwner() && mBean.getTrip().isOnTrip()) {
-            callback.onCompleted(mBean.getTrip().getId());
-        } else {
-            callback.onFailure();
+            mTripView.closeFunction(Constants.FALSE);
         }
     }
 
@@ -147,7 +133,12 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void showVoteView(int position) {
-        mTripView.showVoteViewUi(position);
+        mTripView.showVoteViewView(position);
+    }
+
+    @Override
+    public void showPointDeleteView(int position) {
+        mTripView.showPointDeleteView(position);
     }
 
     @Override
@@ -161,7 +152,7 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void openExit() {
+    public void openExitDialog() {
 
     }
 
@@ -176,17 +167,17 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void openAddTripOwner() {
+    public void openAddTripOwnerDialog() {
 
     }
 
     @Override
-    public void openAddPointRequestView() {
+    public void openAddPointRequestDialog() {
 
     }
 
     @Override
-    public void openDeletePointRequestView() {
+    public void openDeletePointRequestDialog() {
 
     }
 
@@ -217,10 +208,7 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
 
-    @Override
-    public void showDeleteView(int position) {
-        mTripView.showPointDeleteView(position);
-    }
+
 
 
     @Override

@@ -19,7 +19,7 @@ public interface MainContract {
 
         void openLoginUi();
 
-        void openAddTripDialogView();
+        void openAddTripDialogUi();
 
         void openLogoutUi();
 
@@ -44,6 +44,8 @@ public interface MainContract {
         ProfileItemFragment findCollectionTripView();
 
         void hideBtmNaviUi();
+
+        void showBtmNaviUi();
 
         void selectedHomePage();
 
@@ -94,7 +96,6 @@ public interface MainContract {
         void checkUserData();
 
         void search(SearchData searchData);
-
 
         void readyDeletePoint();
 
