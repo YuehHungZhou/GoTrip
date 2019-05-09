@@ -99,7 +99,7 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         super.onDismiss(dialog);
 
         if (!UserManager.getInstance().getLoginState()) {
-            mMainPresenter.notSignin();
+            mMainPresenter.pressBack();
         }
     }
 }

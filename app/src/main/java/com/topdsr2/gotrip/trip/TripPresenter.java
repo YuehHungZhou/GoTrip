@@ -158,10 +158,12 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
-        if ((isCreater())) {
+        if (isCreater()) {
+            callback.onFailure();
             mTripView.showToast();
         } else {
-            FireBaseManager.getInstance().removeOwner(UserManager.getInstance().getUser().getEmail(), mBean.getTrip().getId());
+            FireBaseManager.getInstance().removeOwner(UserManager.getInstance()
+                    .getUser().getEmail(), mBean.getTrip().getId());
             callback.onCompleted();
         }
     }

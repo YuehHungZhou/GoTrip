@@ -17,6 +17,7 @@ import com.facebook.login.LoginManager;
 import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.MainContract;
 import com.topdsr2.gotrip.R;
+import com.topdsr2.gotrip.trip.TripContract;
 
 public class LeaveDialog extends BottomSheetDialogFragment implements View.OnClickListener {
 
@@ -57,9 +58,25 @@ public class LeaveDialog extends BottomSheetDialogFragment implements View.OnCli
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainPresenter.leaveTrip();
 
-                dismiss();
+                mMainPresenter.leaveThisTrip(new TripContract.LeaveOrNotCallback() {
+                    @Override
+                    public void onCompleted() {
+                        mMainPresenter.pressBack();
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
+
             }
         });
     }

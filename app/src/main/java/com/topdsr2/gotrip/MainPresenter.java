@@ -218,8 +218,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void notSignin() {
-        mMainView.back();
+    public void pressBack() {
+        mMainView.pressBack();
     }
 
     @Override
@@ -296,29 +296,9 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void leaveTrip() {
-
-        mTripPresenter.leaveThisTrip(new TripContract.LeaveOrNotCallback() {
-            @Override
-            public void onCompleted() {
-                mMainView.back();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
-    }
-
-    @Override
     public void leaveThisTrip(TripContract.LeaveOrNotCallback callback) {
 
+        mTripPresenter.leaveThisTrip(callback);
     }
 
     @Override

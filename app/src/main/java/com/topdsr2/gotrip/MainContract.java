@@ -7,6 +7,7 @@ import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.dialog.AddTripOwnerDialog;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
+import com.topdsr2.gotrip.trip.TripContract;
 
 public interface MainContract {
     interface View extends BaseView<Presenter> {
@@ -53,7 +54,7 @@ public interface MainContract {
 
         void showToast(String message);
 
-        void back();
+        void pressBack();
 
     }
 
@@ -71,7 +72,7 @@ public interface MainContract {
 
         void detachTripListener();
 
-        void notSignin();
+        void pressBack();
 
         void checkOnTrip();
 
@@ -79,7 +80,7 @@ public interface MainContract {
 
         void logout();
 
-        void leaveTrip();
+        void leaveThisTrip(TripContract.LeaveOrNotCallback callback);
 
         void loadRequestData();
 

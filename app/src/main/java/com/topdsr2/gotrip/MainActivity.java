@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void back() {
+    public void pressBack() {
         onBackPressed();
     }
 
