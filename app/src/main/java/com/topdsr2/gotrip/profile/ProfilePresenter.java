@@ -6,6 +6,7 @@ import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Request;
 import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.profile.item.ProfileItemFragment;
+import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -62,10 +63,21 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void setRequestData(Request request) {
-        mRequest = request;
-        mProfileView.showRequestUi(request);
+    public void loadRequestData() {
 
+        FireBaseManager.getInstance().getRequest(UserManager.getInstance()
+                .getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
+                    @Override
+                    public void onCompleted(Request request) {
+                        mRequest = request;
+                        mProfileView.showRequestUi(request);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                    }
+                });
     }
 
     @Override

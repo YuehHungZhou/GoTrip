@@ -182,7 +182,7 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void detachListener() {
+    public void detachTripListener() {
         FireBaseManager.getInstance().closeListener();
     }
 
@@ -211,10 +211,6 @@ public class TripPresenter implements TripContract.Presenter {
             }
         });
     }
-
-
-
-
 
     @Override
     public void start() {

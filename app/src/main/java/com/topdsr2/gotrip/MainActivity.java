@@ -175,10 +175,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void openRequestUi(Request request) {
+    public void openRequestUi() {
         RequestDialog requestDialog = new RequestDialog();
         requestDialog.setMainPresenter(mPresenter);
-        requestDialog.setData(request);
+        requestDialog.setData(mPresenter.getRequestData());
         requestDialog.show(getSupportFragmentManager(), "");
     }
 

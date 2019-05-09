@@ -78,7 +78,7 @@ public interface TripContract {
 
         void openDeletePointRequestDialog();
 
-        void detachListener();
+        void detachTripListener();
 
     }
 

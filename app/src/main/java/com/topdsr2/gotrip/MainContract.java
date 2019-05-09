@@ -23,7 +23,7 @@ public interface MainContract {
 
         void openLogoutUi();
 
-        void openRequestUi(Request request);
+        void openRequestUi();
 
         void openExitUi();
 
@@ -104,6 +104,8 @@ public interface MainContract {
         void saveCollection();
 
         void openSuccessDialog();
+
+        Request getRequestData();
 
     }
 

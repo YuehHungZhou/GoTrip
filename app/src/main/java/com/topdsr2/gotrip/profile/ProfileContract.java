@@ -32,7 +32,7 @@ public interface ProfileContract {
 
         void openRequestDialog();
 
-        void setRequestData(Request request);
+        void loadRequestData();
 
         Request getRequestData();
 

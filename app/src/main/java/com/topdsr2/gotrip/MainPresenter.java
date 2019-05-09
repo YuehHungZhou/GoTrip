@@ -4,7 +4,6 @@ package com.topdsr2.gotrip;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.facebook.AccessToken;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -31,8 +30,8 @@ import java.util.ArrayList;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainPresenter implements MainContract.Presenter, HomeContract.Presenter,
-        TripContract.Presenter, ProfileContract.Presenter, ProfileItemContract.Presenter
-        , AddOrDeletePointContract.Presenter {
+        TripContract.Presenter, ProfileContract.Presenter, ProfileItemContract.Presenter,
+        AddOrDeletePointContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
     private MainContract.View mMainView;
@@ -47,7 +46,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     private AddOrDeletePointPresenter mAddOrDeletePointPresenter;
     private AddTripOwnerDialog mAddTripOwnerDialog;
-
 
     public MainPresenter(
             @NonNull GoTripRepository goTripRepository,
@@ -146,7 +144,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void openRequestDialog() {
-        mMainView.openRequestUi(mProfilePresenter.getRequestData());
+        mMainView.openRequestUi();
     }
 
     @Override
@@ -163,6 +161,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     public void openDeletePointRequestDialog() {
         mMainView.openDeletePointRequestUi();
     }
+
     @Override
     public void openSuccessDialog() {
         mMainView.openSuccessUi();
@@ -392,37 +391,17 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void detachTripListener() {
-        mTripPresenter.detachListener();
-    }
-
-    @Override
-    public void detachListener() {
-
+        mTripPresenter.detachTripListener();
     }
 
     @Override
     public Request getRequestData() {
-        return null;
+        return mProfilePresenter.getRequestData();
     }
 
     @Override
     public void loadRequestData() {
-        FireBaseManager.getInstance().getRequest(UserManager.getInstance()
-                .getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
-                    @Override
-                    public void onCompleted(Request request) {
-                        mProfilePresenter.setRequestData(request);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-
-                    }
-                });
-    }
-
-    @Override
-    public void setRequestData(Request request) {
+       mProfilePresenter.loadRequestData();
     }
 
     @Override
