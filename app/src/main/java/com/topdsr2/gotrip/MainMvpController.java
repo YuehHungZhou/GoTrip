@@ -227,7 +227,6 @@ public class MainMvpController {
                 (ProfileItemFragment) (getFragmentManager().findFragmentByTag(PROFILE))
                         .getChildFragmentManager().findFragmentByTag(itemType);
         if (fragment == null) {
-            // Create the fragment
             fragment = ProfileItemFragment.newInstance();
         }
 

@@ -260,7 +260,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         if (isBtmNaviVisibale) {
             super.onBackPressed();
         } else {
-            mPresenter.detachListener();
+            mPresenter.detachTripListener();
             showBtmNaviUi();
             selectedHomePage();
         }

@@ -181,6 +181,11 @@ public class TripPresenter implements TripContract.Presenter {
 
     }
 
+    @Override
+    public void detachListener() {
+        FireBaseManager.getInstance().closeListener();
+    }
+
 
     @Override
     public void changeIconInfo(int position) {

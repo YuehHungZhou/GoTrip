@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
 import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -33,7 +31,8 @@ import java.util.ArrayList;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainPresenter implements MainContract.Presenter, HomeContract.Presenter,
-        TripContract.Presenter, ProfileContract.Presenter, ProfileItemContract.Presenter, AddOrDeletePointContract.Presenter {
+        TripContract.Presenter, ProfileContract.Presenter, ProfileItemContract.Presenter
+        , AddOrDeletePointContract.Presenter {
 
     private final GoTripRepository mGoTripRepository;
     private MainContract.View mMainView;
@@ -88,7 +87,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void start() {
-
     }
 
     @Override
@@ -220,8 +218,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void logout() {
-        FacebookSdk.sdkInitialize(GoTrip.getContext());
-        LoginManager.getInstance().logOut();
+        
         mMainView.selectedHomePage();
     }
 
@@ -243,8 +240,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     @Override
     public void checkOnTrip() {
 
-        FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance().getUser().getEmail(),
-                new FireBaseManager.GetUserOnTripCallback() {
+        FireBaseManager.getInstance().getHasOnTrip(UserManager.getInstance()
+                .getUser().getEmail(), new FireBaseManager.GetUserOnTripCallback() {
                     @Override
                     public void onCompleted(String tripId) {
                         mMainView.openTripUi();
@@ -254,9 +251,10 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
                     @Override
                     public void onFailure() {
-                        mMainView.showToast("沒有正在旅行的行程，請到個人頁面安排新旅程");
+                        mMainView.showToast(GoTrip.getContext().getResources()
+                                .getString(R.string.no_ontrip));
                     }
-
+                    
                     @Override
                     public void onError(String errorMessage) {
 
@@ -323,12 +321,14 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
             @Override
             public void onCompleted() {
                 mAddTripOwnerDialog.dismiss();
-                mMainView.showToast("加入成功");
+                mMainView.showToast(GoTrip.getContext()
+                        .getResources().getString(R.string.add_success));
             }
 
             @Override
             public void onFailure() {
-                mMainView.showToast("沒有此會員");
+                mMainView.showToast(GoTrip.getContext()
+                        .getResources().getString(R.string.add_owner_fail));
             }
 
             @Override
@@ -363,7 +363,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mTripPresenter.deletePoint();
     }
 
-
     @Override
     public void changeIconInfo(int position) {
         mTripPresenter.changeIconInfo(position);
@@ -385,8 +384,13 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void detachTripListener() {
+        mTripPresenter.detachListener();
+    }
+
+    @Override
     public void detachListener() {
-        FireBaseManager.getInstance().closeListener();
+
     }
 
     @Override
@@ -396,17 +400,18 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void loadRequestData() {
-        FireBaseManager.getInstance().getRequest(UserManager.getInstance().getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
-            @Override
-            public void onCompleted(Request request) {
-                mProfilePresenter.setRequestData(request);
-            }
+        FireBaseManager.getInstance().getRequest(UserManager.getInstance()
+                .getUser().getEmail(), new FireBaseManager.GetRequestCallback() {
+                    @Override
+                    public void onCompleted(Request request) {
+                        mProfilePresenter.setRequestData(request);
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -426,26 +431,27 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void agreeTripRequest(String documentId) {
-        FireBaseManager.getInstance().agreeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
+        FireBaseManager.getInstance().agreeTripRequest(UserManager.getInstance()
+                .getUser().getEmail(), documentId);
     }
 
     @Override
     public void disagreeTripRequest(String documentId) {
-        FireBaseManager.getInstance().removeTripRequest(UserManager.getInstance().getUser().getEmail(), documentId);
+        FireBaseManager.getInstance().removeTripRequest(UserManager.getInstance()
+                .getUser().getEmail(), documentId);
     }
 
     @Override
     public void agreeFriendRequest(String email) {
-        FireBaseManager.getInstance().agreeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
-
+        FireBaseManager.getInstance().agreeFriendRequest(UserManager.getInstance()
+                .getUser().getEmail(), email);
     }
 
     @Override
     public void disagreeFriendRequest(String email) {
-        FireBaseManager.getInstance().removeFriendRequest(UserManager.getInstance().getUser().getEmail(), email);
-
+        FireBaseManager.getInstance().removeFriendRequest(UserManager.getInstance()
+                .getUser().getEmail(), email);
     }
-
 
     @Override
     public void search(SearchData searchData) {
@@ -454,7 +460,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void searchData(SearchData searchData) {
-
     }
 
     @Override
@@ -464,7 +469,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void setHomeData() {
-
     }
 
     @Override
@@ -546,14 +550,14 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void getUserTripCollection() {
-
     }
 
     @Override
     public void saveCollection() {
 
         if (UserManager.getInstance().getUser() != null) {
-            FireBaseManager.getInstance().setUserCollection(UserManager.getInstance().getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
+            FireBaseManager.getInstance().setUserCollection(UserManager.getInstance()
+                    .getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
         }
     }
 

@@ -78,6 +78,8 @@ public interface TripContract {
 
         void openDeletePointRequestDialog();
 
+        void detachListener();
+
     }
 
     interface GetAddPointDataCallback {

@@ -67,7 +67,7 @@ public interface MainContract {
 
         void openAddOrDeletePoint();
 
-        void detachListener();
+        void detachTripListener();
 
         void notSignin();
 
