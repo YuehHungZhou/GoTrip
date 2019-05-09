@@ -37,6 +37,8 @@ public interface MainContract {
 
         void openAddOrDeletePointUi();
 
+        void openSuccessUi();
+
         ProfileItemFragment findNewTripView();
 
         ProfileItemFragment findCompleteTripView();
@@ -100,6 +102,8 @@ public interface MainContract {
         void readyDeletePoint();
 
         void saveCollection();
+
+        void openSuccessDialog();
 
     }
 

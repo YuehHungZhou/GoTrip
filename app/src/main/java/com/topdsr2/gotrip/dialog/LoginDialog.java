@@ -78,9 +78,9 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
             @Override
             public void onSuccess() {
                 mMainPresenter.openHome();
-                showSuccess();
+                mMainPresenter.openSuccessDialog();
+                dismiss();
             }
-
 
             @Override
             public void onFail(String errorMessage) {
@@ -94,34 +94,11 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
         });
     }
 
-
-    private void showSuccess() {
-        Dialog successDialog = new Dialog(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_success, null);
-        successDialog.setContentView(view);
-        successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        successDialog.setCanceledOnTouchOutside(false);
-        successDialog.show();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                successDialog.dismiss();
-            }
-        }, 2000);
-
-        dismiss();
-    }
-
-
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
 
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = (accessToken != null);
-        if (!isLoggedIn) {
+        if (!UserManager.getInstance().getLoginState()) {
             mMainPresenter.notSignin();
         }
     }

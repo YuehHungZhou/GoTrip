@@ -163,6 +163,10 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     public void openDeletePointRequestDialog() {
         mMainView.openDeletePointRequestUi();
     }
+    @Override
+    public void openSuccessDialog() {
+        mMainView.openSuccessUi();
+    }
 
     @Override
     public void showPointDeleteView(int position) {
@@ -186,10 +190,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void checkLogIn(Activity activity) {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = (accessToken != null);
 
-        if (isLoggedIn) {
+        if (UserManager.getInstance().getLoginState()) {
             UserManager.getInstance().readInternalStg(activity, new UserManager.LoadCallback() {
                 @Override
                 public void onSuccess() {
@@ -223,7 +225,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void logout() {
-
+        UserManager.getInstance().userLogout();
         mMainView.selectedHomePage();
     }
 
@@ -558,6 +560,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
                     .getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
         }
     }
+
 
     @Override
     public void changeCollection(ArrayList<String> tripCollection) {

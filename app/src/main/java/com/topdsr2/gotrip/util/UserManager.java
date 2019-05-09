@@ -5,14 +5,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.data.GoTripLocalDataSource;
 import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
@@ -36,7 +39,6 @@ public class UserManager {
     private User mUser;
     private CallbackManager mCallbackManager;
 
-
     private static class UserManagerHolder {
         private static final UserManager INSTANCE = new UserManager();
     }
@@ -50,7 +52,6 @@ public class UserManager {
     public static UserManager getInstance() {
         return UserManagerHolder.INSTANCE;
     }
-
 
     public void loginByFacebook(Context context, final LoadCallback loadCallback) {
 
@@ -69,8 +70,6 @@ public class UserManager {
                                         String email = object.getString("email");
                                         String name = object.getString("name");
                                         String userPhoto = "https://graph.facebook.com/" + object.getLong("id") + "/picture?type=large";
-//                                        Profile profile = Profile.getCurrentProfile();
-//                                        Uri userPhoto = profile.getProfilePictureUri(300, 300);
                                         writeInternalStg(email, (Activity) context);
                                         addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                     }
@@ -186,6 +185,15 @@ public class UserManager {
         });
     }
 
+    public boolean getLoginState() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return (accessToken != null);
+    }
+
+    public void userLogout() {
+        FacebookSdk.sdkInitialize(GoTrip.getContext());
+        LoginManager.getInstance().logOut();
+    }
 
     public User getUser() {
         return mUser;

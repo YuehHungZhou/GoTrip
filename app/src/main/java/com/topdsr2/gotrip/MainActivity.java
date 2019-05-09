@@ -1,8 +1,12 @@
 package com.topdsr2.gotrip;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
@@ -212,6 +216,24 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         addTripOwnerDialog.setMainPresenter(mPresenter);
         addTripOwnerDialog.show(getSupportFragmentManager(), "");
         mPresenter.setAddTripOwnerDialog(addTripOwnerDialog);
+    }
+
+    @Override
+    public void openSuccessUi() {
+        Dialog successDialog = new Dialog(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_success, null);
+        successDialog.setContentView(view);
+        successDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        successDialog.setCanceledOnTouchOutside(false);
+        successDialog.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                successDialog.dismiss();
+            }
+        }, 2000);
     }
 
     @Override
