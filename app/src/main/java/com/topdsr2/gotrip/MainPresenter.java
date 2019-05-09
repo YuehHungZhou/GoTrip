@@ -229,12 +229,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void checkUser() {
-    }
-
-    @Override
     public void checkUserData() {
-        mProfilePresenter.checkUser();
+        mProfilePresenter.checkUserData();
     }
 
     @Override
@@ -270,24 +266,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void addNewTrip(Trip trip) {
+        mProfileNewTripPresenter.addNewTrip(trip);
 
-        FireBaseManager.getInstance().addNewTrip(trip, new FireBaseManager.AddNewTripCallback() {
-            @Override
-            public void onCompleted(String tripId) {
-                mProfileNewTripPresenter.loadNewTripData();
-
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-            }
-        });
     }
 
     @Override
@@ -325,11 +305,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void openTripMap() {
-
-    }
-
-    @Override
     public void addPoint(Point point) {
         mTripPresenter.addPoint(point);
     }
@@ -339,13 +314,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
         mTripPresenter.addPoint(point);
     }
 
-
     @Override
     public void deletePoint() {
-    }
-
-    @Override
-    public void readyDeletePoint() {
         mTripPresenter.deletePoint();
     }
 
@@ -434,7 +404,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setHomeData() {
+    public void setHomeData(ArrayList<Trip> trips) {
+        mHomePresenter.setHomeData(trips);
     }
 
     @Override
@@ -443,8 +414,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setTripData() {
-        mTripPresenter.setTripData();
+    public void setTripData(TripAndPoint bean) {
+        mTripPresenter.setTripData(bean);
     }
 
     @Override
@@ -453,18 +424,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setNewTripData(ArrayList<Trip> trips) {
-        mProfileNewTripPresenter.setNewTripData(trips);
-    }
-
-    @Override
     public void loadCompleteTripData() {
         mProfileCompleteTripPresenter.loadCompleteTripData();
-    }
-
-    @Override
-    public void setCompleteTripData(ArrayList<Trip> trips) {
-        mProfileCompleteTripPresenter.setCompleteTripData(trips);
     }
 
     @Override
@@ -473,8 +434,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void setCollectionTripData(ArrayList<Trip> trips) {
-        mProfileCollectionTripPresenter.setCollectionTripData(trips);
+    public void setProfileTripData(ArrayList<Trip> trips) {
+        mProfileNewTripPresenter.setProfileTripData(trips);
     }
 
     @Override
@@ -508,7 +469,8 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
-    public void getUserTripCollection() {
+    public void loadUserTripCollection() {
+        mHomePresenter.loadUserTripCollection();
     }
 
     @Override
@@ -519,7 +481,6 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
                     .getUser().getTripCollection(), UserManager.getInstance().getUser().getEmail());
         }
     }
-
 
     @Override
     public void changeCollection(ArrayList<String> tripCollection) {

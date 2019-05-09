@@ -28,6 +28,10 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
         mProfileItemView.setPresenter(this);
     }
 
+    @Override
+    public void start() {
+
+    }
 
     @Override
     public void loadNewTripData() {
@@ -35,7 +39,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                 new FireBaseManager.GetUserTripCallback() {
                     @Override
                     public void onCompleted(ArrayList<Trip> trips) {
-                        setNewTripData(trips);
+                        setProfileTripData(trips);
                     }
 
                     @Override
@@ -51,8 +55,24 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     }
 
     @Override
-    public void setNewTripData(ArrayList<Trip> trips) {
-        mProfileItemView.showTripUi(trips);
+    public void addNewTrip(Trip trip) {
+        FireBaseManager.getInstance().addNewTrip(trip, new FireBaseManager.AddNewTripCallback() {
+            @Override
+            public void onCompleted(String tripId) {
+                loadNewTripData();
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
     }
 
     @Override
@@ -61,7 +81,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                 new FireBaseManager.GetUserTripCallback() {
                     @Override
                     public void onCompleted(ArrayList<Trip> trips) {
-                        setCompleteTripData(trips);
+                        setProfileTripData(trips);
 
                     }
 
@@ -75,11 +95,6 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
                     }
                 });
-    }
-
-    @Override
-    public void setCompleteTripData(ArrayList<Trip> trips) {
-        mProfileItemView.showTripUi(trips);
     }
 
     @Override
@@ -88,7 +103,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                 new FireBaseManager.GetUserTripCallback() {
                     @Override
                     public void onCompleted(ArrayList<Trip> trips) {
-                        setCollectionTripData(trips);
+                        setProfileTripData(trips);
 
                     }
 
@@ -105,7 +120,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     }
 
     @Override
-    public void setCollectionTripData(ArrayList<Trip> trips) {
+    public void setProfileTripData(ArrayList<Trip> trips) {
         mProfileItemView.showTripUi(trips);
     }
 
@@ -189,14 +204,8 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
         }
     }
 
-    @Override
-    public void start() {
-
-    }
-
     private boolean checkIsCreater(String creater) {
         return UserManager.getInstance().getUser().getEmail().trim().equals(creater.trim());
     }
-
 
 }

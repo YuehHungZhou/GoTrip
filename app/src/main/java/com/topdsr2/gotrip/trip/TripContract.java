@@ -40,9 +40,7 @@ public interface TripContract {
 
         void loadTripData(String tripId);
 
-        void setTripData();
-
-        void openTripMap();
+        void setTripData(TripAndPoint bean);
 
         void addPoint(Point point);
 

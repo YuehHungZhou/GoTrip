@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         super.onCreate(savedInstanceState);
         mHomeAdapter = new HomeAdapter(mPresenter);
         mPresenter.loadHomeData();
-
+        mPresenter.loadUserTripCollection();
     }
 
     @Override
@@ -81,8 +81,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void loadUserTripCollection(ArrayList<String> tripCollection) {
-        mHomeAdapter.loadTripCollection(tripCollection);
+    public void showUserTripCollection(ArrayList<String> tripCollection) {
+        mHomeAdapter.updateTripCollection(tripCollection);
     }
 
 

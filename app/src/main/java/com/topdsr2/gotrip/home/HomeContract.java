@@ -13,7 +13,7 @@ public interface HomeContract {
 
         void showHomeUi(ArrayList<Trip> trips);
 
-        void loadUserTripCollection(ArrayList<String> tripCollection);
+        void showUserTripCollection(ArrayList<String> tripCollection);
 
 
     }
@@ -22,7 +22,7 @@ public interface HomeContract {
 
         void loadHomeData();
 
-        void setHomeData();
+        void setHomeData(ArrayList<Trip> trips);
 
         void openTrip();
 
@@ -34,7 +34,7 @@ public interface HomeContract {
 
         void searchData(SearchData searchData);
 
-        void getUserTripCollection();
+        void loadUserTripCollection();
 
         void changeCollection(ArrayList<String> tripCollection);
 

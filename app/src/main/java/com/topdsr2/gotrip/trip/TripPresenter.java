@@ -37,7 +37,7 @@ public class TripPresenter implements TripContract.Presenter {
             @Override
             public void onCompleted(TripAndPoint bean) {
                 mBean = bean;
-                mTripView.showTripUi(mBean);
+                setTripData(mBean);
             }
 
             @Override
@@ -48,13 +48,8 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void setTripData() {
-
-    }
-
-    @Override
-    public void openTripMap() {
-
+    public void setTripData(TripAndPoint bean) {
+        mTripView.showTripUi(bean);
     }
 
     @Override
@@ -94,7 +89,7 @@ public class TripPresenter implements TripContract.Presenter {
     }
 
     @Override
-    public void addTripRequest(String addEmail,TripContract.AddTripOwnerOrNotCallback callback) {
+    public void addTripRequest(String addEmail, TripContract.AddTripOwnerOrNotCallback callback) {
         FireBaseManager.getInstance().addTripRequest(addEmail, mBean.getTrip().getId(),
                 new FireBaseManager.AddFriendCallback() {
                     @Override

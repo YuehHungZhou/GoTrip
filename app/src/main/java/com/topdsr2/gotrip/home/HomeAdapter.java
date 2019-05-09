@@ -155,7 +155,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void loadTripCollection(ArrayList<String> tripCollection) {
+    public void updateTripCollection(ArrayList<String> tripCollection) {
         mTripCollection = tripCollection;
         notifyDataSetChanged();
     }

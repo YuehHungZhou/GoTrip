@@ -86,7 +86,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void checkUser() {
-        mProfileView.checkUser();
+    public void checkUserData() {
+        mProfileView.checkUserData();
     }
 }

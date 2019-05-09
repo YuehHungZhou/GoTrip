@@ -20,15 +20,13 @@ public interface ProfileItemContract {
 
         void loadNewTripData();
 
-        void setNewTripData(ArrayList<Trip> trips);
+        void addNewTrip(Trip trip);
+
+        void setProfileTripData(ArrayList<Trip> trips);
 
         void loadCompleteTripData();
 
-        void setCompleteTripData(ArrayList<Trip> trips);
-
         void loadCollectionTripData();
-
-        void setCollectionTripData(ArrayList<Trip> trips);
 
         void openTrip();
 

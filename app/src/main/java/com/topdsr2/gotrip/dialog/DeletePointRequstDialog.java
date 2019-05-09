@@ -59,7 +59,7 @@ public class DeletePointRequstDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
-                mMainPresenter.readyDeletePoint();
+                mMainPresenter.deletePoint();
                 showSuccess();
             }
         });

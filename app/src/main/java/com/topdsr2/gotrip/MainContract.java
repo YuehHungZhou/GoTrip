@@ -100,7 +100,7 @@ public interface MainContract {
 
         void search(SearchData searchData);
 
-        void readyDeletePoint();
+        void deletePoint();
 
         void saveCollection();
 

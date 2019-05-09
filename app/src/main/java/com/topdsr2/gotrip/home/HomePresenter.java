@@ -37,9 +37,7 @@ public class HomePresenter implements HomeContract.Presenter {
         FireBaseManager.getInstance().getAllTypeTrip(new FireBaseManager.GetAllTripCallback() {
             @Override
             public void onCompleted(ArrayList<Trip> trips) {
-                mHomeView.showHomeUi(trips);
-                getUserTripCollection();
-
+                setHomeData(trips);
             }
 
             @Override
@@ -50,7 +48,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void setHomeData() {
+    public void setHomeData(ArrayList<Trip> trips) {
+        mHomeView.showHomeUi(trips);
 
     }
 
@@ -87,7 +86,8 @@ public class HomePresenter implements HomeContract.Presenter {
             e.printStackTrace();
         }
 
-        FireBaseManager.getInstance().getSearchTrip(searchData, startTime, endTime, new FireBaseManager.GetAllTripCallback() {
+        FireBaseManager.getInstance().getSearchTrip(searchData, startTime, endTime,
+                new FireBaseManager.GetAllTripCallback() {
             @Override
             public void onCompleted(ArrayList<Trip> trips) {
                 mHomeView.showHomeUi(trips);
@@ -101,8 +101,8 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getUserTripCollection() {
-        mHomeView.loadUserTripCollection(UserManager.getInstance().getUser().getTripCollection());
+    public void loadUserTripCollection() {
+        mHomeView.showUserTripCollection(UserManager.getInstance().getUser().getTripCollection());
     }
 
     @Override

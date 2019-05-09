@@ -118,7 +118,7 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     }
 
     @Override
-    public void checkUser() {
+    public void checkUserData() {
         if (!isSameUser()) {
             mNameText.setText(mUser.getName());
             ImageManager.getInstance().setImageByUrl(mPhotoImage, mUser.getUserImage());

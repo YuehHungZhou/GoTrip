@@ -14,7 +14,7 @@ public interface ProfileContract {
 
         void showRequestUi(Request request);
 
-        void checkUser();
+        void checkUserData();
 
     }
 
@@ -36,7 +36,7 @@ public interface ProfileContract {
 
         Request getRequestData();
 
-        void checkUser();
+        void checkUserData();
 
     }
 }
