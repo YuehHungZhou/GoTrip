@@ -88,16 +88,16 @@ public class HomePresenter implements HomeContract.Presenter {
 
         FireBaseManager.getInstance().getSearchTrip(searchData, startTime, endTime,
                 new FireBaseManager.GetAllTripCallback() {
-            @Override
-            public void onCompleted(ArrayList<Trip> trips) {
-                mHomeView.showHomeUi(trips);
-            }
+                    @Override
+                    public void onCompleted(ArrayList<Trip> trips) {
+                        mHomeView.showHomeUi(trips);
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override

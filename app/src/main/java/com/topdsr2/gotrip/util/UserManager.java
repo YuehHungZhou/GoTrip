@@ -35,6 +35,17 @@ import org.json.JSONObject;
 
 public class UserManager {
 
+    private static final String EMAIL = "email";
+    private static final String NAME = "name";
+    private static final String ID = "id";
+    private static final String PHOTO_HEAD = "https://graph.facebook.com/";
+    private static final String PHOTO_TAIL = "/picture?type=large";
+
+    private static final String FIELDS = "fields";
+    private static final String FIELDS_VALUE = "id,name,email";
+    private static final String FILE_NAME = "GoTrip.txt";
+    private static final String UTF_8 = "utf-8";
+
     private final GoTripRepository mGoTripRepository;
     private User mUser;
     private CallbackManager mCallbackManager;
@@ -56,7 +67,8 @@ public class UserManager {
     public void loginByFacebook(Context context, final LoadCallback loadCallback) {
 
         mCallbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -67,9 +79,11 @@ public class UserManager {
                                 try {
                                     if (response.getConnection().getResponseCode() == 200) {
 
-                                        String email = object.getString("email");
-                                        String name = object.getString("name");
-                                        String userPhoto = "https://graph.facebook.com/" + object.getLong("id") + "/picture?type=large";
+                                        String email = object.getString(EMAIL);
+                                        String name = object.getString(NAME);
+                                        String userPhoto = PHOTO_HEAD
+                                                + object.getLong(ID)
+                                                + PHOTO_TAIL;
                                         writeInternalStg(email, (Activity) context);
                                         addUserDataToifrebase(email, name, userPhoto, loadCallback);
                                     }
@@ -80,40 +94,41 @@ public class UserManager {
                                 }
                             }
                         });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email");
-                graphRequest.setParameters(parameters);
-                graphRequest.executeAsync();
-            }
+                    Bundle parameters = new Bundle();
+                    parameters.putString(FIELDS, FIELDS_VALUE);
+                    graphRequest.setParameters(parameters);
+                    graphRequest.executeAsync();
+                }
 
-            @Override
-            public void onCancel() {
-                // App code
-            }
+                @Override
+                public void onCancel() {
+                    // App code
+                }
 
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                }
+            });
 
         loginFacebook(context);
 
     }
 
     public void readInternalStg(Activity activity, LoadCallback callback) {
-        FireBaseManager.getInstance().loadIntenalData(read(activity), new FireBaseManager.GetUserDataCallback() {
-            @Override
-            public void onCompleted(User user) {
-                mUser = user;
-                callback.onSuccess();
-            }
+        FireBaseManager.getInstance().loadIntenalData(read(activity),
+                new FireBaseManager.GetUserDataCallback() {
+                @Override
+                public void onCompleted(User user) {
+                    mUser = user;
+                    callback.onSuccess();
+                }
 
-            @Override
-            public void onError(String errorMessage) {
+                @Override
+                public void onError(String errorMessage) {
 
-            }
-        });
+                }
+            });
     }
 
     public void writeInternalStg(String email, Activity activity) {
@@ -124,9 +139,10 @@ public class UserManager {
         FileInputStream inputStream = null;
         String eamil = "";
         try {
-            inputStream = activity.openFileInput("GoTrip.txt");
+            inputStream = activity.openFileInput(FILE_NAME);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(inputStream, UTF_8));
             eamil = reader.readLine();
 
         } catch (Exception e) {
@@ -136,7 +152,6 @@ public class UserManager {
                 inputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }
 
@@ -146,7 +161,7 @@ public class UserManager {
     private void write(String email, Activity activity) {
         FileOutputStream outputStream = null;
         try {
-            outputStream = activity.openFileOutput("GoTrip.txt", Context.MODE_PRIVATE);
+            outputStream = activity.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             outputStream.write(email.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,29 +175,31 @@ public class UserManager {
     }
 
     public boolean fileExist(Activity activity) {
-        File file = activity.getBaseContext().getFileStreamPath("GoTrip.txt");
+        File file = activity.getBaseContext().getFileStreamPath(FILE_NAME);
         return file.exists();
     }
 
     private void loginFacebook(Context context) {
         LoginManager.getInstance().logInWithReadPermissions(
-                (Activity) context, Arrays.asList("email"));
+                (Activity) context, Arrays.asList(EMAIL));
     }
 
-    private void addUserDataToifrebase(String email, String name, String photoUri, LoadCallback loadCallback) {
-        FireBaseManager.getInstance().addUserData(email, name, photoUri, new FireBaseManager.GetUserDataCallback() {
+    private void addUserDataToifrebase(String email, String name,
+                                       String photoUri, LoadCallback loadCallback) {
+        FireBaseManager.getInstance().addUserData(email, name, photoUri,
+                new FireBaseManager.GetUserDataCallback() {
 
-            @Override
-            public void onCompleted(User user) {
-                mUser = user;
-                loadCallback.onSuccess();
-            }
+                @Override
+                public void onCompleted(User user) {
+                    mUser = user;
+                    loadCallback.onSuccess();
+                }
 
-            @Override
-            public void onError(String errorMessage) {
+                @Override
+                public void onError(String errorMessage) {
 
-            }
-        });
+                }
+            });
     }
 
     public boolean getLoginState() {

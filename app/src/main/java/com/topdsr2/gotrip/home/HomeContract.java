@@ -22,6 +22,8 @@ public interface HomeContract {
 
         void loadHomeData();
 
+        void loadUserTripCollection();
+
         void setHomeData(ArrayList<Trip> trips);
 
         void openTrip();
@@ -33,8 +35,6 @@ public interface HomeContract {
         void openHomeFilterDialog();
 
         void searchData(SearchData searchData);
-
-        void loadUserTripCollection();
 
         void changeCollection(ArrayList<String> tripCollection);
 
