@@ -22,13 +22,14 @@
         android:id="@+id/text_trip_icon_pointime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="5dp"
         android:textColor="@color/gray"
         android:textSize="10sp"
         android:typeface="monospace"
         app:layout_constraintBottom_toTopOf="@+id/constraint_icon"
         app:layout_constraintEnd_toEndOf="@+id/constraint_icon"
-        app:layout_constraintStart_toStartOf="@+id/constraint_icon" />
+        app:layout_constraintStart_toStartOf="@+id/constraint_icon"
+        tools:text="00:00"/>
 
     <View
         android:id="@+id/view"

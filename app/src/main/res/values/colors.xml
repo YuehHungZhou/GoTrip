@@ -9,6 +9,7 @@
     <color name="white_gray_BB">#BBffffff</color>
     <color name="white_gray_99">#99ffffff</color>
     <color name="white_gray_66">#66ffffff</color>
+    <color name="white_DD">#DDEEEEEE</color>
 
     <color name="gray">#969696</color>
     <color name="gray_33">#33969696</color>
@@ -28,7 +29,6 @@
 
     <color name="black_3f3a3a">#3f3a3a</color>
     <color name="black_66">#66000000</color>
-    <color name="white_DD">#DDEEEEEE</color>
     <color name="star">#F9DB49</color>
 
 </resources>

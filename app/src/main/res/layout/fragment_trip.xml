@@ -224,7 +224,7 @@
             android:layout_marginTop="8dp"
             android:text="是否同意加入行程"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:typeface="sans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -280,7 +280,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/corner_sea_color"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -289,12 +289,11 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_trip_content"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -303,8 +302,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="25dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             app:layout_constraintEnd_toEndOf="parent"
