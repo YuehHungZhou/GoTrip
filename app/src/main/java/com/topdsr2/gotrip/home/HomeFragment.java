@@ -49,7 +49,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         RecyclerView homeRecyclerView = root.findViewById(R.id.recycleview_home);
@@ -57,7 +58,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         homeRecyclerView.setAdapter(mHomeAdapter);
 
         mFloatingActionButton = root.findViewById(R.id.floatingActionButton);
-
 
         return root;
     }

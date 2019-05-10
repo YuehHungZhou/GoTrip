@@ -1,14 +1,11 @@
 package com.topdsr2.gotrip.home;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.SearchData;
 import com.topdsr2.gotrip.data.object.Trip;
-import com.topdsr2.gotrip.data.object.User;
-import com.topdsr2.gotrip.dialog.LoginDialog;
+import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
 
@@ -30,6 +27,11 @@ public class HomePresenter implements HomeContract.Presenter {
         mGoTripRepository = checkNotNull(goTripRepository, "GoTripRepository null");
         mHomeView = checkNotNull(homeView, "HomeView null");
         mHomeView.setPresenter(this);
+    }
+
+    @Override
+    public void start() {
+
     }
 
     @Override
@@ -80,8 +82,8 @@ public class HomePresenter implements HomeContract.Presenter {
         long endTime = 0;
 
         try {
-            startTime = paseStartTime(searchData);
-            endTime = paseEndTime(searchData);
+            startTime = parseTime(searchData, Constants.STARTTIME);
+            endTime = parseTime(searchData, Constants.ENDTIME);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -110,24 +112,40 @@ public class HomePresenter implements HomeContract.Presenter {
         UserManager.getInstance().getUser().setTripCollection(tripCollection);
     }
 
-
-    private long paseStartTime(SearchData searchData) throws ParseException {
+    private long parseTime(SearchData searchData, String type) throws ParseException {
         String str = "";
-        if (searchData.getMonth() != 0) {
-            str = searchData.getYear() + "-" + searchData.getMonth();
-        } else {
-            str = searchData.getYear() + "-" + 1;
+
+        switch (type) {
+            case Constants.STARTTIME:
+                str = parseStartTime(searchData, str);
+                break;
+            case Constants.ENDTIME:
+                str = parseEndTime(searchData, str);
+                break;
+            default:
+                break;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_YYYY_MM);
         Date date = (Date) sdf.parse(str);
 
         long time = date.getTime() / 1000;
         return  time;
     }
 
-    private long paseEndTime(SearchData searchData) throws ParseException {
-        String str = "";
+
+    private String parseStartTime(SearchData searchData, String str) throws ParseException {
+
+        if (searchData.getMonth() != 0) {
+            str = searchData.getYear() + "-" + searchData.getMonth();
+        } else {
+            str = searchData.getYear() + "-" + 1;
+        }
+
+        return  str;
+    }
+
+    private String parseEndTime(SearchData searchData, String str) throws ParseException {
 
         if (searchData.getMonth() != 0) {
             if (searchData.getMonth() == 12) {
@@ -139,15 +157,8 @@ public class HomePresenter implements HomeContract.Presenter {
             str = (searchData.getYear() + 1) + "-" + 1;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        Date date = (Date) sdf.parse(str);
-
-        long time = date.getTime() / 1000;
-        return  time;
+        return  str;
     }
 
-    @Override
-    public void start() {
 
-    }
 }

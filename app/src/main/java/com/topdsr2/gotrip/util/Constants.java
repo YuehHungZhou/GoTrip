@@ -17,6 +17,9 @@ public class Constants {
     public static final String DISAGREE = "disagree";
     public static final String NOTVOTE = "notVote";
 
+    public static final String DATE_YYYY_MM = "yyyy-MM";
+
+
     public static final String GENERAL_ERROR = "Internal Server Error.";
 
 }
