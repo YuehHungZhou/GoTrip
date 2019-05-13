@@ -34,7 +34,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"></ImageView>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageButton
                     android:id="@+id/image_home_collection"
@@ -92,14 +92,15 @@
                     android:layout_marginTop="8dp"
                     android:lines="1"
                     android:paddingBottom="2dp"
-                    android:text="台北大空襲"
                     android:textColor="@color/gray_deep"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:typeface="sans"
                     app:layout_constraintBottom_toTopOf="@+id/text_home_describe"
                     app:layout_constraintStart_toEndOf="@+id/image_home_photo"
-                    app:layout_constraintTop_toTopOf="@+id/image_home_photo" />
+                    app:layout_constraintTop_toTopOf="@+id/image_home_photo"
+                    tools:text="TextView"
+                    />
 
                 <TextView
                     android:id="@+id/text_home_describe"
@@ -109,14 +110,15 @@
                     android:layout_marginEnd="8dp"
                     android:gravity="center_vertical"
                     android:lines="1"
-                    android:text="台北大空襲"
                     android:textColor="@color/gray"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text"
                     android:typeface="sans"
                     app:layout_constraintBottom_toBottomOf="@+id/image_home_owner_collection"
                     app:layout_constraintEnd_toStartOf="@+id/image_home_owner_collection"
                     app:layout_constraintStart_toEndOf="@+id/image_home_photo"
-                    app:layout_constraintTop_toTopOf="@+id/image_home_owner_collection" />
+                    app:layout_constraintTop_toTopOf="@+id/image_home_owner_collection"
+                    tools:text="TextView"
+                    />
 
                 <TextView
                     android:id="@+id/text_home_collection_number"
@@ -124,11 +126,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
-                    android:text="0"
                     android:textColor="@color/gray_99"
                     android:typeface="sans"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="0"
+                    />
 
                 <ImageView
                     android:id="@+id/image_home_trip_collection"
@@ -146,12 +149,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:text="0"
                     android:textColor="@color/gray_99"
                     android:typeface="sans"
                     app:layout_constraintBottom_toBottomOf="@+id/text_home_collection_number"
                     app:layout_constraintEnd_toStartOf="@+id/image_home_trip_collection"
-                    app:layout_constraintTop_toTopOf="@+id/text_home_collection_number" />
+                    app:layout_constraintTop_toTopOf="@+id/text_home_collection_number"
+                    tools:text="TextView"
+                    />
 
                 <ImageView
                     android:id="@+id/image_home_owner_collection"

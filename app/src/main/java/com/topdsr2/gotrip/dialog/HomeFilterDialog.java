@@ -86,7 +86,7 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
         mMonthSpinner.setAdapter(monthAdapter);
 
         ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
-                getContext(), R.array.filter_trip_country_list, R.layout.spinner_text);
+                getContext(), R.array.trip_country_list, R.layout.spinner_text);
         countryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mCountrySpinner.setAdapter(countryAdapter);
 

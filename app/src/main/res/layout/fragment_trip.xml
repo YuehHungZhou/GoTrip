@@ -13,7 +13,6 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -181,14 +180,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:typeface="sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/view10" />
+            app:layout_constraintTop_toBottomOf="@+id/view10"
+            tools:text="TextView"
+            />
 
         <TextView
             android:id="@+id/text_trip_vote_disagree"
@@ -198,14 +198,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="TextView"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:typeface="sans"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/view10" />
+            app:layout_constraintTop_toBottomOf="@+id/view10"
+            tools:text="TextView"
+            />
 
         <View
             android:id="@+id/view10"
@@ -222,9 +223,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="是否同意加入行程"
+            android:text="@string/trip_vote_title"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text"
             android:typeface="sans"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -238,7 +239,7 @@
             android:background="@drawable/corner_dialog"
             android:elevation="6dp"
             android:gravity="center"
-            android:text="同意"
+            android:text="@string/trip_vote_agree"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -255,7 +256,7 @@
             android:background="@drawable/corner_dialog_background"
             android:elevation="6dp"
             android:gravity="center"
-            android:text="不同意"
+            android:text="@string/trip_vote_disagree"
             android:textColor="@color/white_gray_99"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"

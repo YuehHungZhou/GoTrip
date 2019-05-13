@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="add_trip_country_list">
-        <item>"Asia"</item>
-        <item>"Europe"</item>
-        <item>"North America"</item>
-        <item>"South America"</item>
-        <item>"Oceania"</item>
-        <item>"Africa"</item>
-        <item>"Antarctica"</item>
-    </string-array>
-
-    <string-array name="filter_trip_country_list">
+    <string-array name="trip_country_list">
         <item>"Asia"</item>
         <item>"Europe"</item>
         <item>"North America"</item>

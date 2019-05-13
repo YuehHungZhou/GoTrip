@@ -83,7 +83,7 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
         super.onViewCreated(view, savedInstanceState);
 
         ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.filter_trip_country_list, R.layout.spinner_text);
+                R.array.trip_country_list, R.layout.spinner_text);
         countryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mSpinner.setAdapter(countryAdapter);
     }

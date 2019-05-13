@@ -3,17 +3,10 @@
     android:shape="rectangle">
 
     <corners android:radius="8dp"/>
-    <!--&lt;!&ndash; 圆角，你也可以对不同的角设置不同的数值 &ndash;&gt;-->
 
-    <!--<solid android:color="#FFFFFF" />-->
-    <!--&lt;!&ndash; 形状的填充色 &ndash;&gt;-->
     <solid android:color="#33ffffff"/>
     <stroke
         android:width="3dp"
         android:color="#FFEDCC70" />
-    <!-- 边框宽度和颜色 -->
-
-
-
 
 </shape>

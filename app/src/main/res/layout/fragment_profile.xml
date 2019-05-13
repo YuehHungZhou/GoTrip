@@ -46,21 +46,22 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="TextView"
-            android:textColor="#636363"
-            android:textSize="14sp"
+            android:textColor="@color/profile_text_color"
+            android:textSize="@dimen/text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_profile_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/image_profile_photo"
+            tools:text="TextView"
+            />
 
         <TextView
             android:id="@+id/text_profile_mileage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="旅行距離"
-            android:textColor="#636363"
-            android:textSize="14sp"
+            android:text="@string/profile_road"
+            android:textColor="@color/profile_text_color"
+            android:textSize="@dimen/text"
             app:layout_constraintEnd_toStartOf="@+id/text_profile_name"
             app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
 
@@ -83,9 +84,9 @@
             android:background="@drawable/corner_dialog_request"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="有新的邀請"
+            android:text="@string/profile_have_quest"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text"
             android:typeface="monospace"
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/image_profile_photo"
@@ -107,25 +108,22 @@
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monday" />
+            android:layout_height="wrap_content" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tuesday" />
+            android:layout_height="wrap_content" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wednesday" />
+            android:layout_height="wrap_content" />
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_profile"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#ECECEC"
+        android:background="@color/profile_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

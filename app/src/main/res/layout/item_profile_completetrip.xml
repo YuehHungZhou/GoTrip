@@ -41,14 +41,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:typeface="sans"
                 app:layout_constraintBottom_toTopOf="@+id/text_completetrip_describe"
                 app:layout_constraintStart_toEndOf="@+id/image_completetrip_photo"
-                app:layout_constraintTop_toTopOf="@+id/image_completetrip_photo" />
+                app:layout_constraintTop_toTopOf="@+id/image_completetrip_photo"
+                tools:text="TextView"
+                />
 
             <TextView
                 android:id="@+id/text_completetrip_describe"
@@ -56,14 +57,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="TextView"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="@dimen/text"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="@+id/image_completetrip_owner_collection"
                 app:layout_constraintEnd_toStartOf="@+id/image_completetrip_owner_collection"
                 app:layout_constraintStart_toEndOf="@+id/image_completetrip_photo"
-                app:layout_constraintTop_toTopOf="@+id/image_completetrip_owner_collection" />
+                app:layout_constraintTop_toTopOf="@+id/image_completetrip_owner_collection"
+                tools:text="TextView"
+                />
 
 
             <ImageView
@@ -83,11 +85,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="0"
                 android:textColor="@color/white"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="0"
+                />
 
             <ImageView
                 android:id="@+id/image_completetrip_trip_collection"
@@ -105,12 +108,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:text="0"
                 android:textColor="@color/white"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="@+id/text_completetrip_collection_number"
                 app:layout_constraintEnd_toStartOf="@+id/image_completetrip_trip_collection"
-                app:layout_constraintTop_toTopOf="@+id/text_completetrip_collection_number" />
+                app:layout_constraintTop_toTopOf="@+id/text_completetrip_collection_number"
+                tools:text="0"
+                />
 
 
             <ImageView

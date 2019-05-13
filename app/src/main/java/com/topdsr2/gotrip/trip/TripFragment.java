@@ -307,14 +307,14 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
                 switch (checkIsVoted(mVisibleItemPosition, mTouchedIconPosition)) {
                     case Constants.AGREE:
-                        mVoteTitleText.setText(getString(R.string.trip_vote_agree));
+                        mVoteTitleText.setText(getString(R.string.trip_vote_isagree));
                         mVoteDisagreeButton.setVisibility(View.INVISIBLE);
                         mVoteAgreeButton.setVisibility(View.VISIBLE);
                         mVoteAgreeButton.setClickable(false);
                         voteAgreeAnimation();
                         break;
                     case Constants.DISAGREE:
-                        mVoteTitleText.setText(getString(R.string.trip_vote_disagree));
+                        mVoteTitleText.setText(getString(R.string.trip_vote_isdisagree));
                         mVoteAgreeButton.setVisibility(View.INVISIBLE);
                         mVoteDisagreeButton.setVisibility(View.VISIBLE);
                         mVoteDisagreeButton.setClickable(false);

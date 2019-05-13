@@ -34,6 +34,8 @@
     <color name="polyline">#EE5873</color>
     <color name="polyline_dash">#6B374D</color>
 
+    <color name="profile_text_color">#636363</color>
+    <color name="profile_background">#ECECEC</color>
 
 
 </resources>

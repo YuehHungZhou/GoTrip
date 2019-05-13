@@ -17,8 +17,11 @@
     <string name="delete_trip_owner">創建者無法退出此旅程，請至個人頁面刪除旅程。</string>
 
     <string name="trip_search_hint">搜尋...</string>
-    <string name="trip_vote_agree">已選同意</string>
-    <string name="trip_vote_disagree">已選不同意</string>
+    <string name="trip_vote_title">是否同意加入行程</string>
+    <string name="trip_vote_agree">同意</string>
+    <string name="trip_vote_disagree">不同意</string>
+    <string name="trip_vote_isagree">已選同意</string>
+    <string name="trip_vote_isdisagree">已選不同意</string>
     <string name="trip_vote">是否同意加入行程</string>
     <string name="trip_info_name">Name：%s</string>
     <string name="trip_info_address">. Address：%s</string>
@@ -41,6 +44,37 @@
     <string name="font_style_vegan">veganstyle.ttf</string>
     <string name="home_day_slash">%d / %d</string>
     <string name="trip_time_dash">%d - %d - %d</string>
+    <string name="quest_agree">接受</string>
+    <string name="quest_disagree">拒絕</string>
+    <string name="profile_road">旅行距離</string>
+    <string name="profile_have_quest">有新的邀請</string>
+    <string name="text_hint_addpoint_place">輸入地點名稱</string>
+    <string name="text_hint_addpoint_describe">輸入地點備註</string>
+    <string name="text_hint_addpoint_cost">輸入預計花費</string>
+    <string name="text_hint_addpoint_time">選擇到達時間</string>
+    <string name="button_checkadd">確認加入</string>
+    <string name="text_dialog_success">成功</string>
+    <string name="text_hint_addfriend">請輸入欲加入的好友帳號</string>
+    <string name="button_addfriend">加入好友</string>
+    <string name="text_hint_logout">是否要登出</string>
+    <string name="button_check">確認</string>
+    <string name="text_hint_leaveout">是否要退出</string>
+    <string name="text_search_title">搜尋</string>
+    <string name="text_search_year">年份</string>
+    <string name="text_search_month">月份</string>
+    <string name="text_search_day">天數</string>
+    <string name="text_search_day_number">0 / 30</string>
+    <string name="text_search_country">國家</string>
+    <string name="text_search_collection">收藏</string>
+    <string name="text_search_collection_number">0 / 100</string>
+    <string name="text_hint_deletepoint">是否要將地點從旅程中刪除</string>
+    <string name="text_hint_addowner">請輸入欲邀請的對象帳號</string>
+    <string name="button_add_request">邀請加入</string>
+    <string name="text_hint_addpoint">是否要將地點加入旅程中</string>
+    <string name="text_hint_trip_name">輸入旅程標題</string>
+    <string name="text_hint_trip_describe">輸入旅程描述</string>
+    <string name="text_hint_trip_starttime">選擇出發日期</string>
+    <string name="text_hint_trip_endtime">選擇結束日期</string>
 
 
 </resources>
