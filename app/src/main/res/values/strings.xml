@@ -6,8 +6,12 @@
     <string name="fb_login_protocol_scheme">fb2298740733671432</string>
     <string name="gotrip">GoTrip</string>
     <string name="facebook_login">FACEBOOK LOGIN</string>
+
+
     <string name="no_ontrip">沒有正在旅行的行程，請到個人頁面安排新旅程</string>
     <string name="add_success">加入成功</string>
     <string name="add_owner_fail">沒有此會員</string>
+
+    <string name="delete_trip">非旅行創建者，請進入旅程點選退出</string>
 
 </resources>

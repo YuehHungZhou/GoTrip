@@ -3,7 +3,6 @@ package com.topdsr2.gotrip.profile.item;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.HomeAvatarOutlineProvider;
 import com.topdsr2.gotrip.util.ImageManager;
 
@@ -24,11 +24,6 @@ import static com.topdsr2.gotrip.MainMvpController.COMPLETETRIP;
 import static com.topdsr2.gotrip.MainMvpController.NEWTRIP;
 
 public class ProfileItemAdapter extends RecyclerView.Adapter {
-
-    public static final int TYPE_NEWTRIP = 0x01;
-    public static final int TYPE_COMPLETETRIP = 0x02;
-    public static final int TYPE_COLLECTIONTRIP = 0x03;
-
 
     private ProfileItemContract.Presenter mPresenter;
     private String mItemType;
@@ -43,10 +38,10 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        if (viewType == TYPE_NEWTRIP) {
+        if (viewType == Constants.TYPE_NEWTRIP) {
             return new NewTripViewHolder(LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item_profile_newtrip, viewGroup, false));
-        } else if (viewType == TYPE_COMPLETETRIP) {
+        } else if (viewType == Constants.TYPE_COMPLETETRIP) {
             return new CompleteTripViewHolder(LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.item_profile_completetrip, viewGroup, false));
         } else {
@@ -81,19 +76,20 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mOwnerNumberText.
+                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
 
-            ImageManager.getInstance().setImageByUrl(((NewTripViewHolder) holder).mUserPhotoImage,
+            ImageManager.getInstance().setImageByUrl(holder.mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
 
             int Day = parseDay(mTrips.get(position).getTripStart());
             String str;
             if (Day > 0) {
-                str = "還有 " + Day + " 天";
+                str = Constants.TIME_STILL + Day + Constants.TIME_DAY;
             } else if (Day <= -1) {
-                str = "未出發 " + Math.abs(Day) + " 天";
+                str = Constants.TIME_NOTREADY + Math.abs(Day) + Constants.TIME_DAY;
             } else {
-                str = "準備出發";
+                str = Constants.TIME_READY;
             }
             holder.mDayText.setText(str);
 
@@ -104,16 +100,17 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
     private void bindCompleteTripViewHolder(CompleteTripViewHolder holder, int position) {
         holder.mDeleteButton.setVisibility(View.GONE);
 
-
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
-            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+            holder.mOwnerNumberText.
+                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText.
+                    setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
-            ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mUserPhotoImage,
+            ImageManager.getInstance().setImageByUrl(holder.mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
-            ImageManager.getInstance().setImageByUrl(((CompleteTripViewHolder) holder).mBackgroundImage,
+            ImageManager.getInstance().setImageByUrl(holder.mBackgroundImage,
                     mTrips.get(position).getMainImage());
         }
     }
@@ -124,12 +121,14 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.setText(Integer.toString(mTrips.get(position).getOwners().size()));
-            holder.mCollectionNumberText.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+            holder.mOwnerNumberText.
+                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText.
+                    setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
-            ImageManager.getInstance().setImageByUrl(((CollectionTripViewHolder) holder).mBackgroundImage,
+            ImageManager.getInstance().setImageByUrl(holder.mBackgroundImage,
                     mTrips.get(position).getMainImage());
-            ImageManager.getInstance().setImageByUrl(((CollectionTripViewHolder) holder).mUserPhotoImage,
+            ImageManager.getInstance().setImageByUrl(holder.mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
         }
     }
@@ -139,15 +138,15 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
 
         switch (mItemType) {
             case NEWTRIP:
-                return TYPE_NEWTRIP;
+                return Constants.TYPE_NEWTRIP;
             case COMPLETETRIP:
-                return TYPE_COMPLETETRIP;
+                return Constants.TYPE_COMPLETETRIP;
             case COLLECTIONTRIP:
-                return TYPE_COLLECTIONTRIP;
+                return Constants.TYPE_COLLECTIONTRIP;
             default:
                 break;
         }
-        return TYPE_NEWTRIP;
+        return Constants.TYPE_NEWTRIP;
     }
 
     @Override
@@ -159,7 +158,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    private class NewTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    private class NewTripViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
@@ -198,7 +198,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                     mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_newtrip_delete:
-                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_NEWTRIP);
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()),
+                            Constants.TYPE_NEWTRIP);
                     break;
                 default:
                     break;
@@ -212,7 +213,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class CompleteTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    private class CompleteTripViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
@@ -252,7 +254,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                     mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_completetrip_delete:
-                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COMPLETETRIP);
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()),
+                            Constants.TYPE_COMPLETETRIP);
                     break;
                 default:
                     break;
@@ -266,7 +269,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class CollectionTripViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    private class CollectionTripViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mTitleText;
         private TextView mDescribeText;
@@ -307,7 +311,8 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                     mPresenter.loadTripData(mTrips.get(getAdapterPosition()).getId());
                     break;
                 case R.id.imageButton_collectiontrip_delete:
-                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()), TYPE_COLLECTIONTRIP);
+                    mPresenter.deleteTrip(mTrips.get(getAdapterPosition()),
+                            Constants.TYPE_COLLECTIONTRIP);
                     break;
                 default:
                     break;
@@ -329,7 +334,7 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         calendar.set(Calendar.MILLISECOND, 0);
         long now = calendar.getTimeInMillis() / 1000;
         long lastDay = ((startTime - now) / (60 * 60 * 24));
-        int Day = (int)lastDay;
+        int Day = (int) lastDay;
 
         if (Day == 0) {
             return 0;

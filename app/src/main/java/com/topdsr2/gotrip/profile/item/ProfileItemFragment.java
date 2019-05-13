@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.MainMvpController;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
@@ -97,7 +98,8 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
 
     @Override
     public void showToast() {
-        Toast.makeText(getContext(), "非旅行創建者，請進入旅程點選退出", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), GoTrip.getContext().
+                getResources().getString(R.string.delete_trip), Toast.LENGTH_LONG).show();
     }
 
     @Override

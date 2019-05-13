@@ -4,15 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Trip;
+import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
 
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_COLLECTIONTRIP;
-import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_COMPLETETRIP;
-import static com.topdsr2.gotrip.profile.item.ProfileItemAdapter.TYPE_NEWTRIP;
 
 public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
@@ -148,7 +146,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
     public void deleteTrip(Trip trip, int type) {
 
         switch (type) {
-            case TYPE_NEWTRIP:
+            case Constants.TYPE_NEWTRIP:
                 if ((checkIsCreater(trip.getCreater()))) {
                     FireBaseManager.getInstance().deleteTrip(trip.getId(),
                             new FireBaseManager.DeleteTripCallback() {
@@ -166,7 +164,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                     mProfileItemView.showToast();
                 }
                 break;
-            case TYPE_COMPLETETRIP:
+            case Constants.TYPE_COMPLETETRIP:
                 if ((checkIsCreater(trip.getCreater()))) {
                     FireBaseManager.getInstance().deleteTrip(trip.getId(),
                             new FireBaseManager.DeleteTripCallback() {
@@ -184,7 +182,7 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
                     mProfileItemView.showToast();
                 }
                 break;
-            case TYPE_COLLECTIONTRIP:
+            case Constants.TYPE_COLLECTIONTRIP:
                 FireBaseManager.getInstance().removeCollectionTrip(trip.getId(),
                         UserManager.getInstance().getUser().getEmail(),
                         new FireBaseManager.RemoveUserCollectionCallback() {
