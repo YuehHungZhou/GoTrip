@@ -1,4 +1,4 @@
-package com.topdsr2.gotrip.addOrDeletePoint;
+package com.topdsr2.gotrip.addordeletepoint;
 
 import android.support.annotation.NonNull;
 

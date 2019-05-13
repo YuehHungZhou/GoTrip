@@ -4,8 +4,8 @@ package com.topdsr2.gotrip;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointContract;
-import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
+import com.topdsr2.gotrip.addordeletepoint.AddOrDeletePointContract;
+import com.topdsr2.gotrip.addordeletepoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Request;

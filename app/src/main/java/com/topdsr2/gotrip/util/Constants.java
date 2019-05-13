@@ -17,6 +17,10 @@ public class Constants {
     public static final String DISAGREE = "disagree";
     public static final String NOTVOTE = "notVote";
 
+    public static final String HOTEL = "飯店";
+    public static final String RESTAURANT = "餐廳";
+    public static final String ATTRACTION = "景點";
+
     public static final String DATE_YYYY_MM = "yyyy-MM";
 
 

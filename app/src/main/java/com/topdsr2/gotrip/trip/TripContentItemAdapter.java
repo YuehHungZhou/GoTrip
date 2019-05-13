@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
+import com.topdsr2.gotrip.util.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,15 +47,15 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
             if (mReadyPoints.size() != 0) {
                 switch (mReadyPoints.get(position).getIconType()) {
 
-                    case "hotel":
+                    case Constants.HOTEL:
                         ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
                         ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
                         break;
-                    case "restaurant":
+                    case Constants.RESTAURANT:
                         ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
                         ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
                         break;
-                    case "attraction":
+                    case Constants.ATTRACTION:
                         ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
                         ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
                         break;

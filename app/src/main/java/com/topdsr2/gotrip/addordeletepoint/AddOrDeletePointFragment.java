@@ -1,4 +1,4 @@
-package com.topdsr2.gotrip.addOrDeletePoint;
+package com.topdsr2.gotrip.addordeletepoint;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddOrDeletePointFragment extends AppCompatDialogFragment implements AddOrDeletePointContract.View {
@@ -142,27 +139,11 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
         point.setTitle(mPlaceEditText.getText().toString());
         point.setArrivalTime(mTime);
         point.setDescribe(mNoteEditText.getText().toString());
-        point.setIconType(getIcontype());
+        point.setIconType(mTypeSpinner.getSelectedItem().toString());
         point.setDay(mToday);
 
         mPresenter.sendNewPoint(point);
 
-    }
-
-    private String getIcontype() {
-        String str = "";
-        switch (mTypeSpinner.getSelectedItem().toString()) {
-
-            case "飯店":
-                return str = "hotel";
-            case "餐廳":
-                return str = "restaurant";
-            case "景點":
-                return str = "attraction";
-            default:
-                break;
-        }
-        return str = "hotel";
     }
 
     private void showSuccess() {

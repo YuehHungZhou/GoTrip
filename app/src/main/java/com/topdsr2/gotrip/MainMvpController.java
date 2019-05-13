@@ -5,8 +5,8 @@ import android.support.annotation.StringDef;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointFragment;
-import com.topdsr2.gotrip.addOrDeletePoint.AddOrDeletePointPresenter;
+import com.topdsr2.gotrip.addordeletepoint.AddOrDeletePointFragment;
+import com.topdsr2.gotrip.addordeletepoint.AddOrDeletePointPresenter;
 import com.topdsr2.gotrip.data.GoTripLocalDataSource;
 import com.topdsr2.gotrip.data.GoTripRemoteDataSource;
 import com.topdsr2.gotrip.data.GoTripRepository;
