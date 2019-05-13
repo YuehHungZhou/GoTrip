@@ -110,10 +110,10 @@ public class FireBaseManager {
                                 return;
                             }
                             if (documentSnapshot != null && documentSnapshot.exists()) {
-                                if (Integer.parseInt(documentSnapshot.getData().
-                                        get(ADDPOINTTIMES).toString().trim()) != addTimes) {
-                                    callback.onCompleted(documentSnapshot.getData().
-                                            get(ID).toString().trim());
+                                if (Integer.parseInt(documentSnapshot.getData()
+                                        .get(ADDPOINTTIMES).toString().trim()) != addTimes) {
+                                    callback.onCompleted(documentSnapshot.getData()
+                                            .get(ID).toString().trim());
                                 }
                             } else {
                                 System.out.print("Current data: null");
@@ -269,16 +269,16 @@ public class FireBaseManager {
         } else if (sorte > positionHolder && sorte <= dayPoints) {
             changePointSorte(documentId, today, sorte, sorte - 1,
                     new GetPointDocumentIdCallback() {
-                @Override
-                public void onCompleted(String id) {
-                    deletePoint(documentId, i, positionHolder, dayPoints, today);
-                }
+                        @Override
+                        public void onCompleted(String id) {
+                            deletePoint(documentId, i, positionHolder, dayPoints, today);
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
+                        @Override
+                        public void onError(String errorMessage) {
 
-                }
-            });
+                        }
+                    });
         } else {
             updateTripPointTimes(documentId);
         }
@@ -345,12 +345,12 @@ public class FireBaseManager {
                                     .collection(POINT)
                                     .document(document.getId())
                                     .update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    callback.onCompleted(document.getId());
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            callback.onCompleted(document.getId());
 
-                                }
-                            });
+                                        }
+                                    });
                         }
                     }
                 });
@@ -388,23 +388,23 @@ public class FireBaseManager {
                 .whereEqualTo(DAY, day)
                 .whereEqualTo(SORTE, pointSorte)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    db.collection(TRIP)
-                            .document(documentId)
-                            .collection(POINT)
-                            .document(documentSnapshot.getId())
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    callback.onCompleted();
-                                }
-                            });
-                }
-            }
-        });
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            db.collection(TRIP)
+                                    .document(documentId)
+                                    .collection(POINT)
+                                    .document(documentSnapshot.getId())
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            callback.onCompleted();
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     private void updateTripPointTimes(String documentId) {
@@ -604,8 +604,8 @@ public class FireBaseManager {
                 });
     }
 
-    public void addTripRequest(String AddEmail, String documentId, AddFriendCallback callback) {
-        checkHasUserData(AddEmail, new GetUserDocumentIdCallback() {
+    public void addTripRequest(String addEmail, String documentId, AddFriendCallback callback) {
+        checkHasUserData(addEmail, new GetUserDocumentIdCallback() {
             @Override
             public void onCompleted(String document) {
 
@@ -689,20 +689,20 @@ public class FireBaseManager {
                                 getFriendRequestData(request.getUsers(), user.getFriendRequests(),
                                         user.getFriendRequests().size(), 0,
                                         new GetFriendRequestDataCallback() {
-                                    @Override
-                                    public void onCompleted(ArrayList<User> users) {
-                                        request.setUsers(users);
-                                        i[0]++;
-                                        if (i[0] == 2) {
-                                            callback.onCompleted(request);
-                                        }
-                                    }
+                                            @Override
+                                            public void onCompleted(ArrayList<User> users) {
+                                                request.setUsers(users);
+                                                i[0]++;
+                                                if (i[0] == 2) {
+                                                    callback.onCompleted(request);
+                                                }
+                                            }
 
-                                    @Override
-                                    public void onError(String errorMessage) {
+                                            @Override
+                                            public void onError(String errorMessage) {
 
-                                    }
-                                });
+                                            }
+                                        });
                             }
 
                             if (user.getTripRequests().size() == 0) {
@@ -714,20 +714,20 @@ public class FireBaseManager {
                                 getTripRequestData(request.getTrips(), user.getTripRequests(),
                                         user.getTripRequests().size(), 0,
                                         new GetTripRequestDataCallback() {
-                                    @Override
-                                    public void onCompleted(ArrayList<Trip> trips) {
-                                        request.setTrips(trips);
-                                        i[0]++;
-                                        if (i[0] == 2) {
-                                            callback.onCompleted(request);
-                                        }
-                                    }
+                                            @Override
+                                            public void onCompleted(ArrayList<Trip> trips) {
+                                                request.setTrips(trips);
+                                                i[0]++;
+                                                if (i[0] == 2) {
+                                                    callback.onCompleted(request);
+                                                }
+                                            }
 
-                                    @Override
-                                    public void onError(String errorMessage) {
+                                            @Override
+                                            public void onError(String errorMessage) {
 
-                                    }
-                                });
+                                            }
+                                        });
                             }
                         }
                     }

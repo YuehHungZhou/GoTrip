@@ -1,6 +1,5 @@
 package com.topdsr2.gotrip;
 
-
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
@@ -351,7 +350,7 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
 
     @Override
     public void loadRequestData() {
-       mProfilePresenter.loadRequestData();
+        mProfilePresenter.loadRequestData();
     }
 
     @Override

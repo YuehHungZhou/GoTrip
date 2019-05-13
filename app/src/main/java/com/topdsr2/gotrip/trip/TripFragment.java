@@ -119,10 +119,10 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_trip, container, false);
 
-        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().
-                findFragmentById(R.id.fragment_map);
-        mAutocompleteSupportFragment = (AutocompleteSupportFragment) getChildFragmentManager().
-                findFragmentById(R.id.place_autocomplete);
+        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.fragment_map);
+        mAutocompleteSupportFragment = (AutocompleteSupportFragment) getChildFragmentManager()
+                .findFragmentById(R.id.place_autocomplete);
         mAutocompleteSupportFragment.a.setHint(getString(R.string.trip_search_hint));
         mAutocompleteSupportFragment.a.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getContext().getResources().getDimension(R.dimen.text));
@@ -408,8 +408,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
             mMarker.remove();
         }
 
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).
-                title(getString(R.string.trip_info_title)));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.trip_info_title)));
 
         for (int i = 0; i < mLatLngs.size(); i++) {
             if (mLatLngs.get(i).latitude == latLng.latitude) {
@@ -490,15 +489,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                 if (points.get(i).getVoteStatus().equals(Constants.AGREE)
                         && points.get(i + 1).getVoteStatus().equals(Constants.AGREE)) {
                     LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
-                    PolylineOptions agreePolyline = new PolylineOptions().add(latLngs).
-                            color(GoTrip.getContext().getColor(R.color.polyline));
+                    PolylineOptions agreePolyline = new PolylineOptions().add(latLngs)
+                            .color(GoTrip.getContext().getColor(R.color.polyline));
                     Polyline polyline = mMap.addPolyline(agreePolyline);
                     polyline.setWidth(10);
 
                 } else {
                     LatLng[] latLngs = new LatLng[]{mLatLngs.get(i), mLatLngs.get(i + 1)};
-                    PolylineOptions dashPolyline = new PolylineOptions().add(latLngs).pattern(setDash()).
-                            color(GoTrip.getContext().getColor(R.color.polyline_dash));
+                    PolylineOptions dashPolyline = new PolylineOptions().add(latLngs).pattern(setDash())
+                            .color(GoTrip.getContext().getColor(R.color.polyline_dash));
                     Polyline polyline = mMap.addPolyline(dashPolyline);
                     polyline.setWidth(10);
                 }
@@ -625,11 +624,11 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
     private String checkIsVoted(int visibleItemPosition, int touchedIconPosition) {
         String email = UserManager.getInstance().getUser().getEmail();
-        if (((ArrayList<Point>) mPointsByDay.get(visibleItemPosition)).
-                get(touchedIconPosition).getAgree().contains(email.trim())) {
+        if (((ArrayList<Point>) mPointsByDay.get(visibleItemPosition))
+                .get(touchedIconPosition).getAgree().contains(email.trim())) {
             return Constants.AGREE;
-        } else if (((ArrayList<Point>) mPointsByDay.get(visibleItemPosition)).
-                get(touchedIconPosition).getDisagree().contains(email.trim())) {
+        } else if (((ArrayList<Point>) mPointsByDay.get(visibleItemPosition))
+                .get(touchedIconPosition).getDisagree().contains(email.trim())) {
             return Constants.DISAGREE;
         } else {
             return Constants.NOTVOTE;
@@ -637,8 +636,8 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     private boolean checkCanVote() {
-        String voteStatus = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).
-                get(mTouchedIconPosition).getVoteStatus();
+        String voteStatus = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
+                .get(mTouchedIconPosition).getVoteStatus();
         if (voteStatus.equals(Constants.AGREE) || voteStatus.equals(Constants.DISAGREE)) {
             return false;
         }
@@ -646,10 +645,10 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     }
 
     private void setVoteNumber() {
-        int agree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).
-                get(mTouchedIconPosition).getAgree().size();
-        int disagree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition)).
-                get(mTouchedIconPosition).getDisagree().size();
+        int agree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
+                .get(mTouchedIconPosition).getAgree().size();
+        int disagree = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition))
+                .get(mTouchedIconPosition).getDisagree().size();
 
         mVotedAgreeText.setText(getString(R.string.trip_vote_agree_title, agree));
         mVotedDisagreeText.setText(getString(R.string.trip_vote_disagree_title, disagree));

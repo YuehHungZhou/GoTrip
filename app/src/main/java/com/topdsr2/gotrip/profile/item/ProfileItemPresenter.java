@@ -97,8 +97,8 @@ public class ProfileItemPresenter implements ProfileItemContract.Presenter {
 
     @Override
     public void loadCollectionTripData() {
-        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance().
-                        getUser().getTripCollection(), new FireBaseManager.GetUserTripCallback() {
+        FireBaseManager.getInstance().getCollectionTripData(UserManager.getInstance()
+                .getUser().getTripCollection(), new FireBaseManager.GetUserTripCallback() {
                     @Override
                     public void onCompleted(ArrayList<Trip> trips) {
                         setProfileTripData(trips);

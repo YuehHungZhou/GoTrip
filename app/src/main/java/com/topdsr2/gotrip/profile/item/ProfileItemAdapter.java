@@ -77,23 +77,22 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.
-                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mOwnerNumberText
+                    .setText(Integer.toString(mTrips.get(position).getOwners().size()));
 
             ImageManager.getInstance().setImageByUrl(holder.mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
 
-            int Day = parseDay(mTrips.get(position).getTripStart());
+            int day = parseDay(mTrips.get(position).getTripStart());
 
-            if (Day > 0) {
-                holder.mDayText.setText(GoTrip.getContext().getResources().
-                        getString(R.string.time_notready, Day));
-            } else if (Day <= -1) {
-                holder.mDayText.setText(GoTrip.getContext().getResources().
-                        getString(R.string.time_notready, Math.abs(Day)));
+            if (day > 0) {
+                holder.mDayText.setText(GoTrip.getContext().getResources().getString(R.string.time_notready, day));
+            } else if (day <= -1) {
+                holder.mDayText.setText(GoTrip.getContext().getResources()
+                        .getString(R.string.time_notready, Math.abs(day)));
             } else {
-                holder.mDayText.setText(GoTrip.getContext().getResources().
-                        getString(R.string.time_ready));
+                holder.mDayText.setText(GoTrip.getContext().getResources()
+                        .getString(R.string.time_ready));
             }
 
         }
@@ -105,10 +104,10 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.
-                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
-            holder.mCollectionNumberText.
-                    setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+            holder.mOwnerNumberText
+                    .setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText
+                    .setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             ImageManager.getInstance().setImageByUrl(holder.mUserPhotoImage,
                     mTrips.get(position).getCreaterImage());
@@ -123,10 +122,10 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         if (mTrips != null && mTrips.size() != 0) {
             holder.mTitleText.setText(mTrips.get(position).getTitle());
             holder.mDescribeText.setText(mTrips.get(position).getDescribe());
-            holder.mOwnerNumberText.
-                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
-            holder.mCollectionNumberText.
-                    setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+            holder.mOwnerNumberText
+                    .setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            holder.mCollectionNumberText
+                    .setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             ImageManager.getInstance().setImageByUrl(holder.mBackgroundImage,
                     mTrips.get(position).getMainImage());
@@ -336,14 +335,14 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
         calendar.set(Calendar.MILLISECOND, 0);
         long now = calendar.getTimeInMillis() / 1000;
         long lastDay = ((startTime - now) / (60 * 60 * 24));
-        int Day = (int) lastDay;
+        int day = (int) lastDay;
 
-        if (Day == 0) {
+        if (day == 0) {
             return 0;
-        } else if (Day < -1) {
-            return Day;
+        } else if (day < -1) {
+            return day;
         } else {
-            return Day;
+            return day;
         }
     }
 

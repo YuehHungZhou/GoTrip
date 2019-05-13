@@ -49,36 +49,36 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
                 switch (mReadyPoints.get(position).getIconType()) {
 
                     case Constants.HOTEL:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.
-                                setImageResource(R.mipmap.icon_luggage);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
-                                setBackgroundResource((R.drawable.corner_icon_yellow));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage
+                                .setImageResource(R.mipmap.icon_luggage);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout
+                                .setBackgroundResource((R.drawable.corner_icon_yellow));
                         break;
                     case Constants.RESTAURANT:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.
-                                setImageResource(R.mipmap.icon_cutlery);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
-                                setBackgroundResource((R.drawable.corner_icon_green));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage
+                                .setImageResource(R.mipmap.icon_cutlery);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout
+                                .setBackgroundResource((R.drawable.corner_icon_green));
                         break;
                     case Constants.ATTRACTION:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.
-                                setImageResource(R.mipmap.icon_camera);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
-                                setBackgroundResource((R.drawable.corner_icon_blue));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage
+                                .setImageResource(R.mipmap.icon_camera);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout
+                                .setBackgroundResource((R.drawable.corner_icon_blue));
                         break;
                     default:
                         break;
                 }
 
                 if (mIconState == mReadyPoints.get(position).getSorte()) {
-                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
-                            setBackgroundResource((R.drawable.corner_icon_orange));
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout
+                            .setBackgroundResource((R.drawable.corner_icon_orange));
                 }
 
                 long roadTime = (mReadyPoints.get(position).getArrivalTime());
                 if ((roadTime - mRoadTime) != roadTime) {
-                    ((TripContentItemViewHolder) viewHolder).mRoadText.
-                            setText(paseRoadTime(roadTime - mRoadTime));
+                    ((TripContentItemViewHolder) viewHolder).mRoadText
+                            .setText(paseRoadTime(roadTime - mRoadTime));
                 }
                 ((TripContentItemViewHolder) viewHolder).mIconText.setText(paseTime(roadTime));
 
@@ -147,10 +147,10 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     }
 
     public void readyChangeIcon(int position) {
-            mPositionState = position;
-            mReadyPoints = (ArrayList<Point>) mPointsByDay.get(position);
-            mIconState = 1;
-            notifyDataSetChanged();
+        mPositionState = position;
+        mReadyPoints = (ArrayList<Point>) mPointsByDay.get(position);
+        mIconState = 1;
+        notifyDataSetChanged();
     }
 
     private String paseTime(long time) {

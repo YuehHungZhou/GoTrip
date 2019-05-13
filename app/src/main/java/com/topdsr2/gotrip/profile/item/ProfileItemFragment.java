@@ -99,8 +99,8 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
 
     @Override
     public void showToast() {
-        Toast.makeText(getContext(), GoTrip.getContext().
-                getResources().getString(R.string.delete_trip), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), GoTrip.getContext()
+                .getResources().getString(R.string.delete_trip), Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -198,16 +198,16 @@ public class TripPresenter implements TripContract.Presenter {
     public void setTripListener(String documentId) {
         FireBaseManager.getInstance().setListener(documentId, mBean.getTrip().getAddPointTimes(),
                 new FireBaseManager.EvenHappendCallback() {
-            @Override
-            public void onCompleted(String tripId) {
-                loadTripData(tripId);
-            }
+                    @Override
+                    public void onCompleted(String tripId) {
+                        loadTripData(tripId);
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override

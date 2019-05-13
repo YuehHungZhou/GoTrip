@@ -103,11 +103,11 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment
                                 + ((long) (mToday - 1) * 60 * 60 * 24);
 
                         if (minute < 10) {
-                            mTimeButton.setText(GoTrip.getContext().getResources().
-                                    getString(R.string.time_0, hourOfDay, minute));
+                            mTimeButton.setText(GoTrip.getContext().getResources()
+                                    .getString(R.string.time_0, hourOfDay, minute));
                         } else {
-                            mTimeButton.setText(GoTrip.getContext().getResources().
-                                    getString(R.string.time_00, hourOfDay, minute));
+                            mTimeButton.setText(GoTrip.getContext().getResources()
+                                    .getString(R.string.time_00, hourOfDay, minute));
                         }
 
                     }

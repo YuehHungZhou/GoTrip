@@ -69,47 +69,46 @@ public class UserManager {
         mCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallbackManager,
                 new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        GraphRequest graphRequest = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        try {
+                                            if (response.getConnection().getResponseCode() == 200) {
 
-                GraphRequest graphRequest = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                try {
-                                    if (response.getConnection().getResponseCode() == 200) {
-
-                                        String email = object.getString(EMAIL);
-                                        String name = object.getString(NAME);
-                                        String userPhoto = PHOTO_HEAD
-                                                + object.getLong(ID)
-                                                + PHOTO_TAIL;
-                                        writeInternalStg(email, (Activity) context);
-                                        addUserDataToifrebase(email, name, userPhoto, loadCallback);
+                                                String email = object.getString(EMAIL);
+                                                String name = object.getString(NAME);
+                                                String userPhoto = PHOTO_HEAD
+                                                        + object.getLong(ID)
+                                                        + PHOTO_TAIL;
+                                                writeInternalStg(email, (Activity) context);
+                                                addUserDataToifrebase(email, name, userPhoto, loadCallback);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                    Bundle parameters = new Bundle();
-                    parameters.putString(FIELDS, FIELDS_VALUE);
-                    graphRequest.setParameters(parameters);
-                    graphRequest.executeAsync();
-                }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString(FIELDS, FIELDS_VALUE);
+                        graphRequest.setParameters(parameters);
+                        graphRequest.executeAsync();
+                    }
 
-                @Override
-                public void onCancel() {
-                    // App code
-                }
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
 
-                @Override
-                public void onError(FacebookException exception) {
-                    // App code
-                }
-            });
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
 
         loginFacebook(context);
 
@@ -118,17 +117,17 @@ public class UserManager {
     public void readInternalStg(Activity activity, LoadCallback callback) {
         FireBaseManager.getInstance().loadIntenalData(read(activity),
                 new FireBaseManager.GetUserDataCallback() {
-                @Override
-                public void onCompleted(User user) {
-                    mUser = user;
-                    callback.onSuccess();
-                }
+                    @Override
+                    public void onCompleted(User user) {
+                        mUser = user;
+                        callback.onSuccess();
+                    }
 
-                @Override
-                public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-                }
-            });
+                    }
+                });
     }
 
     public void writeInternalStg(String email, Activity activity) {
@@ -189,17 +188,17 @@ public class UserManager {
         FireBaseManager.getInstance().addUserData(email, name, photoUri,
                 new FireBaseManager.GetUserDataCallback() {
 
-                @Override
-                public void onCompleted(User user) {
-                    mUser = user;
-                    loadCallback.onSuccess();
-                }
+                    @Override
+                    public void onCompleted(User user) {
+                        mUser = user;
+                        loadCallback.onSuccess();
+                    }
 
-                @Override
-                public void onError(String errorMessage) {
+                    @Override
+                    public void onError(String errorMessage) {
 
-                }
-            });
+                    }
+                });
     }
 
     public boolean getLoginState() {

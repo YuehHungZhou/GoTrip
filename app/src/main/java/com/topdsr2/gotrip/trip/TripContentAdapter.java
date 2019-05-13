@@ -41,8 +41,8 @@ public class TripContentAdapter extends RecyclerView.Adapter {
             if (mPointsHolder.get(position).getSorte() != -1) {
                 Point point = mPointsHolder.get(position);
 
-                ((TripContentViewHolder) viewHolder).mTextCost.setText(GoTrip.getContext().
-                        getResources().getString(R.string.trip_money, point.getCost()));
+                ((TripContentViewHolder) viewHolder).mTextCost.setText(GoTrip.getContext()
+                        .getResources().getString(R.string.trip_money, point.getCost()));
                 ((TripContentViewHolder) viewHolder).mTextTitle.setText(point.getTitle());
                 ((TripContentViewHolder) viewHolder).mTextDescribe.setText(point.getDescribe());
 
@@ -56,8 +56,8 @@ public class TripContentAdapter extends RecyclerView.Adapter {
 
             }
 
-            ((TripContentViewHolder) viewHolder).mTextDay.setText(GoTrip.getContext().
-                    getResources().getString(R.string.trip_day, (position + 1)));
+            ((TripContentViewHolder) viewHolder).mTextDay.setText(GoTrip.getContext()
+                    .getResources().getString(R.string.trip_day, (position + 1)));
         }
     }
 
