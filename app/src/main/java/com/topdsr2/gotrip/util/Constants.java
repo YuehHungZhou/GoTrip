@@ -22,6 +22,8 @@ public class Constants {
     public static final String ATTRACTION = "景點";
 
     public static final String DATE_YYYY_MM = "yyyy-MM";
+    public static final String TIME_0 = " : 0";
+    public static final String TIME_00 = " : ";
 
 
     public static final String GENERAL_ERROR = "Internal Server Error.";

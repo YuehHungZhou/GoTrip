@@ -9,4 +9,5 @@
     <string name="no_ontrip">沒有正在旅行的行程，請到個人頁面安排新旅程</string>
     <string name="add_success">加入成功</string>
     <string name="add_owner_fail">沒有此會員</string>
+
 </resources>

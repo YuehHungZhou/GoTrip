@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
+import com.topdsr2.gotrip.util.Constants;
 
 import java.util.Calendar;
 
@@ -93,14 +94,14 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                        mTime = ((long) hourOfDay * 60 * 60) + ((long)minute * 60)
+                        mTime = ((long) hourOfDay * 60 * 60) + ((long) minute * 60)
                                 + mBean.getTrip().getTripStart()
                                 + ((long) (mToday - 1) * 60 * 60 * 24);
 
                         if (minute < 10) {
-                            mTimeButton.setText(hourOfDay + " : " + "0" + minute);
+                            mTimeButton.setText(hourOfDay + Constants.TIME_0 + minute);
                         } else {
-                            mTimeButton.setText(hourOfDay + " : " + minute);
+                            mTimeButton.setText(hourOfDay + Constants.TIME_00 + minute);
                         }
 
                     }
