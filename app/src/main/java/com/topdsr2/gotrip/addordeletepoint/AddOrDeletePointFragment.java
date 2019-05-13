@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
@@ -25,7 +26,8 @@ import com.topdsr2.gotrip.util.Constants;
 
 import java.util.Calendar;
 
-public class AddOrDeletePointFragment extends AppCompatDialogFragment implements AddOrDeletePointContract.View {
+public class AddOrDeletePointFragment extends AppCompatDialogFragment
+        implements AddOrDeletePointContract.View {
 
     private AddOrDeletePointContract.Presenter mPresenter;
 
@@ -56,7 +58,8 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_addordeletepoint, container, false);
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -75,7 +78,8 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<CharSequence> placeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.icon_type_list, R.layout.spinner_text);
+        ArrayAdapter<CharSequence> placeAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.icon_type_list, R.layout.spinner_text);
         placeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mTypeSpinner.setAdapter(placeAdapter);
 
@@ -99,9 +103,11 @@ public class AddOrDeletePointFragment extends AppCompatDialogFragment implements
                                 + ((long) (mToday - 1) * 60 * 60 * 24);
 
                         if (minute < 10) {
-                            mTimeButton.setText(hourOfDay + Constants.TIME_0 + minute);
+                            mTimeButton.setText(GoTrip.getContext().getResources().
+                                    getString(R.string.time_0, hourOfDay, minute));
                         } else {
-                            mTimeButton.setText(hourOfDay + Constants.TIME_00 + minute);
+                            mTimeButton.setText(GoTrip.getContext().getResources().
+                                    getString(R.string.time_00, hourOfDay, minute));
                         }
 
                     }

@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.util.Constants;
@@ -83,16 +84,17 @@ public class ProfileItemAdapter extends RecyclerView.Adapter {
                     mTrips.get(position).getCreaterImage());
 
             int Day = parseDay(mTrips.get(position).getTripStart());
-            String str;
-            if (Day > 0) {
-                str = Constants.TIME_STILL + Day + Constants.TIME_DAY;
-            } else if (Day <= -1) {
-                str = Constants.TIME_NOTREADY + Math.abs(Day) + Constants.TIME_DAY;
-            } else {
-                str = Constants.TIME_READY;
-            }
-            holder.mDayText.setText(str);
 
+            if (Day > 0) {
+                holder.mDayText.setText(GoTrip.getContext().getResources().
+                        getString(R.string.time_notready, Day));
+            } else if (Day <= -1) {
+                holder.mDayText.setText(GoTrip.getContext().getResources().
+                        getString(R.string.time_notready, Math.abs(Day)));
+            } else {
+                holder.mDayText.setText(GoTrip.getContext().getResources().
+                        getString(R.string.time_ready));
+            }
 
         }
     }

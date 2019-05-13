@@ -30,7 +30,7 @@ public interface TripContract {
 
         void openFunction(boolean isOwner);
 
-        void showVoteViewView(int position);
+        void showVoteViewUi(int position);
 
         void showToast();
 

@@ -57,7 +57,8 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_trip, container, false);
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -81,7 +82,8 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_country_list, R.layout.spinner_text);
+        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.filter_trip_country_list, R.layout.spinner_text);
         countryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mSpinner.setAdapter(countryAdapter);
     }
@@ -131,9 +133,7 @@ public class AddTripDialog extends AppCompatDialogFragment implements View.OnCli
         new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String data = String.valueOf(year) + "-"
-                                + String.valueOf(month + 1) + "-"
-                                + String.valueOf(dayOfMonth);
+                String data = getString(R.string.trip_time_dash, year, (month + 1), dayOfMonth);
                 calendar.clear();
                 calendar.set(year, month, dayOfMonth);
 

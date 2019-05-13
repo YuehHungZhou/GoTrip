@@ -102,15 +102,18 @@ public class FireBaseManager {
                     .document(documentId)
                     .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
-                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot,
+                                            @Nullable FirebaseFirestoreException e) {
 
                             if (e != null) {
                                 System.err.println("Listen failed: " + e);
                                 return;
                             }
                             if (documentSnapshot != null && documentSnapshot.exists()) {
-                                if (Integer.parseInt(documentSnapshot.getData().get(ADDPOINTTIMES).toString().trim()) != addTimes) {
-                                    callback.onCompleted(documentSnapshot.getData().get(ID).toString().trim());
+                                if (Integer.parseInt(documentSnapshot.getData().
+                                        get(ADDPOINTTIMES).toString().trim()) != addTimes) {
+                                    callback.onCompleted(documentSnapshot.getData().
+                                            get(ID).toString().trim());
                                 }
                             } else {
                                 System.out.print("Current data: null");
@@ -144,7 +147,8 @@ public class FireBaseManager {
                 });
     }
 
-    public void getSearchTrip(SearchData searchData, long startTime, long endTime, GetAllTripCallback callback) {
+    public void getSearchTrip(SearchData searchData, long startTime, long endTime,
+                              GetAllTripCallback callback) {
         ArrayList<Trip> trips = new ArrayList<>();
 
         db.collection(TRIP)
@@ -245,7 +249,8 @@ public class FireBaseManager {
         }
     }
 
-    public void deletePoint(String documentId, int sorte, int positionHolder, int dayPoints, int today) {
+    public void deletePoint(String documentId, int sorte, int positionHolder,
+                            int dayPoints, int today) {
 
         int i = sorte + 1;
 
@@ -262,7 +267,8 @@ public class FireBaseManager {
                 }
             });
         } else if (sorte > positionHolder && sorte <= dayPoints) {
-            changePointSorte(documentId, today, sorte, sorte - 1, new GetPointDocumentIdCallback() {
+            changePointSorte(documentId, today, sorte, sorte - 1,
+                    new GetPointDocumentIdCallback() {
                 @Override
                 public void onCompleted(String id) {
                     deletePoint(documentId, i, positionHolder, dayPoints, today);
@@ -317,7 +323,8 @@ public class FireBaseManager {
                 });
     }
 
-    private void changePointSorte(String documentId, int day, int oldSorte, int newSorte, GetPointDocumentIdCallback callback) {
+    private void changePointSorte(String documentId, int day, int oldSorte, int newSorte,
+                                  GetPointDocumentIdCallback callback) {
 
         db.collection(TRIP)
                 .document(documentId)
@@ -372,7 +379,8 @@ public class FireBaseManager {
                 });
     }
 
-    private void readyToDeletePoint(String documentId, int pointSorte, int day, DeletePointCallback callback) {
+    private void readyToDeletePoint(String documentId, int pointSorte, int day,
+                                    DeletePointCallback callback) {
 
         db.collection(TRIP)
                 .document(documentId)
@@ -678,7 +686,9 @@ public class FireBaseManager {
                                     callback.onCompleted(request);
                                 }
                             } else {
-                                getFriendRequestData(request.getUsers(), user.getFriendRequests(), user.getFriendRequests().size(), 0, new GetFriendRequestDataCallback() {
+                                getFriendRequestData(request.getUsers(), user.getFriendRequests(),
+                                        user.getFriendRequests().size(), 0,
+                                        new GetFriendRequestDataCallback() {
                                     @Override
                                     public void onCompleted(ArrayList<User> users) {
                                         request.setUsers(users);
@@ -701,7 +711,9 @@ public class FireBaseManager {
                                     callback.onCompleted(request);
                                 }
                             } else {
-                                getTripRequestData(request.getTrips(), user.getTripRequests(), user.getTripRequests().size(), 0, new GetTripRequestDataCallback() {
+                                getTripRequestData(request.getTrips(), user.getTripRequests(),
+                                        user.getTripRequests().size(), 0,
+                                        new GetTripRequestDataCallback() {
                                     @Override
                                     public void onCompleted(ArrayList<Trip> trips) {
                                         request.setTrips(trips);
@@ -722,7 +734,8 @@ public class FireBaseManager {
                 });
     }
 
-    private void getFriendRequestData(ArrayList<User> users, ArrayList<String> friendRequest, int size, int handleNumber, GetFriendRequestDataCallback callback) {
+    private void getFriendRequestData(ArrayList<User> users, ArrayList<String> friendRequest, int size,
+                                      int handleNumber, GetFriendRequestDataCallback callback) {
         int i = handleNumber + 1;
 
         db.collection(USER)
@@ -744,7 +757,8 @@ public class FireBaseManager {
                 });
     }
 
-    private void getTripRequestData(ArrayList<Trip> trips, ArrayList<String> tripRequest, int size, int handleNumber, GetTripRequestDataCallback callback) {
+    private void getTripRequestData(ArrayList<Trip> trips, ArrayList<String> tripRequest, int size,
+                                    int handleNumber, GetTripRequestDataCallback callback) {
         int i = handleNumber + 1;
 
         db.collection(TRIP)
@@ -851,8 +865,8 @@ public class FireBaseManager {
         }
     }
 
-    private void getColletionTrip(ArrayList<Trip> trips, ArrayList<String> collections, int collectionsSize, int handleNumber,
-                                  GetCollectionTripCallback callback) {
+    private void getColletionTrip(ArrayList<Trip> trips, ArrayList<String> collections, int collectionsSize,
+                                  int handleNumber, GetCollectionTripCallback callback) {
 
         int i = handleNumber + 1;
 
@@ -974,7 +988,8 @@ public class FireBaseManager {
                 });
     }
 
-    public void removeCollectionTrip(String documentId, String email, RemoveUserCollectionCallback callback) {
+    public void removeCollectionTrip(String documentId, String email,
+                                     RemoveUserCollectionCallback callback) {
 
         db.collection(USER)
                 .whereEqualTo(ID, email)

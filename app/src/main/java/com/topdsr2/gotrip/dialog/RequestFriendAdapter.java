@@ -83,11 +83,13 @@ public class RequestFriendAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.image_request_agree:
-                    mMainPresenter.agreeFriendRequest(mRequest.getUsers().get(getAdapterPosition()).getEmail());
+                    mMainPresenter.agreeFriendRequest(mRequest.getUsers().
+                            get(getAdapterPosition()).getEmail());
                     removeSelectItem(getAdapterPosition());
                     break;
                 case R.id.image_request_disagree:
-                    mMainPresenter.disagreeFriendRequest(mRequest.getUsers().get(getAdapterPosition()).getEmail());
+                    mMainPresenter.disagreeFriendRequest(mRequest.getUsers().
+                            get(getAdapterPosition()).getEmail());
                     removeSelectItem(getAdapterPosition());
                     break;
                 default:

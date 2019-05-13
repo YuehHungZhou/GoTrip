@@ -43,7 +43,8 @@ public class AddTripOwnerDialog extends BottomSheetDialogFragment implements Vie
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_add_tirp_owner, container, false);
 
         mButton = view.findViewById(R.id.button_add_trip_owner);

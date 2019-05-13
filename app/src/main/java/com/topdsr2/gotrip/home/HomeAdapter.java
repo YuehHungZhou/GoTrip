@@ -46,8 +46,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
             ((HomeViewHolder) viewHolder).mTitle.setText(mTrips.get(position).getTitle());
             ((HomeViewHolder) viewHolder).mDescribe.setText(mTrips.get(position).getDescribe());
-            ((HomeViewHolder) viewHolder).mOwners.setText(Integer.toString(mTrips.get(position).getOwners().size()));
-            ((HomeViewHolder) viewHolder).mCollectionNumber.setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
+            ((HomeViewHolder) viewHolder).mOwners.
+                    setText(Integer.toString(mTrips.get(position).getOwners().size()));
+            ((HomeViewHolder) viewHolder).mCollectionNumber.
+                    setText(Integer.toString(mTrips.get(position).getCollectionNumber()));
 
             if (mTripCollection != null) {
                 if (mTripCollection.contains(mTrips.get(position).getId())) {

@@ -25,16 +25,10 @@ public class Constants {
     public static final String RESTAURANT = "餐廳";
     public static final String ATTRACTION = "景點";
 
+    public static final String NONE = "無";
+
     public static final String DATE_YYYY_MM = "yyyy-MM";
-    public static final String TIME_0 = " : 0";
-    public static final String TIME_00 = " : ";
-
-    public static final String TIME_STILL = "還有 ";
-    public static final String TIME_NOTREADY = "未出發 ";
-    public static final String TIME_READY = "準備出發";
-    public static final String TIME_DAY = " 天";
-
-
+    public static final String DATE_HH_MM = "HH:mm";
 
     public static final String GENERAL_ERROR = "Internal Server Error.";
 

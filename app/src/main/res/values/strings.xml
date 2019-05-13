@@ -1,4 +1,6 @@
 <resources>
+    <string name="google_map_key">AIzaSyAjuPCcWs8ZbWwnIU8EmkgXZBgsfkOgPp0</string>
+
     <string name="app_name">GoTrip</string>
     <string name="title_activity_maps">Map</string>
 
@@ -7,11 +9,38 @@
     <string name="gotrip">GoTrip</string>
     <string name="facebook_login">FACEBOOK LOGIN</string>
 
-
     <string name="no_ontrip">沒有正在旅行的行程，請到個人頁面安排新旅程</string>
     <string name="add_success">加入成功</string>
     <string name="add_owner_fail">沒有此會員</string>
 
     <string name="delete_trip">非旅行創建者，請進入旅程點選退出</string>
+    <string name="delete_trip_owner">創建者無法退出此旅程，請至個人頁面刪除旅程。</string>
+
+    <string name="trip_search_hint">搜尋...</string>
+    <string name="trip_vote_agree">已選同意</string>
+    <string name="trip_vote_disagree">已選不同意</string>
+    <string name="trip_vote">是否同意加入行程</string>
+    <string name="trip_info_name">Name：%s</string>
+    <string name="trip_info_address">. Address：%s</string>
+    <string name="trip_info_title">new</string>
+    <string name="trip_vote_agree_title">同意：%d 人</string>
+    <string name="trip_vote_disagree_title">不同意：%d 人</string>
+    <string name="trip_money">$ %d</string>
+    <string name="trip_day">Day %d</string>
+
+
+    <string name="time_hr">%f hr</string>
+    <string name="time_0">%d：0%d</string>
+    <string name="time_00">%d：%d</string>
+    <string name="time_still">還有 %d 天</string>
+    <string name="time_notready">未出發 %d 天</string>
+    <string name="time_ready">準備出發</string>
+
+    <string name="toast_trip_chatroom">聊天系統 Coming Soon</string>
+
+    <string name="font_style_vegan">veganstyle.ttf</string>
+    <string name="home_day_slash">%d / %d</string>
+    <string name="trip_time_dash">%d - %d - %d</string>
+
 
 </resources>

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.topdsr2.gotrip.MainContract;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.SearchData;
+import com.topdsr2.gotrip.util.Constants;
 
 public class HomeFilterDialog extends AppCompatDialogFragment implements View.OnClickListener {
 
@@ -51,7 +52,8 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_home_filter, container, false);
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -73,22 +75,25 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_year, R.layout.spinner_text);
+        ArrayAdapter<CharSequence> yearAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.filter_trip_year, R.layout.spinner_text);
         yearAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mYesrSpinner.setAdapter(yearAdapter);
 
-        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_month, R.layout.spinner_text);
+        ArrayAdapter<CharSequence> monthAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.filter_trip_month, R.layout.spinner_text);
         monthAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mMonthSpinner.setAdapter(monthAdapter);
 
-        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_trip_country_list, R.layout.spinner_text);
+        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.filter_trip_country_list, R.layout.spinner_text);
         countryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         mCountrySpinner.setAdapter(countryAdapter);
 
         mDaySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDayTextView.setText(String.valueOf(progress)+ " / " + 30);
+                mDayTextView.setText(getString(R.string.home_day_slash, progress, 30));
                 mDay = progress;
             }
 
@@ -106,7 +111,7 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
         mCollectionSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mCollectionTextView.setText(String.valueOf(progress) + " / " + 100);
+                mCollectionTextView.setText(getString(R.string.home_day_slash, progress, 100));
                 mCollection = progress;
             }
 
@@ -129,7 +134,7 @@ public class HomeFilterDialog extends AppCompatDialogFragment implements View.On
                 SearchData searchData = new SearchData();
                 searchData.setYear(Integer.parseInt(mYesrSpinner.getSelectedItem().toString()));
 
-                if (!mMonthSpinner.getSelectedItem().toString().equals("無")) {
+                if (!mMonthSpinner.getSelectedItem().toString().equals(Constants.NONE)) {
                     searchData.setMonth(Integer.parseInt(mMonthSpinner.getSelectedItem().toString()));
                 }
                 searchData.setDay(mDay);

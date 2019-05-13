@@ -50,7 +50,8 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dialog_login, container, false);
 
@@ -58,7 +59,8 @@ public class LoginDialog extends AppCompatDialogFragment implements View.OnClick
 
         mLoginButton = view.findViewById(R.id.button_login);
         mTitleTextView = view.findViewById(R.id.text_login_title);
-        mTitleTextView.setTypeface(Typeface.createFromAsset(view.getContext().getAssets(), "veganstyle.ttf"));
+        mTitleTextView.setTypeface(Typeface.createFromAsset(
+                view.getContext().getAssets(), getString(R.string.font_style_vegan)));
         return view;
     }
 

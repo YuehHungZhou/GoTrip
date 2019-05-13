@@ -33,7 +33,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         return new HomeFragment();
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

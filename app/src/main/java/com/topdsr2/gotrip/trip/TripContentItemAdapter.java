@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.topdsr2.gotrip.GoTrip;
 import com.topdsr2.gotrip.R;
 import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.util.Constants;
@@ -48,28 +49,36 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
                 switch (mReadyPoints.get(position).getIconType()) {
 
                     case Constants.HOTEL:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_luggage);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_yellow));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.
+                                setImageResource(R.mipmap.icon_luggage);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
+                                setBackgroundResource((R.drawable.corner_icon_yellow));
                         break;
                     case Constants.RESTAURANT:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_cutlery);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_green));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.
+                                setImageResource(R.mipmap.icon_cutlery);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
+                                setBackgroundResource((R.drawable.corner_icon_green));
                         break;
                     case Constants.ATTRACTION:
-                        ((TripContentItemViewHolder) viewHolder).mIconImage.setImageResource(R.mipmap.icon_camera);
-                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_blue));
+                        ((TripContentItemViewHolder) viewHolder).mIconImage.
+                                setImageResource(R.mipmap.icon_camera);
+                        ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
+                                setBackgroundResource((R.drawable.corner_icon_blue));
                         break;
                     default:
                         break;
                 }
 
                 if (mIconState == mReadyPoints.get(position).getSorte()) {
-                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.setBackgroundResource((R.drawable.corner_icon_orange));
+                    ((TripContentItemViewHolder) viewHolder).mConstraintLayout.
+                            setBackgroundResource((R.drawable.corner_icon_orange));
                 }
 
                 long roadTime = (mReadyPoints.get(position).getArrivalTime());
                 if ((roadTime - mRoadTime) != roadTime) {
-                    ((TripContentItemViewHolder) viewHolder).mRoadText.setText(paseRoadTime(roadTime - mRoadTime));
+                    ((TripContentItemViewHolder) viewHolder).mRoadText.
+                            setText(paseRoadTime(roadTime - mRoadTime));
                 }
                 ((TripContentItemViewHolder) viewHolder).mIconText.setText(paseTime(roadTime));
 
@@ -86,7 +95,8 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    private class TripContentItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    private class TripContentItemViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
         private ImageView mIconImage;
         private TextView mIconText;
         private TextView mRoadText;
@@ -144,7 +154,7 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
     }
 
     private String paseTime(long time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_HH_MM);
         Date date = new Date(time * 1000);
         String str = sdf.format(date);
 
@@ -153,8 +163,6 @@ public class TripContentItemAdapter extends RecyclerView.Adapter {
 
     private String paseRoadTime(long time) {
         float minute = time / (60 * 60);
-        String str = minute + " hr";
-
-        return str;
+        return GoTrip.getContext().getResources().getString(R.string.time_hr, minute);
     }
 }

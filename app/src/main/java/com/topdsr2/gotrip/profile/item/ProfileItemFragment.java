@@ -48,7 +48,8 @@ public class ProfileItemFragment extends Fragment implements ProfileItemContract
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile_child, container, false);
 
         RecyclerView profileRecyclerView = root.findViewById(R.id.recycle_profile_child);

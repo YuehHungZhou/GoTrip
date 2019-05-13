@@ -128,7 +128,7 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void showVoteView(int position) {
-        mTripView.showVoteViewView(position);
+        mTripView.showVoteViewUi(position);
     }
 
     @Override
@@ -196,7 +196,8 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void setTripListener(String documentId) {
-        FireBaseManager.getInstance().setListener(documentId, mBean.getTrip().getAddPointTimes(), new FireBaseManager.EvenHappendCallback() {
+        FireBaseManager.getInstance().setListener(documentId, mBean.getTrip().getAddPointTimes(),
+                new FireBaseManager.EvenHappendCallback() {
             @Override
             public void onCompleted(String tripId) {
                 loadTripData(tripId);
