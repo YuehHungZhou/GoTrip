@@ -130,7 +130,7 @@ public class HomePresenter implements HomeContract.Presenter {
         Date date = (Date) sdf.parse(str);
 
         long time = date.getTime() / 1000;
-        return  time;
+        return time;
     }
 
 
@@ -142,7 +142,7 @@ public class HomePresenter implements HomeContract.Presenter {
             str = searchData.getYear() + "-" + 1;
         }
 
-        return  str;
+        return str;
     }
 
     private String parseEndTime(SearchData searchData, String str) throws ParseException {
@@ -157,7 +157,7 @@ public class HomePresenter implements HomeContract.Presenter {
             str = (searchData.getYear() + 1) + "-" + 1;
         }
 
-        return  str;
+        return str;
     }
 
 

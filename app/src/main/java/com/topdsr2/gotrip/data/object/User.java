@@ -7,10 +7,10 @@ public class User {
     private String mEmail;
     private String mName;
     private String mUserImage;
-    ArrayList<String> mFriends;
-    ArrayList<String> mTripCollection;
-    ArrayList<String> mTripRequests;
-    ArrayList<String> mFriendRequests;
+    private ArrayList<String> mFriends;
+    private ArrayList<String> mTripCollection;
+    private ArrayList<String> mTripRequests;
+    private ArrayList<String> mFriendRequests;
 
     public User() {
         mEmail = "";

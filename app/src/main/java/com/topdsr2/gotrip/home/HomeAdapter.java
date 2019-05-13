@@ -112,11 +112,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
                         isCanCollete = false;
                         mCollection.setVisibility(View.INVISIBLE);
                         mCollectionTint.setVisibility(View.VISIBLE);
-                        mTripCollection.add(mTrips.get(getAdapterPosition()).getId());
+                        addCollection(mTrips.get(getAdapterPosition()).getId());
                         mPresenter.changeCollection(mTripCollection);
                         isCanCollete = true;
-                        break;
                     }
+                    break;
 
                 case R.id.image_home_collection_tint:
 
@@ -124,20 +124,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
                         isCanCollete = false;
                         mCollection.setVisibility(View.VISIBLE);
                         mCollectionTint.setVisibility(View.INVISIBLE);
-
-                        Iterator<String> RemoveListIterator = mTripCollection.iterator();
-                        while(RemoveListIterator.hasNext()) {
-                            String e = RemoveListIterator.next();
-                            if (e.equals(mTrips.get(getAdapterPosition()).getId())) {
-                                RemoveListIterator.remove();
-                            }
-                        }
-
+                        removeCollection(mTrips.get(getAdapterPosition()).getId());
                         mPresenter.changeCollection(mTripCollection);
                         isCanCollete = true;
-
-                        break;
                     }
+                    break;
 
                 case R.id.cardview_home_item:
                     mPresenter.openTrip();
@@ -146,6 +137,20 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+    private void addCollection(String collectionId) {
+        mTripCollection.add(collectionId);
+    }
+
+    private void removeCollection(String collectionId) {
+        Iterator<String> RemoveListIterator = mTripCollection.iterator();
+        while(RemoveListIterator.hasNext()) {
+            String str = RemoveListIterator.next();
+            if (str.equals(collectionId)) {
+                RemoveListIterator.remove();
             }
         }
     }
