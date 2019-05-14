@@ -38,7 +38,8 @@ public class RequestTripAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        ((TripViewHolder)viewHolder).mTitleText.setText(mRequest.getTrips().get(position).getTitle().trim());
+        ((TripViewHolder)viewHolder).mTitleText.setText(mRequest.getTrips()
+                .get(position).getTitle().trim());
 
         ImageManager.getInstance().setImageByUrl(((TripViewHolder) viewHolder).mPhotoImageView,
                 mRequest.getTrips().get(position).getCreaterImage());
@@ -70,7 +71,6 @@ public class RequestTripAdapter extends RecyclerView.Adapter {
 
             mPhotoImageView.setOutlineProvider(new RequestAvatarOutlineProvider());
 
-
             mAgreeImageView.setOnClickListener(this);
             mDisagreeImageView.setOnClickListener(this);
         }
@@ -79,17 +79,18 @@ public class RequestTripAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.image_request_agree:
-                    mMainPresenter.agreeTripRequest(mRequest.getTrips().get(getAdapterPosition()).getId());
+                    mMainPresenter.agreeTripRequest(mRequest.getTrips()
+                            .get(getAdapterPosition()).getId());
                     removeSelectItem(getAdapterPosition());
                     break;
                 case R.id.image_request_disagree:
-                    mMainPresenter.disagreeTripRequest(mRequest.getTrips().get(getAdapterPosition()).getId());
+                    mMainPresenter.disagreeTripRequest(mRequest.getTrips()
+                            .get(getAdapterPosition()).getId());
                     removeSelectItem(getAdapterPosition());
                     break;
                 default:
                     break;
             }
-
         }
     }
 

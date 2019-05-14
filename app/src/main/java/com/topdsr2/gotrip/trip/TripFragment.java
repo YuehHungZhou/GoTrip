@@ -58,23 +58,23 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
     private TripContract.Presenter mPresenter;
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
-    private Marker mMarker;
-    private Marker mSelectedMarker;
-    private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
-
-    private int mVisibleItemPosition;
-    private int mTouchedIconPosition;
-    private boolean isOwner;
 
     private AutocompleteSupportFragment mAutocompleteSupportFragment;
     private TripContentAdapter mTripContentAdapter;
     private TripContentItemAdapter mTripContentItemAdapter;
+
     private TripAndPoint mBean;
     private ArrayList<Object> mPointsByDay;
     private ArrayList<Point> mPointsHolder;
     private ArrayList<Point> mReadyPoints;
+    private int mVisibleItemPosition;
+    private int mTouchedIconPosition;
+    private boolean isOwner;
     private int mTripDay = 0;
     private boolean mFriendStatus;
+    private Marker mMarker;
+    private Marker mSelectedMarker;
+    private ArrayList<LatLng> mLatLngs = new ArrayList<LatLng>();
 
     private ImageView mQuestionImage;
     private ConstraintLayout mLayoutSearch;
@@ -196,24 +196,14 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mExitImageButton.setOnClickListener(this);
         mVoteAgreeButton.setOnClickListener(this);
         mVoteDisagreeButton.setOnClickListener(this);
-
     }
-
 
     @Override
     public void showTripUi(TripAndPoint bean) {
-        if (mBean != null) {
-            if (!mBean.getTrip().getId().equals(bean.getTrip().getId())) {
-                mVisibleItemPosition = 0;
-            }
-        }
+
+        mPresenter.checkDifferentTrip(bean);
         mBean = bean;
         mPresenter.checkIsOwner();
-
-        mPointsByDay = new ArrayList<>();
-        mPointsHolder = new ArrayList<>();
-        mReadyPoints = new ArrayList<>();
-        mTripDay = mBean.getTrip().getTripDay();
 
         parsePointData();
 
@@ -342,12 +332,20 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         Toast.makeText(getContext(), getString(R.string.delete_trip_owner), Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public TripAndPoint getOriginTrip() {
+        return mBean;
+    }
+
+    @Override
+    public void resetContent() {
+        mVisibleItemPosition = 0;
+    }
 
     @Override
     public void changeIconInfoUi(int posotion) {
         mTripContentAdapter.changeSelectedIconInfo(mVisibleItemPosition, posotion);
     }
-
 
     @Override
     public void onPlaceSelected(@NonNull Place place) {
@@ -355,7 +353,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mMap.addMarker(new MarkerOptions().position(place.getLatLng())
                 .title(getString(R.string.trip_info_name, place.getName())
                         + getString(R.string.trip_info_address, place.getAddress()))).showInfoWindow();
-
     }
 
     @Override
@@ -397,7 +394,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         }
     }
-
 
     @Override
     public void onMapClick(LatLng latLng) {
@@ -442,9 +438,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
 
         return true;
     }
-
-
-
 
     private void setMarker(ArrayList<Point> points) {
 
@@ -542,12 +535,15 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         if (!Places.isInitialized()) {
             Places.initialize(GoTrip.getContext(), getString(R.string.google_map_key));
             PlacesClient placesClient = Places.createClient(getContext());
-
         }
     }
 
-
     private void parsePointData() {
+
+        mPointsByDay = new ArrayList<>();
+        mPointsHolder = new ArrayList<>();
+        mReadyPoints = new ArrayList<>();
+        mTripDay = mBean.getTrip().getTripDay();
 
         for (int i = 1; i <= mTripDay; i++) {
             ArrayList<Point> points = new ArrayList<>();
@@ -560,7 +556,7 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                     }
                 }
             }
-            mPointsByDay.add(sortPoint(points));
+            mPointsByDay.add(mPresenter.sortPoint(points));
         }
 
         mReadyPoints = (ArrayList<Point>) mPointsByDay.get(0);
@@ -580,24 +576,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         }
     }
 
-    private ArrayList<Point> sortPoint(ArrayList<Point> points) {
-        ArrayList<Point> pointsDayHolder = new ArrayList<>();
-
-        if (points.size() != 0) {
-            int sortNumber = 1;
-            do {
-                for (int i = 0; i < points.size(); i++) {
-                    if (points.get(i).getSorte() == sortNumber) {
-                        pointsDayHolder.add(points.get(i));
-                        sortNumber++;
-                    }
-                }
-            } while (pointsDayHolder.size() != points.size());
-        }
-
-        return pointsDayHolder;
-    }
-
     private int sorte(long time) {
         ArrayList<Point> points = ((ArrayList<Point>) mPointsByDay.get(mVisibleItemPosition));
         int size = points.size();
@@ -615,7 +593,6 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
                     }
                 }
             }
-
         } else {
             sorte = 1;
         }
@@ -689,6 +666,4 @@ public class TripFragment extends Fragment implements TripContract.View, View.On
         mVoteAgreeButton.animate().translationX(0).translationY(0);
         mVoteDisagreeButton.animate().translationX(0).translationY(0);
     }
-
-
 }

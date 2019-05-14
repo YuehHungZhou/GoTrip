@@ -103,8 +103,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.View {
     @Override
     public void showProfileUi(User user) {
         mUser = user;
-
-
     }
 
     @Override

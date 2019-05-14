@@ -95,7 +95,6 @@ public class RequestFriendAdapter extends RecyclerView.Adapter {
                 default:
                     break;
             }
-
         }
     }
 

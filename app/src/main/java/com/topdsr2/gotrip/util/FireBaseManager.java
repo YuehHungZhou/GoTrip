@@ -356,7 +356,6 @@ public class FireBaseManager {
                 });
     }
 
-
     private void readyToAddPoint(String documentId, Point point) {
 
         db.collection(TRIP)

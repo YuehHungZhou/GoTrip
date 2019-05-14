@@ -6,6 +6,8 @@ import com.topdsr2.gotrip.data.object.Point;
 import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
 
+import java.util.ArrayList;
+
 public interface TripContract {
 
     interface View extends BaseView<Presenter> {
@@ -33,6 +35,10 @@ public interface TripContract {
         void showVoteViewUi(int position);
 
         void showToast();
+
+        TripAndPoint getOriginTrip();
+
+        void resetContent();
 
     }
 
@@ -77,6 +83,10 @@ public interface TripContract {
         void openDeletePointRequestDialog();
 
         void detachTripListener();
+
+        void checkDifferentTrip(TripAndPoint bean);
+
+        ArrayList<Point> sortPoint(ArrayList<Point> points);
 
     }
 

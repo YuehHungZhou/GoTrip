@@ -344,6 +344,16 @@ public class MainPresenter implements MainContract.Presenter, HomeContract.Prese
     }
 
     @Override
+    public void checkDifferentTrip(TripAndPoint bean) {
+        mTripPresenter.checkDifferentTrip(bean);
+    }
+
+    @Override
+    public ArrayList<Point> sortPoint(ArrayList<Point> points) {
+        return mTripPresenter.sortPoint(points);
+    }
+
+    @Override
     public Request getRequestData() {
         return mProfilePresenter.getRequestData();
     }

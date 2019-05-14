@@ -1,18 +1,15 @@
 package com.topdsr2.gotrip.trip;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.topdsr2.gotrip.data.GoTripRepository;
 import com.topdsr2.gotrip.data.object.Point;
-import com.topdsr2.gotrip.data.object.Trip;
 import com.topdsr2.gotrip.data.object.TripAndPoint;
-import com.topdsr2.gotrip.data.object.User;
 import com.topdsr2.gotrip.util.Constants;
 import com.topdsr2.gotrip.util.FireBaseManager;
 import com.topdsr2.gotrip.util.UserManager;
+
+import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,7 +26,6 @@ public class TripPresenter implements TripContract.Presenter {
         mTripView = checkNotNull(tripView, "tripView null");
         mTripView.setPresenter(this);
     }
-
 
     @Override
     public void loadTripData(String tripId) {
@@ -54,7 +50,6 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void addPoint(Point point) {
-
         FireBaseManager.getInstance().updatePointToFireBase(mBean.getDocumentId(),
                 mTripView.addPointData(point), mTripView.getPointNumber(), mTripView.getToday());
 
@@ -69,8 +64,8 @@ public class TripPresenter implements TripContract.Presenter {
 
     @Override
     public void addFriendRequest(String email) {
-        FireBaseManager.getInstance().addFriendRequest(email, UserManager.getInstance().getUser().getEmail(),
-                new FireBaseManager.AddFriendCallback() {
+        FireBaseManager.getInstance().addFriendRequest(email,
+                UserManager.getInstance().getUser().getEmail(), new FireBaseManager.AddFriendCallback() {
                     @Override
                     public void onCompleted() {
                         //show 加入成功
@@ -119,6 +114,34 @@ public class TripPresenter implements TripContract.Presenter {
         } else {
             mTripView.closeFunction(Constants.FALSE);
         }
+    }
+
+    @Override
+    public void checkDifferentTrip(TripAndPoint bean) {
+        if (mTripView.getOriginTrip() != null) {
+            if (!mTripView.getOriginTrip().getTrip().getId().equals(bean.getTrip().getId())) {
+                mTripView.resetContent();
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<Point> sortPoint(ArrayList<Point> points) {
+
+        ArrayList<Point> pointsDayHolder = new ArrayList<>();
+
+        if (points.size() != 0) {
+            int sortNumber = 1;
+            do {
+                for (int i = 0; i < points.size(); i++) {
+                    if (points.get(i).getSorte() == sortNumber) {
+                        pointsDayHolder.add(points.get(i));
+                        sortNumber++;
+                    }
+                }
+            } while (pointsDayHolder.size() != points.size());
+        }
+        return pointsDayHolder;
     }
 
     @Override
@@ -182,6 +205,7 @@ public class TripPresenter implements TripContract.Presenter {
     public void detachTripListener() {
         FireBaseManager.getInstance().closeListener();
     }
+
 
 
     @Override
