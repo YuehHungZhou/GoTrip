@@ -43,7 +43,7 @@ Go Trip 將幫助你規劃一趟旅程 ! 利用景點的搜尋，安排地點的
 
 ## Screen Shot
 
-<img src="https://github.com/ChuChuYu/LifeAPP/blob/master/screenshot/Screenshot_20181031-175356.png?raw=true" width="150" >   <img src="https://github.com/ChuChuYu/LifeAPP/blob/master/screenshot/Screenshot_1540977656.png?raw=true" width="150" >   <img src="https://github.com/ChuChuYu/LifeAPP/blob/master/screenshot/Screenshot_1540740222.png?raw=true" width="150" >   <img src="https://github.com/ChuChuYu/LifeAPP/blob/master/screenshot/Screenshot_1540977352.png?raw=true" width="150" >
+<img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558048928.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049246.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049633.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049455.png" width="150" >
 
 ## Version
 1.4 - 2019/05/14
