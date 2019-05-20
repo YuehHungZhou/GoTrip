@@ -60,4 +60,5 @@ public class TripPresenterTest {
         pointsDayHolder = mTripPresenter.sortPoint(points);
         assertEquals(points.size(), pointsDayHolder.get(points.size() - 1).getSorte());
     }
+
 }
