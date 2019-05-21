@@ -6,6 +6,7 @@ Go Trip 將幫助你規劃一趟旅程 ! 利用景點的搜尋，安排地點的
 
 
 # Feature
+
 - 首頁
   - 透過 Facebook 登入後，首頁會顯示所有使用者所建立的各地旅程。
   - 可以透過向下滑動來尋找有趣的旅程，每個旅程當有相關資訊，地點、地點描述、參與人數和此旅程被收藏數。
@@ -43,13 +44,14 @@ Go Trip 將幫助你規劃一趟旅程 ! 利用景點的搜尋，安排地點的
 
 ## Screen Shot
 
-<img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558048928.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049246.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049633.png" width="150" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049455.png" width="150" >
+<img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558048928.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049246.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049633.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049455.png" width="250" >
 
 ## Version
-1.4 - 2019/05/14
+1.5 - 2019/05/21
 
 ## Requirement
-* Android 6.0
+* Android 6.0+
+* Android Studio 3.0
 * Gradle 3.3.2
 
 ## Contacts

@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/holder">
 
-    <ImageView
-        android:id="@+id/image_login"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.7"
-        android:scaleType="centerCrop"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/holder" />
-
 
     <TextView
         android:id="@+id/text_login_title"
