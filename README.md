@@ -44,7 +44,7 @@ Go Trip 將幫助你規劃一趟旅程 ! 利用景點的搜尋，安排地點的
 
 ## Screen Shot
 
-<img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558048928.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049246.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049633.png" width="250" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049455.png" width="250" >
+<img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558048928.png" width="200" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049246.png" width="200" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049633.png" width="200" >   <img src="https://github.com/YuehHungZhou/GoTrip/blob/master/screenshot/Screenshot_1558049455.png" width="200" >
 
 ## Version
 1.5 - 2019/05/21
